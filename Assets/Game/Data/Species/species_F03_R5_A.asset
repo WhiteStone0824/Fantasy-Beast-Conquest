@@ -100,17 +100,27 @@ MonoBehaviour:
       element: 6
       debuff: 0
       statIndex: 0
-      amount: 0.25
+      amount: 0.325
     - type: 3
       element: 6
       debuff: 0
       statIndex: 0
-      amount: 0.15
+      amount: 0.19500001
     - type: 0
       element: 1
       debuff: 0
       statIndex: 0
-      amount: 0.25
+      amount: 0.325
+    - type: 1
+      element: 1
+      debuff: 0
+      statIndex: 0
+      amount: 0.15
+    - type: 2
+      element: 1
+      debuff: 0
+      statIndex: 0
+      amount: 0.15
   defaultMagicGenomes:
   - programGenes:
       version: 1

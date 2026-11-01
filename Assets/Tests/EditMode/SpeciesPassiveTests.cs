@@ -11,6 +11,7 @@ namespace FusionAnyMonster.Tests
         {
             var species=Resources.Load<SpeciesDefinition>("SpecialSpecies");Assert.NotNull(species);
             Assert.AreEqual("真理の御魂",species.passive.displayName);
+            Assert.AreEqual(7,species.passive.effects.Length);
             Assert.AreEqual(JsonUtility.ToJson(SpeciesPassiveCatalog.Create(species)),JsonUtility.ToJson(species.passive));
             for(int i=0;i<7;i++)
             {
@@ -21,7 +22,8 @@ namespace FusionAnyMonster.Tests
             for(int i=0;i<8;i++)Assert.AreEqual(.5f,SpeciesPassiveCalculator.DebuffReduction(species,(DebuffType)i),.0001f);
             var stats=new UnitStats();var baseline=stats.Copy();SpeciesPassiveCalculator.ApplyStats(species.passive,stats);
             for(int i=0;i<10;i++)Assert.AreEqual(baseline.Get(i)*1.2f,stats.Get(i),.0001f);
-            Assert.AreEqual(0f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.OnHitInstantDeath),.0001f);
+            Assert.AreEqual(.05f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.OnHitInstantDeath),.0001f);
+            Assert.AreEqual(0f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.DurationBonus),.0001f);
             Assert.AreEqual(1f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.ReviveAlliesOnDeath),.0001f);
             StringAssert.Contains("復活",species.passive.Description);StringAssert.Contains("毒",species.passive.Description);
         }
@@ -47,7 +49,9 @@ namespace FusionAnyMonster.Tests
             foreach(SpeciesDefinition species in db.species)
             {
                 SpeciesPassive passive=species.passive;Assert.IsNotNull(passive,species.displayName);
-                Assert.IsTrue(ids.Add(passive.id));Assert.IsTrue(names.Add(passive.displayName));Assert.AreEqual(3,passive.effects.Length);
+                Assert.IsTrue(ids.Add(passive.id));Assert.IsTrue(names.Add(passive.displayName));
+                int expected=species.rank==SpeciesRank.S?7:species.rank==SpeciesRank.A?5:species.rank==SpeciesRank.B?4:3;
+                Assert.AreEqual(expected,passive.effects.Length,species.displayName);
                 Assert.AreEqual(JsonUtility.ToJson(SpeciesPassiveCatalog.Create(species)),JsonUtility.ToJson(passive));
                 foreach(PassiveEffect effect in passive.effects){Assert.IsTrue(System.Enum.IsDefined(typeof(PassiveEffectType),effect.type));Assert.Greater(effect.amount,0);Assert.LessOrEqual(effect.amount,1);}
                 Assert.IsFalse(string.IsNullOrWhiteSpace(passive.Description));

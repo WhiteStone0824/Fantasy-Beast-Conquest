@@ -3,6 +3,7 @@ namespace FusionAnyMonster.Spells
 {
     public static class ProgramMagic
     {
+        public const float GlobalCooldownMultiplier = .8f;
         public static BuiltMagic Build(MagicGenome genes,SpeciesDefinition species)
         {
             var compiled=SpellCompiler.Compile(genes.programGenes,species);
@@ -24,6 +25,7 @@ namespace FusionAnyMonster.Spells
                 isArea=spawn!=null && spawn.kind==SpellNodeKind.SpawnArea,centerOnCaster=p.centerOnCaster};
             if(!string.IsNullOrWhiteSpace(genes.customName))built.displayName=genes.customName;
             SpeciesPassiveCalculator.ApplyMagic(species==null?null:species.passive,built);
+            built.cooldown*=GlobalCooldownMultiplier;
             compiled.mpCost=built.mpCost;compiled.cooldown=built.cooldown;return built;
         }
     }

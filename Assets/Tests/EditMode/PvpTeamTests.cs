@@ -15,6 +15,7 @@ namespace FusionAnyMonster.Tests
             unit.deployed = true;
             var save = new GameSaveData { units = new List<UnitSaveData> { unit } };
             Assert.IsTrue(PvpTeam.TryCreate(save, db, out var team, out var error), error);
+            Assert.AreEqual(PlayerRankCalculator.Calculate(save).Total,team.playerRank);
             team.units[0].individualValues[0] = 0;
             Assert.AreNotSame(unit.individualValues, team.units[0].individualValues);
             team.units[0].individualValues[0] = 101;

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: StatBarScaleSettings
   m_EditorClassIdentifier: FusionAnyMonster.Runtime::FusionAnyMonster.UI.StatBarScaleSettings
   maximumValues:
-    hp: 1100
-    mp: 500
-    physicalAttack: 250
-    magicAttack: 300
+    hp: 1200
+    mp: 800
+    physicalAttack: 300
+    magicAttack: 500
     physicalDefense: 250
     magicDefense: 300
     moveSpeed: 120

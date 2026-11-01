@@ -160,18 +160,33 @@ namespace FusionAnyMonster.Tests
         }
 
         [Test]
-        public void BreedingRankAverageRoundsDownForBothRulePaths()
+        public void ManaRegenerationIsOneFifthOfCalculatedBaseAndIndividualGrowth()
+        {
+            var baseStats=new UnitStats{mpRegen=20};var unit=new UnitInstance{level=50,iv=new IndividualValues()};unit.iv.Set(9,40);
+            var result=UnitStatsCalculator.Calculate(baseStats,unit,null,null);
+            Assert.AreEqual((20f+40f*.5f)*.2f,result.mpRegen,.001f);
+        }
+
+        [Test]
+        public void BreedingRankAverageRandomlyRoundsHalfUpOrDownForBothRulePaths()
         {
             rankRule.rankOffset=0;rankRule.promotionChance=0;rankRule.demotionChance=0;
             rules.rankBonusChance=0;rules.rankPenaltyChance=0;
             var fallback=typeof(BreedingSystem).GetMethod("ResolveAverageRank",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
             Assert.NotNull(fallback);
-            for(int a=0;a<=6;a++)for(int b=0;b<=6;b++)
+            for(int a=0;a<=6;a++)for(int b=0;b<=6;b++)for(int upper=0;upper<=1;upper++)
             {
-                var expected=(SpeciesRank)((a+b)/2);
-                Assert.AreEqual(expected,rankRule.Resolve((SpeciesRank)a,(SpeciesRank)b,new System.Random(1)));
-                Assert.AreEqual(expected,fallback.Invoke(null,new object[]{(SpeciesRank)a,(SpeciesRank)b,new System.Random(1),rules}));
+                var expected=(SpeciesRank)((a+b)/2+((a+b)%2==1?upper:0));
+                Assert.AreEqual(expected,rankRule.Resolve((SpeciesRank)a,(SpeciesRank)b,new FixedRankRandom(upper)));
+                Assert.AreEqual(expected,fallback.Invoke(null,new object[]{(SpeciesRank)a,(SpeciesRank)b,new FixedRankRandom(upper),rules}));
             }
+        }
+        private sealed class FixedRankRandom:System.Random
+        {
+            private readonly int value;
+            public FixedRankRandom(int value){this.value=value;}
+            public override int Next(int maxValue){return value;}
+            public override double NextDouble(){return .99;}
         }
 
         [Test]
@@ -224,7 +239,7 @@ namespace FusionAnyMonster.Tests
             for(int stat=0;stat<10;stat++) high.iv.Set(stat,100);
             UnitStats lowStats=UnitStatsCalculator.Calculate(new UnitStats(),low,null,null);
             UnitStats highStats=UnitStatsCalculator.Calculate(new UnitStats(),high,null,null);
-            for(int stat=0;stat<10;stat++) Assert.AreEqual(50f,highStats.Get(stat)-lowStats.Get(stat),.001f);
+            for(int stat=0;stat<10;stat++) Assert.AreEqual(stat==9?10f:50f,highStats.Get(stat)-lowStats.Get(stat),.001f);
             high.iv.hp=int.MaxValue;
             Assert.AreEqual(100,high.iv.Get(0),"Directly deserialized values must also be bounded when used for calculation.");
         }
@@ -361,6 +376,28 @@ namespace FusionAnyMonster.Tests
             var b=Parent(first,2,PersonalityType.Calm,DemoDataFactory.DemoGenome(1));
             var breeding=new BreedingSystem(species,rules,rankRule);
             Assert.IsNotEmpty(breeding.PreviewCandidates(a,b,3,out _));
+        }
+        [Test]public void SameSpeciesAndDifferentRankSameFamilyAlwaysPromoteAboveHigherParent()
+        {
+            var first=System.Array.Find(species.species,s=>s.family==SpeciesFamily.Slime && s.rank==SpeciesRank.C);
+            var higher=System.Array.Find(species.species,s=>s.family==SpeciesFamily.Slime && s.rank==SpeciesRank.A);
+            var a=Parent(first,1,PersonalityType.Brave,DemoDataFactory.DemoGenome(0));
+            var same=Parent(first,2,PersonalityType.Calm,DemoDataFactory.DemoGenome(1));
+            var b=Parent(higher,3,PersonalityType.Timid,DemoDataFactory.DemoGenome(2));
+            var breeding=new BreedingSystem(species,rules,rankRule);
+            Assert.AreEqual(SpeciesRank.B,breeding.Breed(a,same,12).species.rank);
+            Assert.AreEqual(SpeciesRank.S,breeding.Breed(a,b,12).species.rank);
+        }
+        [Test]public void LegacyDemotionSettingsNeverLowerRank()
+        {
+            rankRule.rankOffset=0;rankRule.promotionChance=0;rankRule.demotionChance=1;
+            rules.rankBonusChance=0;rules.rankPenaltyChance=1;
+            var fallback=typeof(BreedingSystem).GetMethod("ResolveAverageRank",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic);
+            for(int seed=0;seed<20;seed++)
+            {
+                Assert.AreEqual(SpeciesRank.C,rankRule.Resolve(SpeciesRank.C,SpeciesRank.C,new System.Random(seed)));
+                Assert.AreEqual(SpeciesRank.C,fallback.Invoke(null,new object[]{SpeciesRank.C,SpeciesRank.C,new System.Random(seed),rules}));
+            }
         }
         [Test]public void GuaranteedPromotionRejectsMissingHigherRankInsteadOfReturningLowerSpecies()
         {

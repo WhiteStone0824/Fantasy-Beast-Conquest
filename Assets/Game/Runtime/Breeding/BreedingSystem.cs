@@ -42,11 +42,15 @@ namespace FusionAnyMonster
             SpeciesDefinition childSpecies=candidates[rng.Next(candidates.Length)];
             var child=new UnitInstance{id=Guid.NewGuid().ToString("N"),speciesId=childSpecies.speciesId,level=1,experience=0,iv=CrossIV(parentA.iv,parentB.iv,rules,rng),personality=InheritPersonality(parentA.personality,parentB.personality,rules,rng),lineage=new LineageRecord{fatherId=parentA.id,motherId=parentB.id,generation=Math.Max(parentA.lineage==null?0:parentA.lineage.generation,parentB.lineage==null?0:parentB.lineage.generation)+1,breedingSummary=a.displayName+" × "+b.displayName+" → "+childSpecies.displayName+" (seed "+seed+")"},magicGenomes=new List<MagicGenome>(),mutationHistory=new List<string>()};
             int slots=RankRules.MagicSlots(childSpecies.rank);var poolA=Spells.SpellSlotStorage.Read(parentA);var poolB=Spells.SpellSlotStorage.Read(parentB);
+            var personalityDatabase=Resources.Load<PersonalityDatabase>("PersonalityDatabase");
             for(int i=0;i<Spells.SpellSlotStorage.SlotCount;i++)
             {
                 MagicGenome ga=poolA[i],gb=poolB[i];
                 MagicGenome g=GeneticAlgorithm.Cross(ga,gb,childSpecies.rank,rules,rng);
+                g=GeneticAlgorithm.ImproveOffspring(g,childSpecies,i);
                 g=GeneticAlgorithm.MutateToSpeciesDefault(g,childSpecies,i,rng,Spells.SpellSettings.Current.speciesDefaultMutationChance);
+                var viability=Spells.SpellViabilityEvaluator.Evaluate(g,childSpecies,child,i,personalityDatabase);
+                if(!viability.Acceptable || !string.IsNullOrEmpty(viability.warning))g.programGenes.history.Add("発動可能性: "+viability.status+(string.IsNullOrEmpty(viability.warning)?"":" / "+viability.warning));
                 child.magicGeneSlots.Add(g);if(i<slots)child.magicGenomes.Add(g.Clone());child.mutationHistory.AddRange(g.programGenes.history);
             }
             return new BreedingResult{child=child,species=childSpecies,speciesCandidates=candidates,predictedRank=childRank,summary=child.lineage.breedingSummary,isSpecial=special!=null};
@@ -101,7 +105,7 @@ namespace FusionAnyMonster
         private static IndividualValues CrossIV(IndividualValues a,IndividualValues b,BreedingRuleDatabase rules,System.Random rng)
         { return IndividualValueInheritance.Inherit(a,b,rng,rules==null?IndividualValueInheritance.DefaultStandardDeviation:rules.ivStandardDeviation); }
         private static SpeciesRank ResolveAverageRank(SpeciesRank a,SpeciesRank b,System.Random rng,BreedingRuleDatabase rules)
-        { int rank=Mathf.Clamp(Mathf.FloorToInt(((int)a+(int)b)*.5f),0,6);if(rules!=null){double roll=rng.NextDouble();if(roll<rules.rankBonusChance)rank=Math.Min(6,rank+1);else if(roll<rules.rankBonusChance+rules.rankPenaltyChance)rank=Math.Max(0,rank-1);}return (SpeciesRank)rank; }
+        { int rank=Mathf.Clamp(RankBreedingRule.RandomizedAverage(a,b,rng),0,6);if(rules!=null && rng.NextDouble()<rules.rankBonusChance)rank=Math.Min(6,rank+1);return (SpeciesRank)rank; }
         private static SpeciesDefinition[] NearestCandidates(SpeciesDefinition[] candidates,SpeciesRank rank)
         { if(candidates==null||candidates.Length==0)return new SpeciesDefinition[0];int best=99;for(int i=0;i<candidates.Length;i++)best=Math.Min(best,Math.Abs((int)candidates[i].rank-(int)rank));var result=new List<SpeciesDefinition>();for(int i=0;i<candidates.Length;i++)if(Math.Abs((int)candidates[i].rank-(int)rank)==best)result.Add(candidates[i]);return result.ToArray(); }
     }

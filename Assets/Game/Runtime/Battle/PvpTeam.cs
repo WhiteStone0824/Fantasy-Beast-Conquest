@@ -10,13 +10,14 @@ namespace FusionAnyMonster.Battle
     public sealed class PvpTeam
     {
         public const int MaxUnits = 5;
+        public int playerRank;
         public List<UnitSaveData> units = new List<UnitSaveData>();
 
         public static bool TryCreate(GameSaveData save, SpeciesDatabase species, out PvpTeam team, out string error)
         {
             team = null;
             if (save == null || save.units == null) { error = "仲間データがありません。"; return false; }
-            var candidate = new PvpTeam();
+            var candidate = new PvpTeam { playerRank=PlayerRankCalculator.Calculate(save).Total };
             foreach (var unit in save.units)
                 if (unit != null && unit.deployed)
                     candidate.units.Add(JsonUtility.FromJson<UnitSaveData>(JsonUtility.ToJson(unit)));
@@ -28,6 +29,7 @@ namespace FusionAnyMonster.Battle
         public bool Validate(SpeciesDatabase species, out string error)
         {
             error = null;
+            if(playerRank<0){error="プレイヤーランクが不正です。";return false;}
             if (species == null || units == null || units.Count < 1 || units.Count > MaxUnits)
             { error = "対戦には1〜5体の仲間が必要です。"; return false; }
             var ids = new HashSet<string>(StringComparer.Ordinal);

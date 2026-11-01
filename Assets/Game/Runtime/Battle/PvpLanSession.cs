@@ -15,7 +15,7 @@ namespace FusionAnyMonster.Battle
     public sealed class PvpLanSession : MonoBehaviour
     {
         public const ushort Port = 55555;
-        private const string MessageName = "fam.pvp.v1";
+        private const string MessageName = "fam.pvp.v2";
         private const int ChunkSize = 4000, MaximumChunks = 512;
         private sealed class Incoming { public string[] parts; public int received; public float time; }
         private readonly Dictionary<string, Incoming> incoming = new Dictionary<string, Incoming>();
@@ -28,10 +28,35 @@ namespace FusionAnyMonster.Battle
         public PvpTeam HostTeam { get; private set; }
         public PvpTeam GuestTeam { get; private set; }
         public bool MatchActive { get; private set; }
+        public bool LobbyReady { get; private set; }
+        public bool LocalReady { get; private set; }
+        public bool RemoteReady { get; private set; }
+        public int? LocalPlayerRank { get { return localTeam==null?(int?)null:localTeam.playerRank; } }
+        public int? RemotePlayerRank { get { var team=IsHost?GuestTeam:HostTeam;return team==null?(int?)null:team.playerRank; } }
         public bool IsHost { get { return manager != null && manager.IsHost; } }
         public string Status { get; private set; } = "接続していません";
         public event Action Changed;
         public event Action<string> SnapshotReceived;
+
+        public static string[] GetLocalIPv4Addresses()
+        {
+            var addresses=new List<string>();
+            try
+            {
+                foreach(var adapter in System.Net.NetworkInformation.NetworkInterface.GetAllNetworkInterfaces())
+                {
+                    if(adapter.OperationalStatus!=System.Net.NetworkInformation.OperationalStatus.Up || adapter.NetworkInterfaceType==System.Net.NetworkInformation.NetworkInterfaceType.Loopback)continue;
+                    foreach(var unicast in adapter.GetIPProperties().UnicastAddresses)
+                    {
+                        var ip=unicast.Address;
+                        if(ip.AddressFamily!=System.Net.Sockets.AddressFamily.InterNetwork || System.Net.IPAddress.IsLoopback(ip))continue;
+                        string value=ip.ToString();if(!addresses.Contains(value))addresses.Add(value);
+                    }
+                }
+            }
+            catch(System.Net.NetworkInformation.NetworkInformationException e){Debug.LogWarning("IPアドレスを取得できません: "+e.Message);}
+            addresses.Sort(StringComparer.Ordinal);return addresses.ToArray();
+        }
 
         public static PvpLanSession Create()
         {
@@ -46,9 +71,11 @@ namespace FusionAnyMonster.Battle
         {
             error = null;
             if (manager != null || closing) { error = "既に接続中、または切断処理中です。"; return false; }
-            if (!PvpTeam.TryCreate(save, database, out localTeam, out error)) return false;
+            if (!PvpTeam.TryCreate(save, database, out var candidateTeam, out error)) return false;
+            address=address==null?"":address.Trim();
+            if (!host && (!System.Net.IPAddress.TryParse(address, out var ip) || ip.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork || ip.Equals(System.Net.IPAddress.Any) || ip.Equals(System.Net.IPAddress.Broadcast))) { error = "ホストのIPv4アドレスを入力してください。"; return false; }
+            localTeam=candidateTeam;
             foreach (var unit in localTeam.units) unit.generatedSpritePath = "";
-            if (!host && (!System.Net.IPAddress.TryParse(address, out var ip) || ip.AddressFamily != System.Net.Sockets.AddressFamily.InterNetwork)) { error = "接続先のIPv4アドレスを入力してください。"; return false; }
             var transport = gameObject.AddComponent<UnityTransport>();
             manager = gameObject.AddComponent<NetworkManager>();
             manager.NetworkConfig = new NetworkConfig { NetworkTransport = transport, EnableSceneManagement = false };
@@ -83,6 +110,7 @@ namespace FusionAnyMonster.Battle
             if (manager == null || (manager.IsHost && client != remoteId)) return;
             SetStatus("対戦相手との接続が切れました。");
             if (MatchActive) { var battle = FindAnyObjectByType<BattleDemo>(); if (battle != null) battle.AbortPvp(); }
+            else { LobbyReady=LocalReady=RemoteReady=false;HostTeam=GuestTeam=null;incoming.Clear(); }
             remoteId = 0;
         }
 
@@ -140,19 +168,43 @@ namespace FusionAnyMonster.Battle
                 var db = Resources.Load<SpeciesDatabase>("SpeciesDatabase");
                 if (other == null || !other.Validate(db, out _)) { SetStatus("相手の編成データが不正です。"); manager.DisconnectClient(sender); return; }
                 foreach (var unit in other.units) unit.generatedSpritePath = "";
-                HostTeam = localTeam; GuestTeam = other; MatchActive = true;
-                Send(sender, "start", JsonUtility.ToJson(HostTeam));
-                SceneManager.LoadScene("Battle");
+                HostTeam = localTeam; GuestTeam = other;
+                Send(sender, "offer", JsonUtility.ToJson(HostTeam));
+                SetStatus("相手に編成を送信中…");
             }
-            else if (kind == "start" && !manager.IsHost && !MatchActive)
+            else if (kind == "offer" && !manager.IsHost && !MatchActive && HostTeam==null)
             {
                 var hostTeam = JsonUtility.FromJson<PvpTeam>(payload);
                 if (hostTeam == null || !hostTeam.Validate(Resources.Load<SpeciesDatabase>("SpeciesDatabase"), out _)) { SetStatus("ホストの編成データが不正です。"); Close(); return; }
                 foreach (var unit in hostTeam.units) unit.generatedSpritePath = "";
-                HostTeam = hostTeam; GuestTeam = localTeam; MatchActive = true;
+                HostTeam = hostTeam; GuestTeam = localTeam; LobbyReady=true;
+                Send(NetworkManager.ServerClientId,"offer_ack","");
+                SetStatus("相手のランクを確認して準備完了を押してください。");
+            }
+            else if(kind=="offer_ack" && manager.IsHost && GuestTeam!=null && !MatchActive)
+            { LobbyReady=true;SetStatus("相手のランクを確認して準備完了を押してください。"); }
+            else if(kind=="ready" && LobbyReady && !MatchActive)
+            { RemoteReady=true;SetStatus("相手が準備完了しました。");if(manager.IsHost)TryStartMatch(); }
+            else if (kind == "start" && !manager.IsHost && !MatchActive && LobbyReady && LocalReady && HostTeam!=null)
+            {
+                MatchActive=true;
                 SceneManager.LoadScene("Battle");
             }
             else if (kind == "state" && !manager.IsHost && MatchActive) SnapshotReceived?.Invoke(payload);
+        }
+
+        public void ConfirmReady()
+        {
+            if(manager==null || !manager.IsListening || !LobbyReady || LocalReady || MatchActive)return;
+            LocalReady=true;
+            Send(manager.IsHost?remoteId:NetworkManager.ServerClientId,"ready","");
+            SetStatus(RemoteReady?"対戦を開始します…":"相手の準備を待っています…");
+            if(manager.IsHost)TryStartMatch();
+        }
+        private void TryStartMatch()
+        {
+            if(!IsHost || !LobbyReady || !LocalReady || !RemoteReady || MatchActive || remoteId==0)return;
+            MatchActive=true;Send(remoteId,"start","");SceneManager.LoadScene("Battle");
         }
 
         public void SendSnapshot(string json) { if (IsHost && MatchActive && remoteId != 0) Send(remoteId, "state", json); }
@@ -165,7 +217,7 @@ namespace FusionAnyMonster.Battle
         private void SetStatus(string message) { Status = message; Changed?.Invoke(); }
         public void Close()
         {
-            MatchActive = false; HostTeam = GuestTeam = localTeam = null; incoming.Clear(); remoteId = 0;
+            MatchActive = LobbyReady = LocalReady = RemoteReady = false; HostTeam = GuestTeam = localTeam = null; incoming.Clear(); remoteId = 0;
             if (manager != null && !closing)
             {
                 closing = true;

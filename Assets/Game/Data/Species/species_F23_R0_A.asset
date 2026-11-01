@@ -18,16 +18,16 @@ MonoBehaviour:
   family: 23
   rank: 0
   baseStats:
-    hp: 147.26
-    mp: 51
-    physicalAttack: 12
-    magicAttack: 18.3
-    physicalDefense: 18.75
-    magicDefense: 7
-    moveSpeed: 2.57
-    attackSpeed: 0.82
-    searchRange: 7
-    mpRegen: 0.95
+    hp: 220.89
+    mp: 76.5
+    physicalAttack: 18
+    magicAttack: 27.45
+    physicalDefense: 28.125
+    magicDefense: 10.5
+    moveSpeed: 3.855
+    attackSpeed: 1.23
+    searchRange: 10.5
+    mpRegen: 1.425
   elementResistances:
   - element: 0
     value:

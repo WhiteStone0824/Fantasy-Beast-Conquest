@@ -76,8 +76,13 @@ namespace FusionAnyMonster.Spells
             var result=original.Clone();
             if(rng.NextDouble()<settings.parameterMutationChance)
             {
+                bool accepted=false;
+                for(int attempt=0;attempt<3 && !accepted;attempt++)
+                {
                 var candidate=result.Clone();var n=candidate.nodes[rng.Next(candidate.nodes.Count)];
-                switch(rng.Next(14))
+                var choices=ApplicableParameters(n);choices.Add(12);choices.Add(13);
+                string before=JsonUtility.ToJson(candidate);int choice=choices[rng.Next(choices.Count)];
+                switch(choice)
                 {
                     case 0:n.parameters.count=Mathf.Clamp(n.parameters.count+rng.Next(-2,4),1,48);break;
                     case 1:n.parameters.speed=Mathf.Clamp(n.parameters.speed*(.7f+(float)rng.NextDouble()),.1f,20);break;
@@ -94,8 +99,11 @@ namespace FusionAnyMonster.Spells
                     case 12:candidate.basePower=Mathf.Clamp(candidate.basePower*(.75f+(float)rng.NextDouble()*.5f),1,500);break;
                     default:candidate.baseCooldown=Mathf.Clamp(candidate.baseCooldown*(.75f+(float)rng.NextDouble()*.5f),.1f,60);break;
                 }
+                if(before==JsonUtility.ToJson(candidate))continue;
                 candidate.regulation.dominance=(float)rng.NextDouble();candidate.regulation.recipientIndex=rng.Next();candidate.regulation.donorIndex=rng.Next();candidate.regulation.splice=rng.Next(2)==0;
-                Accept(ref result,candidate,settings,history,"パラメータ変異：ノード"+n.id);
+                string error;if(SpellValidator.Validate(candidate,out error,settings)){result=candidate;history.Add("パラメータ変異成功：ノード"+n.id+" 項目"+choice);accepted=true;}
+                }
+                if(!accepted && history!=null)history.Add("パラメータ変異試行：変更なし");
             }
             if(rng.NextDouble()<settings.nodeMutationChance)
             {
@@ -143,5 +151,20 @@ namespace FusionAnyMonster.Spells
         }
         private static void Accept(ref SpellProgram result,SpellProgram candidate,SpellSettings settings,List<string> history,string message)
         {string error;if(SpellValidator.Validate(candidate,out error,settings)){result=candidate;history.Add(message);}}
+        private static List<int> ApplicableParameters(SpellNode node)
+        {
+            var c=new List<int>();var k=node.kind;
+            bool projectile=k==SpellNodeKind.SpawnProjectile || k==SpellNodeKind.SplitProjectile;
+            bool spawn=projectile || k==SpellNodeKind.SpawnArea;
+            if(projectile){c.Add(0);c.Add(1);c.Add(6);c.Add(11);if(node.parameters.trajectory==SpellTrajectory.Homing)c.Add(10);}
+            if(spawn || k==SpellNodeKind.Explosion || k==SpellNodeKind.EnemyNearTrigger || k==SpellNodeKind.Conditional && node.parameters.condition==SpellCondition.EnemyNearby)c.Add(2);
+            if(spawn || k==SpellNodeKind.Damage || k==SpellNodeKind.Heal || k==SpellNodeKind.Explosion || k==SpellNodeKind.Knockback || k==SpellNodeKind.LifeSteal || k==SpellNodeKind.ManaSteal || k==SpellNodeKind.ApplyBuff)c.Add(3);
+            if(spawn || k==SpellNodeKind.Damage || k==SpellNodeKind.Explosion || k==SpellNodeKind.ApplyStatus)c.Add(4);
+            if(k==SpellNodeKind.ApplyStatus)c.Add(5);
+            if(spawn)c.Add(7);
+            if(spawn || k==SpellNodeKind.Delay || k==SpellNodeKind.ApplyStatus || k==SpellNodeKind.ApplyBuff || k==SpellNodeKind.PeriodicTrigger)c.Add(8);
+            if(k==SpellNodeKind.SplitProjectile || k==SpellNodeKind.Explosion || k==SpellNodeKind.ApplyStatus || k==SpellNodeKind.Knockback || k==SpellNodeKind.LifeSteal || k==SpellNodeKind.ManaSteal || k==SpellNodeKind.RandomBranch)c.Add(9);
+            return c;
+        }
     }
 }

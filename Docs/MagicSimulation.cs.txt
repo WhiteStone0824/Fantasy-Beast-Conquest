@@ -1,0 +1,51 @@
+// Unity MCP execute_code method body. No player saves or assets are modified.
+var db = UnityEngine.Resources.Load<FusionAnyMonster.SpeciesDatabase>("SpeciesDatabase");
+var rules = UnityEngine.Resources.Load<FusionAnyMonster.BreedingRuleDatabase>("BreedingRuleDatabase");
+var rank = UnityEngine.Resources.Load<FusionAnyMonster.RankBreedingRule>("RankBreedingRule");
+var personalities = UnityEngine.Resources.Load<FusionAnyMonster.PersonalityDatabase>("PersonalityDatabase");
+var breeding = new FusionAnyMonster.BreedingSystem(db, rules, rank);
+var rng = new System.Random(20261101);
+// Set true to sample only the six families that appear in the wild.
+bool wildOnly = false;
+var parents = wildOnly ? db.species.Where(s => s.family==FusionAnyMonster.SpeciesFamily.Slime || s.family==FusionAnyMonster.SpeciesFamily.Beast || s.family==FusionAnyMonster.SpeciesFamily.Bird || s.family==FusionAnyMonster.SpeciesFamily.Insect || s.family==FusionAnyMonster.SpeciesFamily.Plant || s.family==FusionAnyMonster.SpeciesFamily.Material).ToArray() : db.species;
+var status = new System.Collections.Generic.Dictionary<string,int>();
+var structures = new System.Collections.Generic.HashSet<string>();
+var characteristics = new System.Collections.Generic.HashSet<string>();
+var names = new System.Collections.Generic.HashSet<string>();
+var parentStructures = new System.Collections.Generic.HashSet<string>();
+var elements = new System.Collections.Generic.Dictionary<string,int>();
+var kinds = new System.Collections.Generic.Dictionary<string,int>();
+int casts=0, locked=0, conflict=0, fallback=0, born=0, errors=0, unpayable=0;
+for(int i=0;i<1000;i++) {
+  var a=parents[rng.Next(parents.Length)]; var b=parents[rng.Next(parents.Length)];
+  var ua=FusionAnyMonster.UnitInstance.Create(a.speciesId,(FusionAnyMonster.PersonalityType)rng.Next(6),rng.Next());
+  var ub=FusionAnyMonster.UnitInstance.Create(b.speciesId,(FusionAnyMonster.PersonalityType)rng.Next(6),rng.Next());
+  ua.id="simulation-a-"+i; ub.id="simulation-b-"+i;
+  for(int j=0;j<5;j++){ua.magicGeneSlots.Add(FusionAnyMonster.Spells.SpeciesDefaultMagicCatalog.Copy(a,j));ub.magicGeneSlots.Add(FusionAnyMonster.Spells.SpeciesDefaultMagicCatalog.Copy(b,j));}
+  try {
+    var child=breeding.Breed(ua,ub,rng.Next()); born++;
+    for(int j=0;j<5;j++) {
+      var g=child.child.magicGeneSlots[j];
+      if(j>=FusionAnyMonster.RankRules.MagicSlots(child.species.rank)){locked++;continue;}
+      casts++;
+      var v=FusionAnyMonster.Spells.SpellViabilityEvaluator.Evaluate(g,child.species,child.child,j,personalities);
+      var key=v.status.ToString();int z;status.TryGetValue(key,out z);status[key]=z+1;
+      if(v.status==FusionAnyMonster.Spells.SpellViabilityStatus.Unaffordable)unpayable++;
+      if(v.semantics!=null && v.semantics.conflictingPaths>0)conflict++;
+      if(g.programGenes.history.Exists(x=>x.Contains("有効な効果がないため種族の標準魔法")))fallback++;
+      var m=FusionAnyMonster.MagicFactory.Build(g,child.species);var p=m.program.phenotype;
+      var signature=new System.Text.StringBuilder();var features=new System.Collections.Generic.SortedSet<string>();
+      foreach(var n in p.nodes) {
+        signature.Append(n.kind).Append('(').Append(n.input).Append(':').Append(n.parameters.target).Append(')');
+        foreach(var e in n.edges)signature.Append('/').Append(e.port).Append('>').Append(e.child);
+        signature.Append(';');
+        if(n.kind==FusionAnyMonster.Spells.SpellNodeKind.SpawnProjectile || n.kind==FusionAnyMonster.Spells.SpellNodeKind.SplitProjectile || n.kind==FusionAnyMonster.Spells.SpellNodeKind.SpawnArea)features.Add(n.kind+":"+n.parameters.element+":"+n.parameters.trajectory+":"+n.parameters.target);
+        if(n.kind==FusionAnyMonster.Spells.SpellNodeKind.Damage || n.kind==FusionAnyMonster.Spells.SpellNodeKind.Heal || n.kind==FusionAnyMonster.Spells.SpellNodeKind.Explosion || n.kind==FusionAnyMonster.Spells.SpellNodeKind.ApplyStatus || n.kind==FusionAnyMonster.Spells.SpellNodeKind.ApplyBuff || n.kind==FusionAnyMonster.Spells.SpellNodeKind.LifeSteal || n.kind==FusionAnyMonster.Spells.SpellNodeKind.ManaSteal || n.kind==FusionAnyMonster.Spells.SpellNodeKind.Knockback)features.Add(n.kind+":"+(n.kind==FusionAnyMonster.Spells.SpellNodeKind.ApplyStatus?n.parameters.status.ToString():n.kind==FusionAnyMonster.Spells.SpellNodeKind.ApplyBuff?n.parameters.buff.ToString():""));
+      }
+      structures.Add(signature.ToString());characteristics.Add(string.Join("|",features.ToArray()));names.Add(m.displayName);
+      key=m.element.ToString();elements.TryGetValue(key,out z);elements[key]=z+1;
+      foreach(string feature in features){key=feature.Split(':')[0];kinds.TryGetValue(key,out z);kinds[key]=z+1;}
+    }
+  } catch(System.Exception ex){errors++; if(errors<=3)UnityEngine.Debug.LogError("simulation: "+ex);}
+}
+return "born="+born+" errors="+errors+" active="+casts+" locked="+locked+" conflict="+conflict+" fallback="+fallback+" structures="+structures.Count+" features="+characteristics.Count+" names="+names.Count+"\nstatus="+string.Join(", ",status.Select(x=>x.Key+"="+x.Value).ToArray())+"\nelements="+string.Join(", ",elements.Select(x=>x.Key+"="+x.Value).ToArray())+"\nkinds="+string.Join(", ",kinds.Select(x=>x.Key+"="+x.Value).ToArray());

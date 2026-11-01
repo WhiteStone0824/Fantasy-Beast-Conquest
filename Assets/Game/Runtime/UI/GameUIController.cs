@@ -25,6 +25,7 @@ namespace FusionAnyMonster.UI
         private string currentScreen = "HOME";
         private string selectedUnitId;
         private int rosterPage;
+        private UnitSortMode unitSortMode;
         private int eggPage;
         private string selectedEggId;
         private int unitDetailPage;
@@ -327,7 +328,7 @@ namespace FusionAnyMonster.UI
                 else
                 {
                     string unitId = unit.id;
-                    cardButton.onClick.AddListener(() => { selectedUnitId = unitId;unitDetailPage=0;rosterPage=Mathf.Max(0,save.units.FindIndex(item=>item!=null && item.id==unitId)/9);Navigate("UNITS"); });
+                    cardButton.onClick.AddListener(() => { selectedUnitId = unitId;unitDetailPage=0;rosterPage=Mathf.Max(0,UnitSort.Apply(save.units,unitSortMode).FindIndex(item=>item.id==unitId)/9);Navigate("UNITS"); });
                 }
                 if (unit == null)
                 {
@@ -498,18 +499,20 @@ namespace FusionAnyMonster.UI
             Label("仲間を選んで能力を確認。出撃する仲間は「編成に入れる」を押してください（最大5体）。", content, new Vector2(.02f, .80f), new Vector2(.98f, .89f), 16, muted, TextAnchor.MiddleLeft);
             var list = Rect("Roster", content, new Vector2(.02f, .04f), new Vector2(.38f, .77f), Vector2.zero, Vector2.zero);
             Image(list, panel);
+            var sortedUnits=UnitSort.Apply(save.units,unitSortMode);
             int pageSize = 9;
-            int pageCount = Mathf.Max(1, Mathf.CeilToInt(save.units.Count / (float)pageSize));
+            int pageCount = Mathf.Max(1, Mathf.CeilToInt(sortedUnits.Count / (float)pageSize));
             rosterPage = Mathf.Clamp(rosterPage, 0, pageCount - 1);
-            int selectedIndex=save.units.FindIndex(unit=>unit!=null && unit.id==selectedUnitId);
-            UnitSaveData selected = selectedIndex>=rosterPage*pageSize && selectedIndex<Mathf.Min((rosterPage+1)*pageSize,save.units.Count)
-                ? save.units[selectedIndex] : (save.units.Count>0 ? save.units[Mathf.Min(rosterPage*pageSize,save.units.Count-1)] : null);
-            Label("所持仲間　" + save.units.Count + "体", list, new Vector2(.05f, .93f), new Vector2(.95f, .99f), 16, accent, TextAnchor.MiddleLeft);
+            int selectedIndex=sortedUnits.FindIndex(unit=>unit.id==selectedUnitId);
+            UnitSaveData selected = selectedIndex>=rosterPage*pageSize && selectedIndex<Mathf.Min((rosterPage+1)*pageSize,sortedUnits.Count)
+                ? sortedUnits[selectedIndex] : (sortedUnits.Count>0 ? sortedUnits[Mathf.Min(rosterPage*pageSize,sortedUnits.Count-1)] : null);
+            Label("所持仲間 " + sortedUnits.Count + "体", list, new Vector2(.04f, .93f), new Vector2(.42f, .99f), 15, accent, TextAnchor.MiddleLeft);
+            Button(list,"並び："+SortLabel(),new Vector2(.43f,.93f),new Vector2(.97f,.995f),()=>{NextUnitSort();rosterPage=0;selectedUnitId=null;ShowUnits();},panel,12);
             for (int slot = 0; slot < pageSize; slot++)
             {
                 int index = rosterPage * pageSize + slot;
-                if (index >= save.units.Count) break;
-                UnitSaveData unit = save.units[index];
+                if (index >= sortedUnits.Count) break;
+                UnitSaveData unit = sortedUnits[index];
                 int col=slot%3,row=slot/3;
                 float x=.025f+col*.32f,top=.91f-row*.25f;
                 string id = unit.id;
@@ -531,6 +534,9 @@ namespace FusionAnyMonster.UI
                 Button(empty,"卵を確認する",new Vector2(.25f,.15f),new Vector2(.75f,.30f),ShowEggs,GameUiTheme.PrimaryButton,16);
             }
         }
+        private string SortLabel()
+        { switch(unitSortMode){case UnitSortMode.RankDescending:return "ランク 高い順";case UnitSortMode.RankAscending:return "ランク 低い順";case UnitSortMode.LevelDescending:return "レベル 高い順";case UnitSortMode.LevelAscending:return "レベル 低い順";default:return "入手順";} }
+        private void NextUnitSort(){unitSortMode=(UnitSortMode)(((int)unitSortMode+1)%5);}
         private void ShowEggs()
         {
             ClearContent();
@@ -793,7 +799,16 @@ namespace FusionAnyMonster.UI
             }
             SpeciesPassive passive=species==null?null:species.passive;
             Label(passive==null?"パッシブ未設定":passive.displayName,panelRoot,new Vector2(.39f,.73f),new Vector2(.97f,.96f),25,accent,TextAnchor.MiddleLeft);
-            Label(passive==null?"この種族のデータを確認してください。":passive.Description,panelRoot,new Vector2(.39f,.12f),new Vector2(.97f,.72f),17,ink,TextAnchor.MiddleLeft);
+            var scrollRoot=Rect("Passive Effect Scroll",panelRoot,new Vector2(.39f,.10f),new Vector2(.97f,.72f),Vector2.zero,Vector2.zero);
+            var scroll=scrollRoot.gameObject.AddComponent<ScrollRect>();scroll.horizontal=false;scroll.vertical=true;scroll.movementType=ScrollRect.MovementType.Clamped;scroll.scrollSensitivity=28;
+            var viewport=Rect("Viewport",scrollRoot,Vector2.zero,new Vector2(.95f,1),Vector2.zero,Vector2.zero);Image(viewport,new Color(.025f,.045f,.075f,.6f));viewport.gameObject.AddComponent<RectMask2D>();scroll.viewport=viewport;
+            var textContent=Rect("Passive Effect Content",viewport,new Vector2(0,1),Vector2.one,Vector2.zero,Vector2.zero);textContent.pivot=new Vector2(.5f,1);scroll.content=textContent;
+            var effectsText=Label(passive==null?"この種族のデータを確認してください。":passive.Description,textContent,Vector2.zero,Vector2.one,17,ink,TextAnchor.UpperLeft);
+            effectsText.gameObject.name="Passive Effect Details";effectsText.enableAutoSizing=false;effectsText.overflowMode=TextOverflowModes.Overflow;effectsText.rectTransform.offsetMin=new Vector2(6,6);effectsText.rectTransform.offsetMax=new Vector2(-6,-6);
+            Canvas.ForceUpdateCanvases();float height=Mathf.Max(viewport.rect.height,effectsText.GetPreferredValues(effectsText.text,Mathf.Max(1,viewport.rect.width-12),Mathf.Infinity).y+16);textContent.sizeDelta=new Vector2(0,height);
+            var scrollbarRoot=Rect("Scrollbar",scrollRoot,new Vector2(.965f,0),Vector2.one,Vector2.zero,Vector2.zero);Image(scrollbarRoot,new Color(.025f,.045f,.075f));
+            var handle=Rect("Handle",scrollbarRoot,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero);Image(handle,accent);
+            var scrollbar=scrollbarRoot.gameObject.AddComponent<Scrollbar>();scrollbar.handleRect=handle;scrollbar.targetGraphic=handle.GetComponent<Image>();scrollbar.direction=Scrollbar.Direction.BottomToTop;scroll.verticalScrollbar=scrollbar;scroll.verticalNormalizedPosition=1;
             Label("配合した子は、子の種族のパッシブを持ちます。",content,new Vector2(.02f,.115f),new Vector2(.98f,.19f),14,muted,TextAnchor.MiddleCenter);
             Button(content,"元の画面へ戻る",new Vector2(.35f,.025f),new Vector2(.65f,.105f),back,null,15);
         }
@@ -846,15 +861,17 @@ namespace FusionAnyMonster.UI
         {
             string parentLabel = choosingParentSlot == "A" ? "親A" : "親B";
             Label(parentLabel + "を選択", content, new Vector2(.02f,.90f), new Vector2(.75f,.99f), 28, ink, TextAnchor.MiddleLeft);
-            Label("所持している仲間から選んでください。画像とレベルを確認できます。", content, new Vector2(.02f,.83f), new Vector2(.98f,.91f), 15, muted, TextAnchor.MiddleLeft);
-            int pageSize=18, pages=Mathf.Max(1,Mathf.CeilToInt(save.units.Count/(float)pageSize));
+            Label("所持している仲間から選んでください。", content, new Vector2(.02f,.83f), new Vector2(.73f,.91f), 15, muted, TextAnchor.MiddleLeft);
+            var sortedUnits=UnitSort.Apply(save.units,unitSortMode);
+            Button(content,"並び："+SortLabel(),new Vector2(.75f,.835f),new Vector2(.98f,.905f),()=>{NextUnitSort();parentPickerPage=0;ShowBreeding();},panel,13);
+            int pageSize=18, pages=Mathf.Max(1,Mathf.CeilToInt(sortedUnits.Count/(float)pageSize));
             parentPickerPage=Mathf.Clamp(parentPickerPage,0,pages-1);
             var grid=Rect("Parent Icon Grid",content,new Vector2(.02f,.09f),new Vector2(.98f,.81f),Vector2.zero,Vector2.zero);
             for(int i=0;i<pageSize;i++)
             {
                 int index=parentPickerPage*pageSize+i;
-                if(index>=save.units.Count) break;
-                UnitSaveData unit=save.units[index]; if(unit==null) continue;
+                if(index>=sortedUnits.Count) break;
+                UnitSaveData unit=sortedUnits[index];
                 int col=i%6,row=i/6;
                 float x=col/6f,top=1-row/3f;
                 string id=unit.id;
@@ -873,7 +890,7 @@ namespace FusionAnyMonster.UI
             }
             Button(content,"戻る",new Vector2(.02f,.005f),new Vector2(.16f,.075f),()=>{choosingParentSlot=null;ShowBreeding();},null,14);
             Button(content,"前へ",new Vector2(.37f,.005f),new Vector2(.47f,.075f),()=>{parentPickerPage=Mathf.Max(0,parentPickerPage-1);ShowBreeding();},null,14).interactable=parentPickerPage>0;
-            Label((parentPickerPage+1)+" / "+pages+" ページ（"+save.units.Count+"体）",content,new Vector2(.47f,.005f),new Vector2(.59f,.075f),13,muted,TextAnchor.MiddleCenter);
+            Label((parentPickerPage+1)+" / "+pages+" ページ（"+sortedUnits.Count+"体）",content,new Vector2(.47f,.005f),new Vector2(.59f,.075f),13,muted,TextAnchor.MiddleCenter);
             Button(content,"次へ",new Vector2(.59f,.005f),new Vector2(.69f,.075f),()=>{parentPickerPage=Mathf.Min(pages-1,parentPickerPage+1);ShowBreeding();},null,14).interactable=parentPickerPage<pages-1;
         }
         private void BreedSelected()
@@ -924,7 +941,7 @@ namespace FusionAnyMonster.UI
             Action inspect=()=>
             {
                 selectedUnitId=child.id;unitDetailPage=0;
-                rosterPage=Mathf.Max(0,save.units.FindIndex(unit=>unit.id==child.id)/9);
+                rosterPage=Mathf.Max(0,UnitSort.Apply(save.units,unitSortMode).FindIndex(unit=>unit.id==child.id)/9);
                 Navigate("UNITS");
             };
             CharacterIcon("Breeding Child Icon "+child.id,outcome,new Vector2(.34f,.14f),new Vector2(.66f,.95f),child.displayName,sprite,child.rank,child.deployed?"編成中":"Lv."+child.level,true,inspect);
@@ -1118,22 +1135,34 @@ namespace FusionAnyMonster.UI
 
             var connection=Rect("PvP Connection",content,new Vector2(.52f,.13f),new Vector2(.965f,.79f),Vector2.zero,Vector2.zero);Image(connection,new Color(.07f,.045f,.065f,.96f));Frame(connection,"Connection Frame",new Color(gold.r,gold.g,gold.b,.65f),.006f);
             Label("対戦相手とつながる",connection,new Vector2(.06f,.85f),new Vector2(.94f,.98f),21,gold,TextAnchor.MiddleLeft);
-            Label("同じネットワークに接続してください",connection,new Vector2(.06f,.75f),new Vector2(.94f,.84f),14,ink,TextAnchor.MiddleLeft);
+            var localAddresses=FusionAnyMonster.Battle.PvpLanSession.GetLocalIPv4Addresses();
+            Label(localAddresses.Length==0?"自分のIPを取得できませんでした":"自分のIP："+string.Join(" / ",localAddresses),connection,new Vector2(.06f,.75f),new Vector2(.94f,.84f),13,ink,TextAnchor.MiddleLeft);
             Label("ホストのIPアドレス",connection,new Vector2(.06f,.64f),new Vector2(.94f,.73f),14,muted,TextAnchor.MiddleLeft);
-            var box=Rect("PvP Address",connection,new Vector2(.06f,.52f),new Vector2(.94f,.64f),Vector2.zero,Vector2.zero);Image(box,new Color(.025f,.035f,.06f));Frame(box,"Address Frame",new Color(.42f,.52f,.59f,.7f),.008f);
+            var box=Rect("PvP Address",connection,new Vector2(.06f,.52f),new Vector2(.94f,.64f),Vector2.zero,Vector2.zero);Image(box,new Color(.025f,.035f,.06f));box.GetComponent<Image>().raycastTarget=true;Frame(box,"Address Frame",new Color(.42f,.52f,.59f,.7f),.008f);
             var inputText=Label("",box,new Vector2(.04f,.04f),new Vector2(.96f,.96f),19,ink,TextAnchor.MiddleLeft);
-            var input=box.gameObject.AddComponent<TMP_InputField>();input.textComponent=inputText;input.textViewport=box;input.characterLimit=45;input.lineType=TMP_InputField.LineType.SingleLine;input.text="127.0.0.1";
-            var status=Label("",connection,new Vector2(.06f,.06f),new Vector2(.94f,.23f),14,gold,TextAnchor.MiddleLeft);
+            var placeholder=Label("例：192.168.1.10",box,new Vector2(.04f,.04f),new Vector2(.96f,.96f),17,muted,TextAnchor.MiddleLeft);
+            var input=box.gameObject.AddComponent<TMP_InputField>();input.targetGraphic=box.GetComponent<Image>();input.textComponent=inputText;input.textViewport=box;input.placeholder=placeholder;input.characterLimit=45;input.lineType=TMP_InputField.LineType.SingleLine;input.text="";
+            var ranks=Label("",connection,new Vector2(.06f,.22f),new Vector2(.94f,.33f),15,ink,TextAnchor.MiddleCenter);
+            var status=Label("",connection,new Vector2(.06f,.01f),new Vector2(.66f,.20f),13,gold,TextAnchor.MiddleLeft);
             var session=FusionAnyMonster.Battle.PvpLanSession.Create();
-            StartCoroutine(RefreshPvpStatus(status,session));
-            Button(connection,"部屋を作る",new Vector2(.06f,.34f),new Vector2(.48f,.48f),()=>{if(!session.StartConnection(save,speciesDatabase,true,input.text,out string error))Toast(error);},accent,17);
-            Button(connection,"参加する",new Vector2(.52f,.34f),new Vector2(.94f,.48f),()=>{if(!session.StartConnection(save,speciesDatabase,false,input.text,out string error))Toast(error);},GameUiTheme.Button,17);
-            Label("部屋を作る人はIPアドレスを相手に伝えます。　ポート "+FusionAnyMonster.Battle.PvpLanSession.Port,content,new Vector2(.05f,.025f),new Vector2(.95f,.105f),14,muted,TextAnchor.MiddleCenter);
+            var ready=Button(connection,"準備完了",new Vector2(.69f,.04f),new Vector2(.96f,.19f),session.ConfirmReady,accent,14);
+            var hostButton=Button(connection,"部屋を作る",new Vector2(.06f,.34f),new Vector2(.48f,.48f),()=>{if(!session.StartConnection(save,speciesDatabase,true,input.text,out string error))Toast(error);},accent,17);
+            var joinButton=Button(connection,"参加する",new Vector2(.52f,.34f),new Vector2(.94f,.48f),()=>{if(!session.StartConnection(save,speciesDatabase,false,input.text,out string error))Toast(error);},GameUiTheme.Button,17);
+            StartCoroutine(RefreshPvpStatus(status,ranks,ready,hostButton,joinButton,session));
+            Label("同じネットワークで接続。ホストは自分のIPを相手に伝え、参加者は上に入力します。 UDP "+FusionAnyMonster.Battle.PvpLanSession.Port,content,new Vector2(.05f,.025f),new Vector2(.95f,.105f),13,muted,TextAnchor.MiddleCenter);
         }
-        private IEnumerator RefreshPvpStatus(TMP_Text label,FusionAnyMonster.Battle.PvpLanSession session)
+        private IEnumerator RefreshPvpStatus(TMP_Text label,TMP_Text ranks,Button ready,Button hostButton,Button joinButton,FusionAnyMonster.Battle.PvpLanSession session)
         {
+            int ownRank=PlayerRankCalculator.Calculate(save).Total;
             while(label!=null && label.gameObject.activeInHierarchy && session!=null)
-            { label.text="編成 "+CountDeployed()+" / 5体　"+session.Status; yield return null; }
+            {
+                label.text=session.Status;
+                ranks.text="自分のランク "+(session.LocalPlayerRank ?? ownRank)+"　／　相手のランク "+(session.RemotePlayerRank.HasValue?session.RemotePlayerRank.Value.ToString():"---");
+                ready.interactable=session.LobbyReady && !session.LocalReady && !session.MatchActive;
+                ready.GetComponentInChildren<TMP_Text>().text=session.LocalReady?"準備済み":"準備完了";
+                hostButton.interactable=joinButton.interactable=!session.LocalPlayerRank.HasValue;
+                yield return null;
+            }
         }
 
         private void ShowStageSelection()

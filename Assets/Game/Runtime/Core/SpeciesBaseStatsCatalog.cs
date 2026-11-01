@@ -6,6 +6,10 @@ namespace FusionAnyMonster
     /// <summary>Authored final base stats, in family / rank / variant order.</summary>
     public static class SpeciesBaseStatsCatalog
     {
+        // Minimum breeding generations from the six wild families. Truth is a special recipe.
+        private static readonly int[] FamilyStages={1,1,1,2,2,3,1,3,1,2,3,2,1,3,3,2,4,3,4,4,5,5,7,7,7,6,7,5,7,5,9};
+        public static int FamilyStage(SpeciesFamily family) { int i=(int)family;if(i<0 || i>=FamilyStages.Length)throw new ArgumentOutOfRangeException(nameof(family));return FamilyStages[i]; }
+        public static float FamilyMultiplier(SpeciesFamily family) { int stage=FamilyStage(family);return stage>=5?1.5f:stage==4?1.3f:stage==3?1.2f:1f; }
         private static readonly string[] Values={
             "72.9,19.8,6.3,8,4,5,2.2,0.8,6,0.88",
             "110.35,31.9,10.8,22,9.46,19,2.42,0.95,7,1.28",
@@ -440,7 +444,8 @@ namespace FusionAnyMonster
             int index=((int)family*7+(int)rank)*2+variant;
             string[] values=Values[index].Split(',');
             var result=new UnitStats();
-            for(int i=0;i<10;i++)result.Set(i,float.Parse(values[i],CultureInfo.InvariantCulture));
+            float multiplier=FamilyMultiplier(family);
+            for(int i=0;i<10;i++)result.Set(i,float.Parse(values[i],CultureInfo.InvariantCulture)*multiplier);
             return result;
         }
     }

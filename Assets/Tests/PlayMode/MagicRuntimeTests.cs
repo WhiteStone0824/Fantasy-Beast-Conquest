@@ -120,6 +120,7 @@ namespace FusionAnyMonster.Tests
             float direct=(float)Call(battle,"DealDamage",source,target,10f,AttributeElement.None,false);
             Assert.AreEqual(direct,Get<double>(battle,"hostDamage"),.001);
             Call(target,"ApplyDebuffFrom",DebuffType.Poison,1f,10f,1f,AttributeElement.None,source);
+            Set(target,"freezeTime",1f); // Tick poison without letting the target counterattack.
             target.enabled=true;yield return new WaitForSeconds(.2f);target.enabled=false;
             Assert.Greater(Get<double>(battle,"hostDamage"),direct);
             Assert.AreEqual(0d,Get<double>(battle,"guestDamage"));
@@ -330,7 +331,7 @@ namespace FusionAnyMonster.Tests
             var owner=Unit(true,Vector2.zero);Unit(false,Vector2.right);
             var expensive=SpellSlotStorage.Prepare(new MagicGenome{programGenes=SpellProgramBuilder.Projectile(power:500,count:24)},0);
             var cheap=DemoDataFactory.DemoGenome(0);Configure(owner,expensive,cheap);
-            float cost=MagicFactory.Build(cheap).mpCost;Set(owner,"mana",cost);Set(owner,"manaRegen",0f);
+            float cost=MagicFactory.Build(cheap).mpCost;Set(owner,"maxMana",cost);Set(owner,"mana",cost);Set(owner,"manaRegen",0f);
             Assert.AreEqual(MagicFactory.Build(expensive).mpCost,owner.Magics[0].mpCost);
             Call(owner,"Update");Assert.AreEqual(0,owner.MagicCastCount(0));Assert.AreEqual(1,owner.MagicCastCount(1));
             yield return null;
@@ -397,7 +398,7 @@ namespace FusionAnyMonster.Tests
         {
             var owner=Unit(true,Vector2.zero);var ally=Unit(true,Vector2.right);Configure(ally);
             var magic=SpellSlotStorage.Prepare(new MagicGenome{programGenes=SpellProgramBuilder.Projectile(effect:SpellNodeKind.Heal,target:SpellTarget.LowestHealthAlly,area:true)},0);
-            Configure(owner,magic);Set(owner,"mana",100f);Set(owner,"manaRegen",0f);Call(owner,"Update");Assert.AreEqual(0,owner.MagicCastCount(0));
+            Configure(owner,magic);Set(owner,"maxMana",100f);Set(owner,"mana",100f);Set(owner,"manaRegen",0f);Call(owner,"Update");Assert.AreEqual(0,owner.MagicCastCount(0));
             Set(ally,"hp",1f);Call(owner,"Update");Assert.AreEqual(1,owner.MagicCastCount(0));
             yield return null;yield return null;Assert.Greater(ally.CurrentHp,1);
         }

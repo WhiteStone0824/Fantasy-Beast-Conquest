@@ -55,7 +55,7 @@ namespace FusionAnyMonster
         public static SpeciesPassive Create(SpeciesDefinition species)
         {
             if(species.family==SpeciesFamily.Truth)
-                return new SpeciesPassive {id="passive_"+species.speciesId,displayName="真理の御魂",effects=new[]{E(PassiveEffectType.AllStatsBonus,.2f),D(PassiveEffectType.OnHitDebuff,1f,DebuffType.Poison),E(PassiveEffectType.ReviveAlliesOnDeath,1f)}};
+                return new SpeciesPassive {id="passive_"+species.speciesId,displayName="真理の御魂",effects=new[]{E(PassiveEffectType.AllStatsBonus,.2f),D(PassiveEffectType.OnHitDebuff,1f,DebuffType.Poison),E(PassiveEffectType.ReviveAlliesOnDeath,1f),E(PassiveEffectType.ElementDamage,.3f,AttributeElement.None),E(PassiveEffectType.ElementMpReduction,.2f,AttributeElement.None),E(PassiveEffectType.CooldownReduction,.15f),E(PassiveEffectType.OnHitInstantDeath,.05f)}};
             int family=(int)species.family,index=(int)species.rank*2+(species.speciesId.EndsWith("_B",StringComparison.Ordinal)?1:0);
             // The passive follows the named species when its rank slot is reassigned.
             if(family==(int)SpeciesFamily.Giant) { if(index==5)index=8;else if(index==8)index=5; }
@@ -82,7 +82,33 @@ namespace FusionAnyMonster
                 case 'M':effects=new[]{E(PassiveEffectType.CooldownReduction,.1f),E(PassiveEffectType.DurationBonus,.2f),S(9,.2f)};break;
                 default:effects=new[]{E(PassiveEffectType.ElementResistance,.35f,element),E(PassiveEffectType.ElementDamage,.25f,element),E(PassiveEffectType.CooldownReduction,.12f)};break;
             }
+            if(species.rank>=SpeciesRank.B)effects=Enhance(species,effects,element,debuff);
             return new SpeciesPassive {id="passive_"+species.speciesId,displayName=names[index],effects=effects};
+        }
+        private static PassiveEffect[] Enhance(SpeciesDefinition species,PassiveEffect[] original,AttributeElement element,DebuffType debuff)
+        {
+            int desired=species.rank==SpeciesRank.B?4:species.rank==SpeciesRank.A?5:7;
+            float scale=species.rank==SpeciesRank.B?1.15f:species.rank==SpeciesRank.A?1.3f:1.5f;
+            var effects=new System.Collections.Generic.List<PassiveEffect>(desired);
+            foreach(var effect in original)
+            {
+                if(effect.type!=PassiveEffectType.OnHitInstantDeath && effect.type!=PassiveEffectType.ReviveAlliesOnDeath)
+                    effect.amount=Mathf.Min(1f,effect.amount*scale);
+                effects.Add(effect);
+            }
+            var profile=SpeciesFamilyTraits.For(species.family);
+            float magnitude=species.rank==SpeciesRank.B?.10f:species.rank==SpeciesRank.A?.15f:.20f;
+            var candidates=new[]{E(PassiveEffectType.ElementDamage,magnitude,element),E(PassiveEffectType.ElementMpReduction,magnitude,element),
+                S(profile.first,magnitude),E(PassiveEffectType.CooldownReduction,magnitude*.5f),S(profile.second,magnitude),
+                D(PassiveEffectType.DebuffResistance,magnitude,debuff),E(PassiveEffectType.HealingReceived,magnitude),S(0,magnitude)};
+            foreach(var candidate in candidates)
+            {
+                bool duplicate=false;
+                foreach(var existing in effects)if(existing.type==candidate.type && (existing.type!=PassiveEffectType.StatBonus || existing.statIndex==candidate.statIndex)){duplicate=true;break;}
+                if(!duplicate)effects.Add(candidate);
+                if(effects.Count>=desired)break;
+            }
+            return effects.ToArray();
         }
         private static PassiveEffect E(PassiveEffectType type,float amount,AttributeElement element=AttributeElement.None) { return new PassiveEffect {type=type,amount=amount,element=element}; }
         private static PassiveEffect S(int index,float amount) { var effect=E(PassiveEffectType.StatBonus,amount);effect.statIndex=index;return effect; }

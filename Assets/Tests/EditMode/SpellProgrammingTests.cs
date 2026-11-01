@@ -8,10 +8,27 @@ namespace FusionAnyMonster.Tests
 {
     public sealed class SpellProgrammingTests
     {
+        [TestCase(SpellNodeKind.Damage,SpellTarget.NearestEnemy)]
+        [TestCase(SpellNodeKind.Heal,SpellTarget.LowestHealthAlly)]
+        public void BuiltMagicCooldownIsReducedByTwentyPercent(SpellNodeKind effect,SpellTarget target)
+        {
+            var genes=SpellProgramBuilder.Projectile(effect:effect,target:target);
+            var compiled=SpellCompiler.Compile(genes);
+            var built=ProgramMagic.Build(new MagicGenome{programGenes=genes},null);
+            Assert.AreEqual(compiled.cooldown*.8f,built.cooldown,.0001f);
+            Assert.AreEqual(built.cooldown,built.program.cooldown,.0001f);
+        }
+        [Test]public void CompilationDoublesMagicPowerWithoutChangingGenes()
+        {
+            var genes=SpellProgramBuilder.Projectile(power:45);string before=JsonUtility.ToJson(genes);
+            var spell=SpellCompiler.Compile(genes);
+            Assert.AreEqual(90f,spell.basePower,.001f);Assert.AreEqual(45f,spell.phenotype.basePower,.001f);
+            Assert.AreEqual(before,JsonUtility.ToJson(genes));
+        }
         [Test]public void MagicManaCostIsOneAndAHalfTimesThePreviousCost()
         {
             var spell=SpellCompiler.Compile(SpellProgramBuilder.Projectile());
-            float previous=Mathf.Clamp((spell.complexity*.8f+spell.basePower*.025f)*2f,1f,250f);
+            float previous=Mathf.Clamp((spell.complexity*.8f+spell.phenotype.basePower*.025f)*2f,1f,250f);
             Assert.AreEqual(previous*1.5f,spell.mpCost,.0001f);
         }
         [Test]public void SavedGenomeContainsOnlyProgramData()

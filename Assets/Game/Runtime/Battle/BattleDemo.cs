@@ -952,7 +952,7 @@ namespace FusionAnyMonster.Battle
             speed = friendly ? 3.3f : type == EnemyArchetype.Swift ? 3f : type == EnemyArchetype.Tank ? .85f : type == EnemyArchetype.Boss ? 1.2f : type == EnemyArchetype.Ranged ? 1.05f : 1.45f;
             range = friendly ? 5.2f : type == EnemyArchetype.Ranged ? 4.5f : type == EnemyArchetype.Boss ? 1.4f : 1.05f;
             attackInterval = friendly ? 1f : type == EnemyArchetype.Boss ? .9f : 1.5f; damage = friendly ? 18f : type == EnemyArchetype.Boss ? 18f : type == EnemyArchetype.Tank ? 13f : 8f; hp = maxHp;
-            if (!friendly) { maxMana=20f; mana=maxMana; manaRegen=1f; }
+            if (!friendly) { maxMana=20f; mana=maxMana; manaRegen=.2f; }
             return this;
         }
         internal void ApplySpeciesCombatTraits(SpeciesDefinition species)
@@ -963,7 +963,7 @@ namespace FusionAnyMonster.Battle
             if (species.baseStats == null) return;
             UnitStats traits=species.baseStats.Copy();SpeciesPassiveCalculator.ApplyStats(speciesPassive,traits);
             physicalDefense = Mathf.Max(0f,traits.physicalDefense);magicDefense = Mathf.Max(0f,traits.magicDefense);
-            maxMana = Mathf.Max(0f,traits.mp); mana=maxMana;manaRegen = Mathf.Max(0f,traits.mpRegen);
+            maxMana = Mathf.Max(0f,traits.mp); mana=maxMana;manaRegen = Mathf.Max(0f,traits.mpRegen)*.2f;
             float hpFactor=PassiveStatRatio(previous,0);maxHp*=hpFactor;hp*=hpFactor;
             damage*=PassiveStatRatio(previous,2);magicAttack*=PassiveStatRatio(previous,3);speed*=PassiveStatRatio(previous,6);attackInterval/=PassiveStatRatio(previous,7);range*=PassiveStatRatio(previous,8);
         }
@@ -1059,7 +1059,7 @@ namespace FusionAnyMonster.Battle
             physicalDefense = Mathf.Max(0f, stats.physicalDefense);
             magicDefense = Mathf.Max(0f, stats.magicDefense);
             range = Mathf.Clamp(stats.searchRange, 3f, 12f);
-            manaRegen = Mathf.Max(.1f, stats.mpRegen);
+            manaRegen = Mathf.Max(.02f, stats.mpRegen);
             hp = dead ? 0f : preserveRatios ? Mathf.Clamp(maxHp * healthRatio, 1f, maxHp) : maxHp;
             mana = preserveRatios ? Mathf.Clamp(maxMana * manaRatio, 0f, maxMana) : maxMana;
         }

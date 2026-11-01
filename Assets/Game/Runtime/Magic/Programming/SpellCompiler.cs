@@ -20,14 +20,15 @@ namespace FusionAnyMonster.Spells
     public static class SpellCompiler
     {
         public const float ManaCostMultiplier = 1.5f;
+        public const float PowerMultiplier = 2f;
         public const float StandardCooldownMultiplier = .8f;
-        public const float HealingCooldownMultiplier = 1.2f;
+        public const float HealingCooldownMultiplier = 1.8f;
         public static CompiledSpell Compile(SpellGenotype genes,SpeciesDefinition species=null,SpellSettings settings=null)
         {
             settings=settings??SpellSettings.Current;string report;
             SpellProgram phenotype=SpellGenetics.Express(genes,out report,settings);string error;
             if(!SpellValidator.Validate(phenotype,out error,settings))throw new InvalidOperationException(error);
-            var compiled=new CompiledSpell{phenotype=phenotype,instructions=new SpellInstruction[phenotype.nodes.Count],maxProjectiles=Mathf.Clamp(settings.maxProjectiles,1,256),maxGeneration=Mathf.Clamp(settings.maxGeneration,0,8),maxEvents=Mathf.Clamp(settings.maxEvents,1,1024),maxLifetime=Mathf.Clamp(settings.maxLifetime,.1f,20),basePower=phenotype.basePower,range=phenotype.range,target=phenotype.target,expressionReport=report};
+            var compiled=new CompiledSpell{phenotype=phenotype,instructions=new SpellInstruction[phenotype.nodes.Count],maxProjectiles=Mathf.Clamp(settings.maxProjectiles,1,256),maxGeneration=Mathf.Clamp(settings.maxGeneration,0,8),maxEvents=Mathf.Clamp(settings.maxEvents,1,1024),maxLifetime=Mathf.Clamp(settings.maxLifetime,.1f,20),basePower=phenotype.basePower*PowerMultiplier,range=phenotype.range,target=phenotype.target,expressionReport=report};
             var map=new Dictionary<int,int>();for(int i=0;i<phenotype.nodes.Count;i++)map.Add(phenotype.nodes[i].id,i);
             float estimate=1,complexity=phenotype.nodes.Count*.4f;bool containsHealing=false;
             for(int i=0;i<phenotype.nodes.Count;i++)

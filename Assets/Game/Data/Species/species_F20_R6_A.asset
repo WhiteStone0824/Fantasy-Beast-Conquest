@@ -18,16 +18,16 @@ MonoBehaviour:
   family: 20
   rank: 6
   baseStats:
-    hp: 300.66
-    mp: 124.44
-    physicalAttack: 41.48
-    magicAttack: 88.94
-    physicalDefense: 33.99
-    magicDefense: 36.6
-    moveSpeed: 3.07
-    attackSpeed: 1.25
-    searchRange: 8.72
-    mpRegen: 2.43
+    hp: 450.99
+    mp: 186.66
+    physicalAttack: 62.22
+    magicAttack: 133.41
+    physicalDefense: 50.985
+    magicDefense: 54.9
+    moveSpeed: 4.605
+    attackSpeed: 1.875
+    searchRange: 13.08
+    mpRegen: 3.645
   elementResistances:
   - element: 0
     value:
@@ -100,16 +100,36 @@ MonoBehaviour:
       element: 6
       debuff: 0
       statIndex: 0
-      amount: 0.1
+      amount: 0.15
     - type: 12
       element: 6
+      debuff: 0
+      statIndex: 0
+      amount: 0.3
+    - type: 3
+      element: 6
+      debuff: 0
+      statIndex: 9
+      amount: 0.3
+    - type: 1
+      element: 4
+      debuff: 0
+      statIndex: 0
+      amount: 0.2
+    - type: 2
+      element: 4
       debuff: 0
       statIndex: 0
       amount: 0.2
     - type: 3
       element: 6
       debuff: 0
-      statIndex: 9
+      statIndex: 3
+      amount: 0.2
+    - type: 4
+      element: 6
+      debuff: 6
+      statIndex: 0
       amount: 0.2
   defaultMagicGenomes:
   - programGenes:

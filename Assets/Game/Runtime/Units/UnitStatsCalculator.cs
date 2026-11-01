@@ -26,6 +26,7 @@ namespace FusionAnyMonster
                 if(personality!=null) { if(personality.boostedStatIndex==i)value*=personality.boostMultiplier; if(personality.reducedStatIndex==i)value*=personality.reductionMultiplier; }
                 value*=1f+EquipmentCatalog.Bonus(unit.equipment,i)/100f;
                 if(temporaryModifiers!=null)value+=temporaryModifiers.Get(i);
+                if(i==9)value*=.2f;
                 result.Set(i,Mathf.Max(i==7?.1f:0f,value));
             }
             return result;

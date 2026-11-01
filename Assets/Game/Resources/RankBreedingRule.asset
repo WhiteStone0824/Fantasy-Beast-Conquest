@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FusionAnyMonster.RankBreedingRule
   rankOffset: 0
   promotionChance: 0.12
-  demotionChance: 0.04
+  demotionChance: 0

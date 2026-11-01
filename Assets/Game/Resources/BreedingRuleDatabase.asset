@@ -1509,6 +1509,6 @@ MonoBehaviour:
     - species_F26_R6_B
     - species_F24_R6_B
   rankBonusChance: 0.12
-  rankPenaltyChance: 0.04
+  rankPenaltyChance: 0
   ivStandardDeviation: 10
   personalityInheritanceChance: 0.7

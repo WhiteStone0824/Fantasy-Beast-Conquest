@@ -11,12 +11,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace FusionAnyMonster.Tests
 {
     public sealed class UILayoutPlayModeTests
     {
         private const BindingFlags Flags=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.Static;
+        [UnityTest]
+        public IEnumerator SevenEffectPassiveDetailsAreScrollable()
+        {
+            yield return SceneManager.LoadSceneAsync("Assets/Game/Scenes/Title.unity");yield return null;
+            var ui=UnityEngine.Object.FindAnyObjectByType<GameUIController>();var species=Resources.Load<SpeciesDefinition>("SpecialSpecies");
+            typeof(GameUIController).GetMethod("ShowSpeciesPassive",Flags).Invoke(ui,new object[]{species,(Action)(()=>{})});yield return null;
+            var root=GameObject.Find("Passive Effect Scroll");Assert.NotNull(root);Assert.NotNull(root.GetComponent<ScrollRect>());
+            var text=GameObject.Find("Passive Effect Details").GetComponent<TMP_Text>();Assert.AreEqual(species.passive.Description,text.text);
+            Assert.AreEqual(7,species.passive.effects.Length);
+            Call(ui,"Navigate","HOME");
+        }
         [UnityTest]
         public IEnumerator SaveResetRequiresConfirmationAndRestoresStarterParty()
         {
@@ -139,6 +151,30 @@ namespace FusionAnyMonster.Tests
             Assert.IsTrue(Array.Exists(ui.GetComponentsInChildren<TMP_Text>(),t=>t.text.Contains("55555")));
             GameObject.Find("Button ホームへ戻る").GetComponent<Button>().onClick.Invoke();yield return null;
             Assert.NotNull(GameObject.Find("遠征部隊パネル"));
+        }
+        [UnityTest]
+        public IEnumerator PvpAddressCanBeClickedAndTyped()
+        {
+            yield return SceneManager.LoadSceneAsync("Assets/Game/Scenes/Title.unity");yield return null;
+            var ui=UnityEngine.Object.FindAnyObjectByType<GameUIController>();Call(ui,"ShowPvp");yield return null;
+            var field=GameObject.Find("PvP Address").GetComponent<TMP_InputField>();
+            try
+            {
+                var eventSystem=EventSystem.current;Assert.NotNull(eventSystem);
+                var pointer=new PointerEventData(eventSystem){position=RectTransformUtility.WorldToScreenPoint(null,field.transform.position)};
+                var hits=new List<RaycastResult>();eventSystem.RaycastAll(pointer,hits);
+                Assert.IsTrue(hits.Exists(hit=>hit.gameObject==field.gameObject),"The address field must be reachable by pointer raycasts.");
+                eventSystem.SetSelectedGameObject(field.gameObject,pointer);
+                ExecuteEvents.Execute(field.gameObject,pointer,ExecuteEvents.pointerDownHandler);
+                ExecuteEvents.Execute(field.gameObject,pointer,ExecuteEvents.pointerClickHandler);
+                yield return null;yield return null;
+                Assert.IsTrue(field.isFocused,"Clicking the address field must focus it.");
+                var process=typeof(TMP_InputField).GetMethod("ProcessEvent",Flags);Assert.NotNull(process);
+                foreach(char c in "192.168.1.10")process.Invoke(field,new object[]{new Event{type=EventType.KeyDown,character=c}});
+                yield return null;yield return null;
+                Assert.AreEqual("192.168.1.10",field.text);
+            }
+            finally {Call(ui,"Navigate","HOME");}
         }
         [UnityTest]
         public IEnumerator HomeShowsPlayerRankWithoutCalculationDetails()

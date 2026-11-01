@@ -12,6 +12,17 @@ namespace FusionAnyMonster.Tests
 {
     public sealed class SpellProgramPlayModeTests
     {
+        [UnityTest]public IEnumerator RepairedBredHealingActuallyHealsAnAlly()
+        {
+            var species=Resources.Load<SpeciesDatabase>("SpeciesDatabase").species[0];
+            var source=SpellSlotStorage.Prepare(new MagicGenome{programGenes=SpellProgramBuilder.Projectile(effect:SpellNodeKind.Heal,target:SpellTarget.NearestEnemy,area:true)},0);
+            var repaired=GeneticAlgorithm.ImproveOffspring(source,species,0);var magic=MagicFactory.Build(repaired,species);
+            var caster=Unit(true,Vector2.zero);var ally=Unit(true,Vector2.right);
+            typeof(Combatant).GetField("hp",Flags).SetValue(ally,10f);float before=ally.CurrentHp;
+            Assert.IsTrue(magic.targetsAllies);Assert.NotNull(SpellExecutor.Cast(battle,caster,ally,magic.program));
+            yield return null;yield return null;yield return null;
+            Assert.Greater(ally.CurrentHp,before);
+        }
         [UnityTest]public IEnumerator ParameterCrossedOffspringExecutesItsInheritedPower()
         {
             var settings=ScriptableObject.CreateInstance<SpellSettings>();
@@ -22,7 +33,7 @@ namespace FusionAnyMonster.Tests
                 var a=SpellProgramBuilder.Projectile(AttributeElement.Fire,20);
                 var b=SpellProgramBuilder.Projectile(AttributeElement.Water,80,trajectory:SpellTrajectory.Homing);
                 var child=SpellGenetics.Cross(a,b,918,settings);var spell=SpellCompiler.Compile(child,settings:settings);
-                Assert.That(spell.basePower,Is.GreaterThan(20).And.LessThan(80));
+                Assert.That(spell.basePower,Is.GreaterThan(40).And.LessThan(160));
                 var caster=Unit(true,Vector2.zero);var victim=Unit(false,Vector2.right);float before=victim.CurrentHp;
                 SpellExecutor.Cast(battle,caster,victim,spell);
                 yield return new WaitForSeconds(.5f);
@@ -165,8 +176,8 @@ namespace FusionAnyMonster.Tests
         [UnityTest]public IEnumerator AggressivePersonalityChargesMoreOftenThanTimid()
         {
             var database=Resources.Load<PersonalityDatabase>("PersonalityDatabase");
-            var aggressive=Unit(true,Vector2.zero);var timid=Unit(true,new Vector2(0,20));
-            var aggressiveTarget=Unit(false,new Vector2(1.8f,0));var timidTarget=Unit(false,new Vector2(1.8f,20));
+            var aggressive=Unit(true,new Vector2(0,-3));var timid=Unit(true,new Vector2(0,3));
+            var aggressiveTarget=Unit(false,new Vector2(1.8f,-3));var timidTarget=Unit(false,new Vector2(1.8f,3));
             foreach(var pair in new[]{new { unit=aggressive, type=PersonalityType.Aggressive },new { unit=timid, type=PersonalityType.Timid }})
             {
                 var data=new UnitSaveData{id="charge-test",rank="S",personality=pair.type.ToString(),baseStats=new float[]{10000,10000,10,20,0,0,2,1,15,0}};
