@@ -1,0 +1,1783 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f16006cf5f6dd469a6949e5a2658a5, type: 3}
+  m_Name: species_F28_R4_A
+  m_EditorClassIdentifier: FusionAnyMonster.Runtime::FusionAnyMonster.SpeciesDefinition
+  speciesId: species_F28_R4_A
+  displayName: "\u6697\u9ED2\u73CA\u745A\u306E\u4E3B"
+  description: "\u6DF1\u6DF5\u7CFB\u306E\u500B\u4F53\u3002\u7A2E\u65CF\u56FA\u6709\u306E\u80FD\u529B\u3068\u8010\u6027\u306B\u3001\u500B\u4F53\u5024\u30FB\u6027\u683C\u30FB\u30EC\u30D9\u30EB\u304C\u52A0\u308F\u308A\u307E\u3059\u3002"
+  family: 28
+  rank: 4
+  baseStats:
+    hp: 142.88
+    mp: 35.28
+    physicalAttack: 11.8
+    magicAttack: 47.04
+    physicalDefense: 15.68
+    magicDefense: 49
+    moveSpeed: 2.11
+    attackSpeed: 0.9
+    searchRange: 7.91
+    mpRegen: 1.36
+  elementResistances:
+  - element: 0
+    value:
+      damageReduction: 0.17
+      applicationResistance: 0.09
+  - element: 1
+    value:
+      damageReduction: 0.59
+      applicationResistance: 0.12
+  - element: 2
+    value:
+      damageReduction: 0.31
+      applicationResistance: 0.15
+  - element: 3
+    value:
+      damageReduction: 0.02
+      applicationResistance: 0.18
+  - element: 4
+    value:
+      damageReduction: 0.08
+      applicationResistance: 0.21
+  - element: 5
+    value:
+      damageReduction: 0.16
+      applicationResistance: 0.24
+  - element: 6
+    value:
+      damageReduction: 0.35
+      applicationResistance: 0.33
+  debuffResistances:
+  - debuff: 0
+    value:
+      damageReduction: 0
+      applicationResistance: 0.54
+  - debuff: 1
+    value:
+      damageReduction: 0
+      applicationResistance: 0.24
+  - debuff: 2
+    value:
+      damageReduction: 0
+      applicationResistance: 0.29
+  - debuff: 3
+    value:
+      damageReduction: 0
+      applicationResistance: 0.34
+  - debuff: 4
+    value:
+      damageReduction: 0
+      applicationResistance: 0.03
+  - debuff: 5
+    value:
+      damageReduction: 0
+      applicationResistance: 0.08
+  - debuff: 6
+    value:
+      damageReduction: 0
+      applicationResistance: 0.13
+  - debuff: 7
+    value:
+      damageReduction: 0
+      applicationResistance: 0.18
+  sprite: {fileID: -4362066646205588524, guid: 238bb2c73a0c76147be9737460241cee, type: 3}
+  defaultTendency: 4
+  passive:
+    id: passive_species_F28_R4_A
+    displayName: "\u6697\u6D41\u306E\u9006\u8972"
+    effects:
+    - type: 9
+      element: 6
+      debuff: 0
+      statIndex: 0
+      amount: 0.25
+    - type: 3
+      element: 6
+      debuff: 0
+      statIndex: 7
+      amount: 0.15
+    - type: 13
+      element: 6
+      debuff: 7
+      statIndex: 0
+      amount: 0.15
+  defaultMagicGenomes:
+  - programGenes:
+      version: 1
+      algorithmVersion: 1
+      expressionMaxNodes: 24
+      expressionMaxDepth: 6
+      chromosomeA:
+        version: 1
+        root: 0
+        basePower: 16.8
+        baseCooldown: 5
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 5
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 5
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.1
+            radius: 1.58
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      chromosomeB:
+        version: 1
+        root: 0
+        basePower: 16.8
+        baseCooldown: 5
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 5
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 5
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.1
+            radius: 1.58
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      autoGeneratedName: "\u6C34\u6D41\u306E\u546A\u7E1B\u9663"
+      customName: 
+      nameGenerationVersion: 1
+      history: []
+    expressedProgram:
+      version: 1
+      root: 0
+      basePower: 16.8
+      baseCooldown: 5
+      range: 6.5
+      target: 0
+      regulation:
+        dominance: 0.5
+        splice: 0
+        recipientIndex: 0
+        donorIndex: 0
+      nodes:
+      - id: 0
+        kind: 0
+        input: 0
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 5
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 0
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 1
+      - id: 1
+        kind: 5
+        input: 0
+        parameters:
+          count: 1
+          speed: 6.9
+          angle: 0
+          seconds: 1.1
+          radius: 1.58
+          homing: 0.59
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 1
+          child: 2
+      - id: 2
+        kind: 6
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 3
+      - id: 3
+        kind: 9
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2.3
+          radius: 0.18
+          homing: 0.7
+          multiplier: 0.1
+          probability: 0.55
+          threshold: 0.35
+          element: 1
+          status: 2
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges: []
+    programVersion: 1
+    customName: 
+  - programGenes:
+      version: 1
+      algorithmVersion: 1
+      expressionMaxNodes: 24
+      expressionMaxDepth: 6
+      chromosomeA:
+        version: 1
+        root: 0
+        basePower: 17.8
+        baseCooldown: 5.4
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 5.4
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 3
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.742029
+            radius: 0.18
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      chromosomeB:
+        version: 1
+        root: 0
+        basePower: 17.8
+        baseCooldown: 5.4
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 5.4
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 3
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.742029
+            radius: 0.18
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      autoGeneratedName: "\u6C34\u6D41\u306E\u546A\u7E1B\u5F3E"
+      customName: 
+      nameGenerationVersion: 1
+      history: []
+    expressedProgram:
+      version: 1
+      root: 0
+      basePower: 17.8
+      baseCooldown: 5.4
+      range: 6.5
+      target: 0
+      regulation:
+        dominance: 0.5
+        splice: 0
+        recipientIndex: 0
+        donorIndex: 0
+      nodes:
+      - id: 0
+        kind: 0
+        input: 0
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 5.4
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 0
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 1
+      - id: 1
+        kind: 3
+        input: 0
+        parameters:
+          count: 1
+          speed: 6.9
+          angle: 0
+          seconds: 1.742029
+          radius: 0.18
+          homing: 0.59
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 1
+          child: 2
+      - id: 2
+        kind: 6
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 3
+      - id: 3
+        kind: 9
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2.3
+          radius: 0.18
+          homing: 0.7
+          multiplier: 0.1
+          probability: 0.55
+          threshold: 0.35
+          element: 1
+          status: 2
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges: []
+    programVersion: 1
+    customName: 
+  - programGenes:
+      version: 1
+      algorithmVersion: 1
+      expressionMaxNodes: 24
+      expressionMaxDepth: 6
+      chromosomeA:
+        version: 1
+        root: 0
+        basePower: 18.8
+        baseCooldown: 5.8
+        range: 6.5
+        target: 3
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 5.8
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 5
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.1
+            radius: 2
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 3
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 7
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      chromosomeB:
+        version: 1
+        root: 0
+        basePower: 18.8
+        baseCooldown: 5.8
+        range: 6.5
+        target: 3
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 5.8
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 5
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.1
+            radius: 2
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 3
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 7
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      autoGeneratedName: "\u6C34\u6D41\u306E\u7652\u3057\u9663"
+      customName: 
+      nameGenerationVersion: 1
+      history: []
+    expressedProgram:
+      version: 1
+      root: 0
+      basePower: 18.8
+      baseCooldown: 5.8
+      range: 6.5
+      target: 3
+      regulation:
+        dominance: 0.5
+        splice: 0
+        recipientIndex: 0
+        donorIndex: 0
+      nodes:
+      - id: 0
+        kind: 0
+        input: 0
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 5.8
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 0
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 1
+      - id: 1
+        kind: 5
+        input: 0
+        parameters:
+          count: 1
+          speed: 6.9
+          angle: 0
+          seconds: 1.1
+          radius: 2
+          homing: 0.59
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 3
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 1
+          child: 2
+      - id: 2
+        kind: 7
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges: []
+    programVersion: 1
+    customName: 
+  - programGenes:
+      version: 1
+      algorithmVersion: 1
+      expressionMaxNodes: 24
+      expressionMaxDepth: 6
+      chromosomeA:
+        version: 1
+        root: 0
+        basePower: 19.8
+        baseCooldown: 6.2
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 6.2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 3
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.742029
+            radius: 0.18
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 4
+          input: 1
+          parameters:
+            count: 2
+            speed: 6.9
+            angle: 0
+            seconds: 1.4
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.55
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 1
+            target: 5
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 4
+        - id: 4
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      chromosomeB:
+        version: 1
+        root: 0
+        basePower: 19.8
+        baseCooldown: 6.2
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 6.2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 3
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.742029
+            radius: 0.18
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 4
+          input: 1
+          parameters:
+            count: 2
+            speed: 6.9
+            angle: 0
+            seconds: 1.4
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.55
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 1
+            target: 5
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 4
+        - id: 4
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      autoGeneratedName: "\u6C34\u6D41\u306E\u5206\u88C2\u546A\u7E1B\u5F3E"
+      customName: 
+      nameGenerationVersion: 1
+      history: []
+    expressedProgram:
+      version: 1
+      root: 0
+      basePower: 19.8
+      baseCooldown: 6.2
+      range: 6.5
+      target: 0
+      regulation:
+        dominance: 0.5
+        splice: 0
+        recipientIndex: 0
+        donorIndex: 0
+      nodes:
+      - id: 0
+        kind: 0
+        input: 0
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 6.2
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 0
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 1
+      - id: 1
+        kind: 3
+        input: 0
+        parameters:
+          count: 1
+          speed: 6.9
+          angle: 0
+          seconds: 1.742029
+          radius: 0.18
+          homing: 0.59
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 1
+          child: 2
+      - id: 2
+        kind: 6
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 3
+      - id: 3
+        kind: 4
+        input: 1
+        parameters:
+          count: 2
+          speed: 6.9
+          angle: 0
+          seconds: 1.4
+          radius: 0.18
+          homing: 0.7
+          multiplier: 0.55
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 1
+          target: 5
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 1
+          child: 4
+      - id: 4
+        kind: 9
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2.3
+          radius: 0.18
+          homing: 0.7
+          multiplier: 0.1
+          probability: 0.55
+          threshold: 0.35
+          element: 1
+          status: 2
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges: []
+    programVersion: 1
+    customName: 
+  - programGenes:
+      version: 1
+      algorithmVersion: 1
+      expressionMaxNodes: 24
+      expressionMaxDepth: 6
+      chromosomeA:
+        version: 1
+        root: 0
+        basePower: 20.8
+        baseCooldown: 6.6
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 6.6
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 3
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.742029
+            radius: 0.18
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 8
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 1.48
+            homing: 0.7
+            multiplier: 0.4
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 4
+        - id: 4
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      chromosomeB:
+        version: 1
+        root: 0
+        basePower: 20.8
+        baseCooldown: 6.6
+        range: 6.5
+        target: 0
+        regulation:
+          dominance: 0.5
+          splice: 0
+          recipientIndex: 0
+          donorIndex: 0
+        nodes:
+        - id: 0
+          kind: 0
+          input: 0
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 6.6
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 0
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 1
+        - id: 1
+          kind: 3
+          input: 0
+          parameters:
+            count: 1
+            speed: 6.9
+            angle: 0
+            seconds: 1.742029
+            radius: 0.18
+            homing: 0.59
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 1
+            child: 2
+        - id: 2
+          kind: 6
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 0.18
+            homing: 0.7
+            multiplier: 1
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 3
+        - id: 3
+          kind: 8
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2
+            radius: 1.48
+            homing: 0.7
+            multiplier: 0.4
+            probability: 1
+            threshold: 0.35
+            element: 1
+            status: 0
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges:
+          - port: 0
+            child: 4
+        - id: 4
+          kind: 9
+          input: 1
+          parameters:
+            count: 1
+            speed: 8
+            angle: 0
+            seconds: 2.3
+            radius: 0.18
+            homing: 0.7
+            multiplier: 0.1
+            probability: 0.55
+            threshold: 0.35
+            element: 1
+            status: 2
+            trajectory: 0
+            target: 0
+            condition: 0
+            centerOnCaster: 0
+            buff: 12
+          edges: []
+      autoGeneratedName: "\u6C34\u6D41\u306E\u7206\u88C2\u546A\u7E1B\u5F3E"
+      customName: 
+      nameGenerationVersion: 1
+      history: []
+    expressedProgram:
+      version: 1
+      root: 0
+      basePower: 20.8
+      baseCooldown: 6.6
+      range: 6.5
+      target: 0
+      regulation:
+        dominance: 0.5
+        splice: 0
+        recipientIndex: 0
+        donorIndex: 0
+      nodes:
+      - id: 0
+        kind: 0
+        input: 0
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 6.6
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 0
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 1
+      - id: 1
+        kind: 3
+        input: 0
+        parameters:
+          count: 1
+          speed: 6.9
+          angle: 0
+          seconds: 1.742029
+          radius: 0.18
+          homing: 0.59
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 1
+          child: 2
+      - id: 2
+        kind: 6
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2
+          radius: 0.18
+          homing: 0.7
+          multiplier: 1
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 3
+      - id: 3
+        kind: 8
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2
+          radius: 1.48
+          homing: 0.7
+          multiplier: 0.4
+          probability: 1
+          threshold: 0.35
+          element: 1
+          status: 0
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges:
+        - port: 0
+          child: 4
+      - id: 4
+        kind: 9
+        input: 1
+        parameters:
+          count: 1
+          speed: 8
+          angle: 0
+          seconds: 2.3
+          radius: 0.18
+          homing: 0.7
+          multiplier: 0.1
+          probability: 0.55
+          threshold: 0.35
+          element: 1
+          status: 2
+          trajectory: 0
+          target: 0
+          condition: 0
+          centerOnCaster: 0
+          buff: 12
+        edges: []
+    programVersion: 1
+    customName: 

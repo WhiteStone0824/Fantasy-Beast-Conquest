@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F00_R2_A",
+  "name": "ミズモチ",
+  "family": 0,
+  "rank": "D",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one single ミズモチ, compact translucent mint-green slime creature, round jelly body, two large eyes, tiny simple arms and a clean readable silhouette, D rank stage, young form with one distinctive feature, jade green and cream, distinctive name-inspired design, cute readable fantasy creature, clear face, cohesive anatomy, complete full body, single subject centered, front three-quarter view, balanced natural pose, clean crisp cel shading, strong clear silhouette, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "fcc59be4",
+  "seed": 282915,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T08:25:14.410769+00:00"
+}

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6d91b77b7f9b04d818dbea22eb09df, type: 3}
+  m_Name: SpellNameDictionary
+  m_EditorClassIdentifier: FusionAnyMonster.Runtime::FusionAnyMonster.Spells.SpellNameDictionary
+  version: 1
+  elements:
+  - "\u706B\u708E"
+  - "\u6C34\u6D41"
+  - "\u98A8\u5203"
+  - "\u5CA9\u77F3"
+  - "\u5929\u5149"
+  - "\u51A5\u95C7"
+  - "\u9B54\u529B"
+  projectileTemplate: "{0}\u306E{1}\u5F3E"
+  areaTemplate: "{0}\u306E{1}\u9663"
+  trajectoryWords:
+  - 
+  - "\u8FFD\u5C3E"
+  - "\u87BA\u65CB"
+  - "\u6CE2\u52D5"
+  - "\u5468\u56DE"
+  trajectoryImportance: 20
+  featureRules:
+  - node: 7
+    word: "\u7652\u3057"
+    importance: 100
+  - node: 4
+    word: "\u5206\u88C2"
+    importance: 90
+  - node: 8
+    word: "\u7206\u88C2"
+    importance: 80
+  - node: 11
+    word: "\u5438\u547D"
+    importance: 75
+  - node: 9
+    word: "\u546A\u7E1B"
+    importance: 60
+  - node: 16
+    word: "\u795D\u798F"
+    importance: 70
+  specialRules:
+  - element: 4
+    first: 3
+    second: 4
+    name: "\u5929\u5149\u7FA4\u661F"
+  - element: 5
+    first: 11
+    second: 4
+    name: "\u51A5\u5E9C\u306E\u9396"

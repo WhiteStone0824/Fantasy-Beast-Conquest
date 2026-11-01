@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F11_R5_B",
+  "name": "星喰い巨人",
+  "family": 11,
+  "rank": "A",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one 星喰い巨人, one colossal broad-bodied humanoid titan with a clear face, massive arms and legs, dark stone armor and small glowing star marks, A rank stage, majestic advanced form, midnight blue and gold, distinctive clear silhouette, cute readable fantasy character, clean cel shading, crisp outline, complete full body, single subject centered, front three-quarter view, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "56595f12",
+  "seed": 273069,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T09:23:20.571961+00:00"
+}

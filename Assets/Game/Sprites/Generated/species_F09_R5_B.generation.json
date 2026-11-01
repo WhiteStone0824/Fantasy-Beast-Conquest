@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F09_R5_B",
+  "name": "腐海のヌメリタケ",
+  "family": 9,
+  "rank": "A",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one 腐海のヌメリタケ, one large brown slimy mushroom monster with a single broad spotted cap, short stout stem body, two small eyes and short root feet, A rank stage, majestic advanced form, dark brown and crimson, distinctive clear silhouette, cute readable fantasy character, clean cel shading, crisp outline, complete full body, single subject centered, front three-quarter view, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "3977e1ef",
+  "seed": 273041,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T09:21:02.616197+00:00"
+}

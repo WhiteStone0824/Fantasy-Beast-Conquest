@@ -1,0 +1,22 @@
+{
+  "speciesId": "demo_02",
+  "name": "青羽フクロウ",
+  "family": 2,
+  "rank": "D",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, one azure owl with blue feathers, round owl face, big amber eyes and spread wings, fantasy creature illustration, single subject, centered, wide margins, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "f12223a8",
+  "seed": 475127,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-30T03:58:27.816898+00:00"
+}

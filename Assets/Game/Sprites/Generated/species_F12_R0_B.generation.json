@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F12_R0_B",
+  "name": "藁束ドール",
+  "family": 12,
+  "rank": "F",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one 藁束ドール, one small cute straw-stuffed doll creature with a complete humanoid body, visible bound straw bundles, stitched face, two arms and two legs, F rank stage, tiny young form, warm straw gold and dark brown, distinctive clear silhouette, cute readable fantasy character, clean cel shading, crisp outline, complete full body, single subject centered, front three-quarter view, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "4daf76c6",
+  "seed": 273073,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T09:23:20.565901+00:00"
+}

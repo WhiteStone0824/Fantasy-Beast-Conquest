@@ -1,0 +1,1514 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7865a4ec1c02ee3459036e463c885062, type: 3}
+  m_Name: BreedingRuleDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::FusionAnyMonster.BreedingRuleDatabase
+  familyRules:
+  - first: 0
+    second: 0
+    result: 0
+  - first: 0
+    second: 1
+    result: 4
+  - first: 0
+    second: 2
+    result: 2
+  - first: 0
+    second: 3
+    result: 7
+  - first: 0
+    second: 4
+    result: 0
+  - first: 0
+    second: 5
+    result: 0
+  - first: 0
+    second: 6
+    result: 9
+  - first: 0
+    second: 7
+    result: 6
+  - first: 0
+    second: 8
+    result: 9
+  - first: 0
+    second: 9
+    result: 5
+  - first: 0
+    second: 10
+    result: 5
+  - first: 0
+    second: 11
+    result: 7
+  - first: 0
+    second: 12
+    result: 11
+  - first: 0
+    second: 13
+    result: 13
+  - first: 0
+    second: 14
+    result: 14
+  - first: 0
+    second: 15
+    result: 15
+  - first: 0
+    second: 16
+    result: 29
+  - first: 0
+    second: 17
+    result: 5
+  - first: 0
+    second: 18
+    result: 4
+  - first: 0
+    second: 19
+    result: 9
+  - first: 0
+    second: 20
+    result: 9
+  - first: 0
+    second: 21
+    result: 4
+  - first: 0
+    second: 22
+    result: 28
+  - first: 0
+    second: 23
+    result: 29
+  - first: 0
+    second: 24
+    result: 20
+  - first: 0
+    second: 25
+    result: 24
+  - first: 0
+    second: 26
+    result: 26
+  - first: 0
+    second: 27
+    result: 4
+  - first: 0
+    second: 28
+    result: 28
+  - first: 0
+    second: 29
+    result: 0
+  - first: 1
+    second: 1
+    result: 1
+  - first: 1
+    second: 2
+    result: 1
+  - first: 1
+    second: 3
+    result: 17
+  - first: 1
+    second: 4
+    result: 5
+  - first: 1
+    second: 5
+    result: 4
+  - first: 1
+    second: 6
+    result: 6
+  - first: 1
+    second: 7
+    result: 3
+  - first: 1
+    second: 8
+    result: 1
+  - first: 1
+    second: 9
+    result: 8
+  - first: 1
+    second: 10
+    result: 10
+  - first: 1
+    second: 11
+    result: 3
+  - first: 1
+    second: 12
+    result: 11
+  - first: 1
+    second: 13
+    result: 11
+  - first: 1
+    second: 14
+    result: 15
+  - first: 1
+    second: 15
+    result: 12
+  - first: 1
+    second: 16
+    result: 18
+  - first: 1
+    second: 17
+    result: 17
+  - first: 1
+    second: 18
+    result: 1
+  - first: 1
+    second: 19
+    result: 10
+  - first: 1
+    second: 20
+    result: 8
+  - first: 1
+    second: 21
+    result: 18
+  - first: 1
+    second: 22
+    result: 2
+  - first: 1
+    second: 23
+    result: 9
+  - first: 1
+    second: 24
+    result: 23
+  - first: 1
+    second: 25
+    result: 23
+  - first: 1
+    second: 26
+    result: 18
+  - first: 1
+    second: 27
+    result: 13
+  - first: 1
+    second: 28
+    result: 23
+  - first: 1
+    second: 29
+    result: 15
+  - first: 2
+    second: 2
+    result: 2
+  - first: 2
+    second: 3
+    result: 6
+  - first: 2
+    second: 4
+    result: 2
+  - first: 2
+    second: 5
+    result: 5
+  - first: 2
+    second: 6
+    result: 3
+  - first: 2
+    second: 7
+    result: 5
+  - first: 2
+    second: 8
+    result: 6
+  - first: 2
+    second: 9
+    result: 9
+  - first: 2
+    second: 10
+    result: 6
+  - first: 2
+    second: 11
+    result: 3
+  - first: 2
+    second: 12
+    result: 15
+  - first: 2
+    second: 13
+    result: 17
+  - first: 2
+    second: 14
+    result: 17
+  - first: 2
+    second: 15
+    result: 0
+  - first: 2
+    second: 16
+    result: 27
+  - first: 2
+    second: 17
+    result: 3
+  - first: 2
+    second: 18
+    result: 21
+  - first: 2
+    second: 19
+    result: 18
+  - first: 2
+    second: 20
+    result: 19
+  - first: 2
+    second: 21
+    result: 18
+  - first: 2
+    second: 22
+    result: 22
+  - first: 2
+    second: 23
+    result: 24
+  - first: 2
+    second: 24
+    result: 0
+  - first: 2
+    second: 25
+    result: 17
+  - first: 2
+    second: 26
+    result: 27
+  - first: 2
+    second: 27
+    result: 21
+  - first: 2
+    second: 28
+    result: 22
+  - first: 2
+    second: 29
+    result: 20
+  - first: 3
+    second: 3
+    result: 3
+  - first: 3
+    second: 4
+    result: 7
+  - first: 3
+    second: 5
+    result: 4
+  - first: 3
+    second: 6
+    result: 2
+  - first: 3
+    second: 7
+    result: 4
+  - first: 3
+    second: 8
+    result: 3
+  - first: 3
+    second: 9
+    result: 8
+  - first: 3
+    second: 10
+    result: 1
+  - first: 3
+    second: 11
+    result: 1
+  - first: 3
+    second: 12
+    result: 8
+  - first: 3
+    second: 13
+    result: 1
+  - first: 3
+    second: 14
+    result: 7
+  - first: 3
+    second: 15
+    result: 0
+  - first: 3
+    second: 16
+    result: 14
+  - first: 3
+    second: 17
+    result: 6
+  - first: 3
+    second: 18
+    result: 3
+  - first: 3
+    second: 19
+    result: 17
+  - first: 3
+    second: 20
+    result: 8
+  - first: 3
+    second: 21
+    result: 6
+  - first: 3
+    second: 22
+    result: 10
+  - first: 3
+    second: 23
+    result: 18
+  - first: 3
+    second: 24
+    result: 18
+  - first: 3
+    second: 25
+    result: 25
+  - first: 3
+    second: 26
+    result: 29
+  - first: 3
+    second: 27
+    result: 13
+  - first: 3
+    second: 28
+    result: 5
+  - first: 3
+    second: 29
+    result: 17
+  - first: 4
+    second: 4
+    result: 4
+  - first: 4
+    second: 5
+    result: 1
+  - first: 4
+    second: 6
+    result: 9
+  - first: 4
+    second: 7
+    result: 3
+  - first: 4
+    second: 8
+    result: 9
+  - first: 4
+    second: 9
+    result: 0
+  - first: 4
+    second: 10
+    result: 1
+  - first: 4
+    second: 11
+    result: 11
+  - first: 4
+    second: 12
+    result: 0
+  - first: 4
+    second: 13
+    result: 4
+  - first: 4
+    second: 14
+    result: 4
+  - first: 4
+    second: 15
+    result: 7
+  - first: 4
+    second: 16
+    result: 15
+  - first: 4
+    second: 17
+    result: 3
+  - first: 4
+    second: 18
+    result: 5
+  - first: 4
+    second: 19
+    result: 9
+  - first: 4
+    second: 20
+    result: 8
+  - first: 4
+    second: 21
+    result: 18
+  - first: 4
+    second: 22
+    result: 28
+  - first: 4
+    second: 23
+    result: 1
+  - first: 4
+    second: 24
+    result: 29
+  - first: 4
+    second: 25
+    result: 7
+  - first: 4
+    second: 26
+    result: 4
+  - first: 4
+    second: 27
+    result: 27
+  - first: 4
+    second: 28
+    result: 24
+  - first: 4
+    second: 29
+    result: 5
+  - first: 5
+    second: 5
+    result: 5
+  - first: 5
+    second: 6
+    result: 7
+  - first: 5
+    second: 7
+    result: 3
+  - first: 5
+    second: 8
+    result: 8
+  - first: 5
+    second: 9
+    result: 4
+  - first: 5
+    second: 10
+    result: 10
+  - first: 5
+    second: 11
+    result: 1
+  - first: 5
+    second: 12
+    result: 12
+  - first: 5
+    second: 13
+    result: 3
+  - first: 5
+    second: 14
+    result: 7
+  - first: 5
+    second: 15
+    result: 7
+  - first: 5
+    second: 16
+    result: 20
+  - first: 5
+    second: 17
+    result: 17
+  - first: 5
+    second: 18
+    result: 5
+  - first: 5
+    second: 19
+    result: 6
+  - first: 5
+    second: 20
+    result: 5
+  - first: 5
+    second: 21
+    result: 2
+  - first: 5
+    second: 22
+    result: 28
+  - first: 5
+    second: 23
+    result: 0
+  - first: 5
+    second: 24
+    result: 29
+  - first: 5
+    second: 25
+    result: 15
+  - first: 5
+    second: 26
+    result: 20
+  - first: 5
+    second: 27
+    result: 20
+  - first: 5
+    second: 28
+    result: 28
+  - first: 5
+    second: 29
+    result: 18
+  - first: 6
+    second: 6
+    result: 6
+  - first: 6
+    second: 7
+    result: 8
+  - first: 6
+    second: 8
+    result: 3
+  - first: 6
+    second: 9
+    result: 2
+  - first: 6
+    second: 10
+    result: 3
+  - first: 6
+    second: 11
+    result: 7
+  - first: 6
+    second: 12
+    result: 1
+  - first: 6
+    second: 13
+    result: 7
+  - first: 6
+    second: 14
+    result: 6
+  - first: 6
+    second: 15
+    result: 2
+  - first: 6
+    second: 16
+    result: 20
+  - first: 6
+    second: 17
+    result: 19
+  - first: 6
+    second: 18
+    result: 17
+  - first: 6
+    second: 19
+    result: 8
+  - first: 6
+    second: 20
+    result: 27
+  - first: 6
+    second: 21
+    result: 19
+  - first: 6
+    second: 22
+    result: 17
+  - first: 6
+    second: 23
+    result: 17
+  - first: 6
+    second: 24
+    result: 19
+  - first: 6
+    second: 25
+    result: 18
+  - first: 6
+    second: 26
+    result: 29
+  - first: 6
+    second: 27
+    result: 21
+  - first: 6
+    second: 28
+    result: 22
+  - first: 6
+    second: 29
+    result: 0
+  - first: 7
+    second: 7
+    result: 7
+  - first: 7
+    second: 8
+    result: 4
+  - first: 7
+    second: 9
+    result: 6
+  - first: 7
+    second: 10
+    result: 5
+  - first: 7
+    second: 11
+    result: 4
+  - first: 7
+    second: 12
+    result: 12
+  - first: 7
+    second: 13
+    result: 5
+  - first: 7
+    second: 14
+    result: 14
+  - first: 7
+    second: 15
+    result: 1
+  - first: 7
+    second: 16
+    result: 20
+  - first: 7
+    second: 17
+    result: 7
+  - first: 7
+    second: 18
+    result: 7
+  - first: 7
+    second: 19
+    result: 5
+  - first: 7
+    second: 20
+    result: 18
+  - first: 7
+    second: 21
+    result: 17
+  - first: 7
+    second: 22
+    result: 2
+  - first: 7
+    second: 23
+    result: 9
+  - first: 7
+    second: 24
+    result: 17
+  - first: 7
+    second: 25
+    result: 28
+  - first: 7
+    second: 26
+    result: 17
+  - first: 7
+    second: 27
+    result: 18
+  - first: 7
+    second: 28
+    result: 7
+  - first: 7
+    second: 29
+    result: 0
+  - first: 8
+    second: 8
+    result: 8
+  - first: 8
+    second: 9
+    result: 9
+  - first: 8
+    second: 10
+    result: 19
+  - first: 8
+    second: 11
+    result: 11
+  - first: 8
+    second: 12
+    result: 11
+  - first: 8
+    second: 13
+    result: 13
+  - first: 8
+    second: 14
+    result: 12
+  - first: 8
+    second: 15
+    result: 14
+  - first: 8
+    second: 16
+    result: 15
+  - first: 8
+    second: 17
+    result: 3
+  - first: 8
+    second: 18
+    result: 8
+  - first: 8
+    second: 19
+    result: 6
+  - first: 8
+    second: 20
+    result: 20
+  - first: 8
+    second: 21
+    result: 19
+  - first: 8
+    second: 22
+    result: 19
+  - first: 8
+    second: 23
+    result: 23
+  - first: 8
+    second: 24
+    result: 20
+  - first: 8
+    second: 25
+    result: 28
+  - first: 8
+    second: 26
+    result: 8
+  - first: 8
+    second: 27
+    result: 27
+  - first: 8
+    second: 28
+    result: 4
+  - first: 8
+    second: 29
+    result: 20
+  - first: 9
+    second: 9
+    result: 9
+  - first: 9
+    second: 10
+    result: 10
+  - first: 9
+    second: 11
+    result: 10
+  - first: 9
+    second: 12
+    result: 9
+  - first: 9
+    second: 13
+    result: 15
+  - first: 9
+    second: 14
+    result: 8
+  - first: 9
+    second: 15
+    result: 14
+  - first: 9
+    second: 16
+    result: 19
+  - first: 9
+    second: 17
+    result: 2
+  - first: 9
+    second: 18
+    result: 19
+  - first: 9
+    second: 19
+    result: 2
+  - first: 9
+    second: 20
+    result: 20
+  - first: 9
+    second: 21
+    result: 6
+  - first: 9
+    second: 22
+    result: 6
+  - first: 9
+    second: 23
+    result: 19
+  - first: 9
+    second: 24
+    result: 24
+  - first: 9
+    second: 25
+    result: 23
+  - first: 9
+    second: 26
+    result: 0
+  - first: 9
+    second: 27
+    result: 13
+  - first: 9
+    second: 28
+    result: 23
+  - first: 9
+    second: 29
+    result: 29
+  - first: 10
+    second: 10
+    result: 10
+  - first: 10
+    second: 11
+    result: 11
+  - first: 10
+    second: 12
+    result: 14
+  - first: 10
+    second: 13
+    result: 14
+  - first: 10
+    second: 14
+    result: 12
+  - first: 10
+    second: 15
+    result: 12
+  - first: 10
+    second: 16
+    result: 12
+  - first: 10
+    second: 17
+    result: 11
+  - first: 10
+    second: 18
+    result: 21
+  - first: 10
+    second: 19
+    result: 19
+  - first: 10
+    second: 20
+    result: 21
+  - first: 10
+    second: 21
+    result: 15
+  - first: 10
+    second: 22
+    result: 15
+  - first: 10
+    second: 23
+    result: 9
+  - first: 10
+    second: 24
+    result: 15
+  - first: 10
+    second: 25
+    result: 23
+  - first: 10
+    second: 26
+    result: 29
+  - first: 10
+    second: 27
+    result: 21
+  - first: 10
+    second: 28
+    result: 22
+  - first: 10
+    second: 29
+    result: 16
+  - first: 11
+    second: 11
+    result: 11
+  - first: 11
+    second: 12
+    result: 10
+  - first: 11
+    second: 13
+    result: 8
+  - first: 11
+    second: 14
+    result: 13
+  - first: 11
+    second: 15
+    result: 13
+  - first: 11
+    second: 16
+    result: 12
+  - first: 11
+    second: 17
+    result: 17
+  - first: 11
+    second: 18
+    result: 1
+  - first: 11
+    second: 19
+    result: 8
+  - first: 11
+    second: 20
+    result: 13
+  - first: 11
+    second: 21
+    result: 21
+  - first: 11
+    second: 22
+    result: 22
+  - first: 11
+    second: 23
+    result: 9
+  - first: 11
+    second: 24
+    result: 23
+  - first: 11
+    second: 25
+    result: 13
+  - first: 11
+    second: 26
+    result: 26
+  - first: 11
+    second: 27
+    result: 21
+  - first: 11
+    second: 28
+    result: 0
+  - first: 11
+    second: 29
+    result: 10
+  - first: 12
+    second: 12
+    result: 12
+  - first: 12
+    second: 13
+    result: 13
+  - first: 12
+    second: 14
+    result: 14
+  - first: 12
+    second: 15
+    result: 15
+  - first: 12
+    second: 16
+    result: 13
+  - first: 12
+    second: 17
+    result: 18
+  - first: 12
+    second: 18
+    result: 11
+  - first: 12
+    second: 19
+    result: 19
+  - first: 12
+    second: 20
+    result: 16
+  - first: 12
+    second: 21
+    result: 16
+  - first: 12
+    second: 22
+    result: 25
+  - first: 12
+    second: 23
+    result: 25
+  - first: 12
+    second: 24
+    result: 25
+  - first: 12
+    second: 25
+    result: 23
+  - first: 12
+    second: 26
+    result: 13
+  - first: 12
+    second: 27
+    result: 16
+  - first: 12
+    second: 28
+    result: 12
+  - first: 12
+    second: 29
+    result: 14
+  - first: 13
+    second: 13
+    result: 13
+  - first: 13
+    second: 14
+    result: 13
+  - first: 13
+    second: 15
+    result: 12
+  - first: 13
+    second: 16
+    result: 14
+  - first: 13
+    second: 17
+    result: 16
+  - first: 13
+    second: 18
+    result: 12
+  - first: 13
+    second: 19
+    result: 11
+  - first: 13
+    second: 20
+    result: 16
+  - first: 13
+    second: 21
+    result: 11
+  - first: 13
+    second: 22
+    result: 11
+  - first: 13
+    second: 23
+    result: 12
+  - first: 13
+    second: 24
+    result: 27
+  - first: 13
+    second: 25
+    result: 27
+  - first: 13
+    second: 26
+    result: 25
+  - first: 13
+    second: 27
+    result: 25
+  - first: 13
+    second: 28
+    result: 26
+  - first: 13
+    second: 29
+    result: 14
+  - first: 14
+    second: 14
+    result: 14
+  - first: 14
+    second: 15
+    result: 15
+  - first: 14
+    second: 16
+    result: 16
+  - first: 14
+    second: 17
+    result: 2
+  - first: 14
+    second: 18
+    result: 18
+  - first: 14
+    second: 19
+    result: 10
+  - first: 14
+    second: 20
+    result: 16
+  - first: 14
+    second: 21
+    result: 16
+  - first: 14
+    second: 22
+    result: 25
+  - first: 14
+    second: 23
+    result: 12
+  - first: 14
+    second: 24
+    result: 25
+  - first: 14
+    second: 25
+    result: 28
+  - first: 14
+    second: 26
+    result: 25
+  - first: 14
+    second: 27
+    result: 13
+  - first: 14
+    second: 28
+    result: 26
+  - first: 14
+    second: 29
+    result: 15
+  - first: 15
+    second: 15
+    result: 15
+  - first: 15
+    second: 16
+    result: 29
+  - first: 15
+    second: 17
+    result: 11
+  - first: 15
+    second: 18
+    result: 18
+  - first: 15
+    second: 19
+    result: 0
+  - first: 15
+    second: 20
+    result: 29
+  - first: 15
+    second: 21
+    result: 25
+  - first: 15
+    second: 22
+    result: 10
+  - first: 15
+    second: 23
+    result: 25
+  - first: 15
+    second: 24
+    result: 16
+  - first: 15
+    second: 25
+    result: 26
+  - first: 15
+    second: 26
+    result: 16
+  - first: 15
+    second: 27
+    result: 14
+  - first: 15
+    second: 28
+    result: 24
+  - first: 15
+    second: 29
+    result: 16
+  - first: 16
+    second: 16
+    result: 16
+  - first: 16
+    second: 17
+    result: 27
+  - first: 16
+    second: 18
+    result: 27
+  - first: 16
+    second: 19
+    result: 21
+  - first: 16
+    second: 20
+    result: 14
+  - first: 16
+    second: 21
+    result: 10
+  - first: 16
+    second: 22
+    result: 26
+  - first: 16
+    second: 23
+    result: 25
+  - first: 16
+    second: 24
+    result: 25
+  - first: 16
+    second: 25
+    result: 24
+  - first: 16
+    second: 26
+    result: 22
+  - first: 16
+    second: 27
+    result: 16
+  - first: 16
+    second: 28
+    result: 25
+  - first: 16
+    second: 29
+    result: 15
+  - first: 17
+    second: 17
+    result: 17
+  - first: 17
+    second: 18
+    result: 21
+  - first: 17
+    second: 19
+    result: 6
+  - first: 17
+    second: 20
+    result: 19
+  - first: 17
+    second: 21
+    result: 21
+  - first: 17
+    second: 22
+    result: 22
+  - first: 17
+    second: 23
+    result: 11
+  - first: 17
+    second: 24
+    result: 29
+  - first: 17
+    second: 25
+    result: 22
+  - first: 17
+    second: 26
+    result: 22
+  - first: 17
+    second: 27
+    result: 20
+  - first: 17
+    second: 28
+    result: 23
+  - first: 17
+    second: 29
+    result: 2
+  - first: 18
+    second: 18
+    result: 18
+  - first: 18
+    second: 19
+    result: 10
+  - first: 18
+    second: 20
+    result: 27
+  - first: 18
+    second: 21
+    result: 10
+  - first: 18
+    second: 22
+    result: 21
+  - first: 18
+    second: 23
+    result: 23
+  - first: 18
+    second: 24
+    result: 23
+  - first: 18
+    second: 25
+    result: 12
+  - first: 18
+    second: 26
+    result: 26
+  - first: 18
+    second: 27
+    result: 1
+  - first: 18
+    second: 28
+    result: 23
+  - first: 18
+    second: 29
+    result: 27
+  - first: 19
+    second: 19
+    result: 19
+  - first: 19
+    second: 20
+    result: 20
+  - first: 19
+    second: 21
+    result: 2
+  - first: 19
+    second: 22
+    result: 19
+  - first: 19
+    second: 23
+    result: 23
+  - first: 19
+    second: 24
+    result: 21
+  - first: 19
+    second: 25
+    result: 22
+  - first: 19
+    second: 26
+    result: 22
+  - first: 19
+    second: 27
+    result: 2
+  - first: 19
+    second: 28
+    result: 22
+  - first: 19
+    second: 29
+    result: 21
+  - first: 20
+    second: 20
+    result: 20
+  - first: 20
+    second: 21
+    result: 19
+  - first: 20
+    second: 22
+    result: 26
+  - first: 20
+    second: 23
+    result: 24
+  - first: 20
+    second: 24
+    result: 24
+  - first: 20
+    second: 25
+    result: 25
+  - first: 20
+    second: 26
+    result: 28
+  - first: 20
+    second: 27
+    result: 27
+  - first: 20
+    second: 28
+    result: 26
+  - first: 20
+    second: 29
+    result: 29
+  - first: 21
+    second: 21
+    result: 21
+  - first: 21
+    second: 22
+    result: 29
+  - first: 21
+    second: 23
+    result: 10
+  - first: 21
+    second: 24
+    result: 27
+  - first: 21
+    second: 25
+    result: 22
+  - first: 21
+    second: 26
+    result: 22
+  - first: 21
+    second: 27
+    result: 20
+  - first: 21
+    second: 28
+    result: 21
+  - first: 21
+    second: 29
+    result: 27
+  - first: 22
+    second: 22
+    result: 22
+  - first: 22
+    second: 23
+    result: 22
+  - first: 22
+    second: 24
+    result: 28
+  - first: 22
+    second: 25
+    result: 16
+  - first: 22
+    second: 26
+    result: 27
+  - first: 22
+    second: 27
+    result: 26
+  - first: 22
+    second: 28
+    result: 24
+  - first: 22
+    second: 29
+    result: 26
+  - first: 23
+    second: 23
+    result: 23
+  - first: 23
+    second: 24
+    result: 23
+  - first: 23
+    second: 25
+    result: 28
+  - first: 23
+    second: 26
+    result: 26
+  - first: 23
+    second: 27
+    result: 24
+  - first: 23
+    second: 28
+    result: 28
+  - first: 23
+    second: 29
+    result: 24
+  - first: 24
+    second: 24
+    result: 24
+  - first: 24
+    second: 25
+    result: 26
+  - first: 24
+    second: 26
+    result: 28
+  - first: 24
+    second: 27
+    result: 24
+  - first: 24
+    second: 28
+    result: 20
+  - first: 24
+    second: 29
+    result: 24
+  - first: 25
+    second: 25
+    result: 25
+  - first: 25
+    second: 26
+    result: 24
+  - first: 25
+    second: 27
+    result: 26
+  - first: 25
+    second: 28
+    result: 16
+  - first: 25
+    second: 29
+    result: 14
+  - first: 26
+    second: 26
+    result: 26
+  - first: 26
+    second: 27
+    result: 28
+  - first: 26
+    second: 28
+    result: 24
+  - first: 26
+    second: 29
+    result: 28
+  - first: 27
+    second: 27
+    result: 27
+  - first: 27
+    second: 28
+    result: 29
+  - first: 27
+    second: 29
+    result: 29
+  - first: 28
+    second: 28
+    result: 28
+  - first: 28
+    second: 29
+    result: 26
+  - first: 29
+    second: 29
+    result: 29
+  - first: 0
+    second: 30
+    result: 30
+  - first: 1
+    second: 30
+    result: 30
+  - first: 2
+    second: 30
+    result: 30
+  - first: 3
+    second: 30
+    result: 30
+  - first: 4
+    second: 30
+    result: 30
+  - first: 5
+    second: 30
+    result: 30
+  - first: 6
+    second: 30
+    result: 30
+  - first: 7
+    second: 30
+    result: 30
+  - first: 8
+    second: 30
+    result: 30
+  - first: 9
+    second: 30
+    result: 30
+  - first: 10
+    second: 30
+    result: 30
+  - first: 11
+    second: 30
+    result: 30
+  - first: 12
+    second: 30
+    result: 30
+  - first: 13
+    second: 30
+    result: 30
+  - first: 14
+    second: 30
+    result: 30
+  - first: 15
+    second: 30
+    result: 30
+  - first: 16
+    second: 30
+    result: 30
+  - first: 17
+    second: 30
+    result: 30
+  - first: 18
+    second: 30
+    result: 30
+  - first: 19
+    second: 30
+    result: 30
+  - first: 20
+    second: 30
+    result: 30
+  - first: 21
+    second: 30
+    result: 30
+  - first: 22
+    second: 30
+    result: 30
+  - first: 23
+    second: 30
+    result: 30
+  - first: 24
+    second: 30
+    result: 30
+  - first: 25
+    second: 30
+    result: 30
+  - first: 26
+    second: 30
+    result: 30
+  - first: 27
+    second: 30
+    result: 30
+  - first: 28
+    second: 30
+    result: 30
+  - first: 29
+    second: 30
+    result: 30
+  - first: 30
+    second: 30
+    result: 30
+  specialRecipes:
+  - resultSpeciesId: special_four_lineages
+    grandparentSpeciesIds:
+    - species_F22_R6_B
+    - species_F28_R6_B
+    - species_F26_R6_B
+    - species_F24_R6_B
+  rankBonusChance: 0.12
+  rankPenaltyChance: 0.04
+  ivStandardDeviation: 10
+  personalityInheritanceChance: 0.7

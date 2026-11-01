@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4881aa15fbb43440a84c605c9ba8f2d, type: 3}
+  m_Name: PersonalityDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::FusionAnyMonster.PersonalityDatabase
+  definitions:
+  - type: 0
+    displayName: Brave
+    boostedStatIndex: 2
+    reducedStatIndex: 4
+    boostMultiplier: 1.1
+    reductionMultiplier: 0.9
+    aggression: 0.9
+    caution: 0.35
+    teamwork: 0.5
+    lowHpPriority: 0.5
+    chargeCooldownMultiplier: 0.7
+    chargeRetreatDistance: 1
+  - type: 1
+    displayName: Timid
+    boostedStatIndex: 6
+    reducedStatIndex: 2
+    boostMultiplier: 1.1
+    reductionMultiplier: 0.9
+    aggression: 0.2
+    caution: 0.85
+    teamwork: 0.5
+    lowHpPriority: 0.5
+    chargeCooldownMultiplier: 2.6
+    chargeRetreatDistance: 2
+  - type: 2
+    displayName: Calm
+    boostedStatIndex: 3
+    reducedStatIndex: 6
+    boostMultiplier: 1.1
+    reductionMultiplier: 0.9
+    aggression: 0.5
+    caution: 0.35
+    teamwork: 0.5
+    lowHpPriority: 0.95
+    chargeCooldownMultiplier: 1.5
+    chargeRetreatDistance: 1.5
+  - type: 3
+    displayName: Cautious
+    boostedStatIndex: 4
+    reducedStatIndex: 7
+    boostMultiplier: 1.1
+    reductionMultiplier: 0.9
+    aggression: 0.5
+    caution: 0.85
+    teamwork: 0.5
+    lowHpPriority: 0.5
+    chargeCooldownMultiplier: 2.2
+    chargeRetreatDistance: 1.9
+  - type: 4
+    displayName: Aggressive
+    boostedStatIndex: 7
+    reducedStatIndex: 4
+    boostMultiplier: 1.1
+    reductionMultiplier: 0.9
+    aggression: 0.9
+    caution: 0.35
+    teamwork: 0.5
+    lowHpPriority: 0.5
+    chargeCooldownMultiplier: 0.5
+    chargeRetreatDistance: 0.8
+  - type: 5
+    displayName: Gentle
+    boostedStatIndex: 0
+    reducedStatIndex: 7
+    boostMultiplier: 1.1
+    reductionMultiplier: 0.9
+    aggression: 0.5
+    caution: 0.35
+    teamwork: 0.9
+    lowHpPriority: 0.5
+    chargeCooldownMultiplier: 2
+    chargeRetreatDistance: 1.7

@@ -1,0 +1,14 @@
+{
+  "name": "FusionAnyMonster.Runtime",
+  "rootNamespace": "FusionAnyMonster",
+  "references": ["Unity.InputSystem", "Unity.ugui", "Unity.TextMeshPro", "Unity.Netcode.Runtime", "Unity.Collections"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

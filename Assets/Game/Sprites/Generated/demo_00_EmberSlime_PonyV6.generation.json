@@ -1,0 +1,15 @@
+{
+  "speciesId": "demo_00",
+  "speciesName": "Ember Slime",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "3121661a-aa31-464d-9fb7-1a7ce8ecbbf7",
+  "seed": 261026,
+  "steps": 25,
+  "cfg": 7.5,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "resolution": "1024x1024",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one cute round blue slime monster, chibi blob creature, smooth simple spherical jelly body, tiny amber eyes, one tiny green sprout growing from top, no arms, no legs, no clothes, centered single subject, full silhouette, clean 2D game sprite, bright friendly fantasy art, uniform medium gray background, no shadow, no floor, no extra objects, no text",
+  "negativePrompt": "human, humanoid, girl, person, face, hair, clothing, arms, legs, hands, feet, weapon, staff, multiple subjects, duplicate, extra objects, floor, ground, cast shadow, frame, border, text, watermark, cropped, blurry, low quality, malformed, deformed"
+}

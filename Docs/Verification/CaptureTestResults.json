@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-28",
+  "unity": "6000.4.3f1",
+  "editMode": {
+    "jobId": "90c5a71b4dcb46509e6d15b2225fbf3b",
+    "total": 92,
+    "passed": 92,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 2.4024026,
+    "resultState": "Passed"
+  },
+  "playMode": {
+    "jobId": "a85c5e3163ed49fb9c255040f594b477",
+    "total": 57,
+    "passed": 57,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 44.9479138,
+    "resultState": "Passed"
+  },
+  "buildPerformed": false,
+  "checks": [
+    "capture and persistent ownership",
+    "discovery history",
+    "failed-save rollback",
+    "same-enemy retry prevention",
+    "nonlethal capture focus and cancellation",
+    "GP parameter crossover and execution",
+    "player-save byte backup and restoration"
+  ],
+  "screenshot": "CapturePanel.png",
+  "earlierTransientError": "A Windows File.Replace failure occurred once during fixture setup; the file was preserved. The isolated rerun and final full suite passed."
+}

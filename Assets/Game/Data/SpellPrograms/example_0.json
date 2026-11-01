@@ -1,0 +1,254 @@
+{
+    "version": 1,
+    "algorithmVersion": 1,
+    "chromosomeA": {
+        "version": 1,
+        "root": 0,
+        "basePower": 20.0,
+        "baseCooldown": 2.0,
+        "range": 8.0,
+        "target": 0,
+        "regulation": {
+            "dominance": 0.5,
+            "splice": false,
+            "recipientIndex": 0,
+            "donorIndex": 0
+        },
+        "nodes": [
+            {
+                "id": 0,
+                "kind": 0,
+                "input": 0,
+                "parameters": {
+                    "count": 1,
+                    "speed": 8.0,
+                    "angle": 0.0,
+                    "seconds": 2.0,
+                    "radius": 8.0,
+                    "homing": 0.699999988079071,
+                    "multiplier": 1.0,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 0,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": [
+                    {
+                        "port": 0,
+                        "child": 1
+                    }
+                ]
+            },
+            {
+                "id": 1,
+                "kind": 3,
+                "input": 0,
+                "parameters": {
+                    "count": 3,
+                    "speed": 8.0,
+                    "angle": 30.0,
+                    "seconds": 4.0,
+                    "radius": 0.18000000715255738,
+                    "homing": 0.699999988079071,
+                    "multiplier": 1.0,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 1,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": [
+                    {
+                        "port": 1,
+                        "child": 2
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "kind": 6,
+                "input": 1,
+                "parameters": {
+                    "count": 1,
+                    "speed": 8.0,
+                    "angle": 0.0,
+                    "seconds": 2.0,
+                    "radius": 0.18000000715255738,
+                    "homing": 0.699999988079071,
+                    "multiplier": 1.0,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 0,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": [
+                    {
+                        "port": 0,
+                        "child": 3
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "kind": 8,
+                "input": 1,
+                "parameters": {
+                    "count": 1,
+                    "speed": 8.0,
+                    "angle": 0.0,
+                    "seconds": 2.0,
+                    "radius": 2.0,
+                    "homing": 0.699999988079071,
+                    "multiplier": 0.5,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 0,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": []
+            }
+        ]
+    },
+    "chromosomeB": {
+        "version": 1,
+        "root": 0,
+        "basePower": 20.0,
+        "baseCooldown": 2.0,
+        "range": 8.0,
+        "target": 0,
+        "regulation": {
+            "dominance": 0.5,
+            "splice": false,
+            "recipientIndex": 0,
+            "donorIndex": 0
+        },
+        "nodes": [
+            {
+                "id": 0,
+                "kind": 0,
+                "input": 0,
+                "parameters": {
+                    "count": 1,
+                    "speed": 8.0,
+                    "angle": 0.0,
+                    "seconds": 2.0,
+                    "radius": 8.0,
+                    "homing": 0.699999988079071,
+                    "multiplier": 1.0,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 0,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": [
+                    {
+                        "port": 0,
+                        "child": 1
+                    }
+                ]
+            },
+            {
+                "id": 1,
+                "kind": 3,
+                "input": 0,
+                "parameters": {
+                    "count": 3,
+                    "speed": 8.0,
+                    "angle": 30.0,
+                    "seconds": 4.0,
+                    "radius": 0.18000000715255738,
+                    "homing": 0.699999988079071,
+                    "multiplier": 1.0,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 1,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": [
+                    {
+                        "port": 1,
+                        "child": 2
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "kind": 6,
+                "input": 1,
+                "parameters": {
+                    "count": 1,
+                    "speed": 8.0,
+                    "angle": 0.0,
+                    "seconds": 2.0,
+                    "radius": 0.18000000715255738,
+                    "homing": 0.699999988079071,
+                    "multiplier": 1.0,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 0,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": [
+                    {
+                        "port": 0,
+                        "child": 3
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "kind": 8,
+                "input": 1,
+                "parameters": {
+                    "count": 1,
+                    "speed": 8.0,
+                    "angle": 0.0,
+                    "seconds": 2.0,
+                    "radius": 2.0,
+                    "homing": 0.699999988079071,
+                    "multiplier": 0.5,
+                    "probability": 1.0,
+                    "threshold": 0.3499999940395355,
+                    "element": 0,
+                    "status": 0,
+                    "trajectory": 0,
+                    "target": 0,
+                    "condition": 0,
+                    "buff": 12
+                },
+                "edges": []
+            }
+        ]
+    },
+    "autoGeneratedName": "",
+    "customName": "",
+    "nameGenerationVersion": 1,
+    "history": []
+}

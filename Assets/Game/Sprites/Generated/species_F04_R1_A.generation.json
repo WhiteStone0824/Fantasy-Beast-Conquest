@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F04_R1_A",
+  "name": "苔ヒキガエル",
+  "family": 4,
+  "rank": "E",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one single dark emerald green toad creature, squat amphibian body, broad frog mouth, four short sturdy legs, webbed toes, clearly visible dark moss-green bumpy skin with ochre warts, E rank small developing form, cute readable fantasy creature, strong saturated green and ochre colors, bold dark outline, high contrast, complete full body, single subject centered, simple standing pose, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "ee9485e0",
+  "seed": 292967,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T08:29:20.570796+00:00"
+}

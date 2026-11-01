@@ -1,0 +1,15 @@
+{
+  "name": "FusionAnyMonster.EditModeTests",
+  "rootNamespace": "FusionAnyMonster.Tests",
+  "references": ["FusionAnyMonster.Runtime"],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "noEngineReferences": false
+}

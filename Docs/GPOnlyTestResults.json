@@ -1,0 +1,30 @@
+{
+  "unityVersion": "6000.4.3f1",
+  "date": "2026-10-28",
+  "editMode": {
+    "jobId": "c4bd222a01f04880a850b789fe355594",
+    "total": 70,
+    "passed": 70,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 1.8572615,
+    "resultState": "Passed"
+  },
+  "playMode": {
+    "jobId": "bc8614135ee74dc9babe308cfbeaefad",
+    "total": 50,
+    "passed": 50,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 41.4943955,
+    "resultState": "Passed"
+  },
+  "buildPerformed": false,
+  "localSave": {
+    "schema": 3,
+    "units": 7,
+    "validInternalSlots": 35,
+    "availableSlots": 25,
+    "originalProgressPreserved": true
+  }
+}

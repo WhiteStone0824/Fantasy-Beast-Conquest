@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-28",
+  "unityVersion": "6000.4.3f1",
+  "families": 30,
+  "unorderedRecipes": 465,
+  "orderedPairsVerified": 900,
+  "editMode": {
+    "jobId": "c369970ee3d34201b1bb743d90570837",
+    "total": 111,
+    "passed": 111,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 3.3842497,
+    "resultState": "Passed"
+  },
+  "playMode": {
+    "jobId": "87feebc50d1f47c398db337bde4fedc8",
+    "total": 61,
+    "passed": 61,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 45.4775271,
+    "resultState": "Passed"
+  },
+  "checks": [
+    "Spirit + Material = Arcane in both orders",
+    "All pairs symmetric and result families exist",
+    "Runtime and data assets match the authored catalog",
+    "Actual UI breeding saves an Arcane offspring and consumes parents only after saving",
+    "Missing result family rejects breeding instead of substituting another family",
+    "Gaussian IV settings and existing rank rules retained"
+  ],
+  "buildPerformed": false
+}

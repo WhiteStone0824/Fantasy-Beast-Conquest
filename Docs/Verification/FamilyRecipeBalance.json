@@ -1,0 +1,191 @@
+{
+  "seed": 20261028,
+  "recipes": 465,
+  "changes": 344,
+  "countsBefore": {
+    "スライム系": 2,
+    "獣系": 6,
+    "鳥系": 5,
+    "爬虫系": 3,
+    "両生系": 5,
+    "水棲系": 6,
+    "虫系": 2,
+    "甲殻系": 7,
+    "植物系": 6,
+    "菌類系": 12,
+    "亜人系": 9,
+    "巨人系": 13,
+    "物質系": 5,
+    "鉱物系": 9,
+    "機械系": 8,
+    "人工生命系": 31,
+    "魔導系": 21,
+    "竜系": 28,
+    "幻獣系": 34,
+    "妖精系": 15,
+    "精霊系": 16,
+    "天使系": 17,
+    "悪魔系": 17,
+    "死霊系": 17,
+    "霊体系": 26,
+    "呪物系": 40,
+    "影系": 22,
+    "星界系": 22,
+    "深淵系": 27,
+    "混沌系": 34
+  },
+  "countsAfter": {
+    "スライム系": 15,
+    "獣系": 15,
+    "鳥系": 15,
+    "爬虫系": 15,
+    "両生系": 15,
+    "水棲系": 15,
+    "虫系": 15,
+    "甲殻系": 15,
+    "植物系": 15,
+    "菌類系": 15,
+    "亜人系": 15,
+    "巨人系": 15,
+    "物質系": 15,
+    "鉱物系": 15,
+    "機械系": 15,
+    "人工生命系": 16,
+    "魔導系": 16,
+    "竜系": 16,
+    "幻獣系": 16,
+    "妖精系": 16,
+    "精霊系": 16,
+    "天使系": 16,
+    "悪魔系": 16,
+    "死霊系": 16,
+    "霊体系": 16,
+    "呪物系": 16,
+    "影系": 16,
+    "星界系": 16,
+    "深淵系": 16,
+    "混沌系": 16
+  },
+  "rowDiversity": {
+    "スライム系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "獣系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "鳥系": {
+      "distinctResults": 16,
+      "largestRepetition": 3
+    },
+    "爬虫系": {
+      "distinctResults": 16,
+      "largestRepetition": 3
+    },
+    "両生系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "水棲系": {
+      "distinctResults": 17,
+      "largestRepetition": 4
+    },
+    "虫系": {
+      "distinctResults": 16,
+      "largestRepetition": 3
+    },
+    "甲殻系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "植物系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "菌類系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "亜人系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "巨人系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "物質系": {
+      "distinctResults": 15,
+      "largestRepetition": 4
+    },
+    "鉱物系": {
+      "distinctResults": 16,
+      "largestRepetition": 5
+    },
+    "機械系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "人工生命系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "魔導系": {
+      "distinctResults": 16,
+      "largestRepetition": 3
+    },
+    "竜系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "幻獣系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "妖精系": {
+      "distinctResults": 15,
+      "largestRepetition": 4
+    },
+    "精霊系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "天使系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    },
+    "悪魔系": {
+      "distinctResults": 16,
+      "largestRepetition": 5
+    },
+    "死霊系": {
+      "distinctResults": 16,
+      "largestRepetition": 5
+    },
+    "霊体系": {
+      "distinctResults": 15,
+      "largestRepetition": 5
+    },
+    "呪物系": {
+      "distinctResults": 15,
+      "largestRepetition": 4
+    },
+    "影系": {
+      "distinctResults": 15,
+      "largestRepetition": 5
+    },
+    "星界系": {
+      "distinctResults": 15,
+      "largestRepetition": 4
+    },
+    "深淵系": {
+      "distinctResults": 15,
+      "largestRepetition": 4
+    },
+    "混沌系": {
+      "distinctResults": 16,
+      "largestRepetition": 4
+    }
+  }
+}

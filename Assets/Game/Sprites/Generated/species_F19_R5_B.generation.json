@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F19_R5_B",
+  "name": "七色の羽根姫",
+  "family": 19,
+  "rank": "A",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one 七色の羽根姫, one centered full-body fairy princess with a clear face, one pair of large vivid rainbow-feather wings and an elegant colorful dress, A rank stage, majestic advanced form, vivid rainbow colors and gold, distinctive clear silhouette, cute readable fantasy character, clean cel shading, crisp outline, complete full body, single subject centered, front three-quarter view, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "8352e767",
+  "seed": 273179,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T10:58:41.795419+00:00"
+}

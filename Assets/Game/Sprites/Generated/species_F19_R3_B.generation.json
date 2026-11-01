@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F19_R3_B",
+  "name": "月灯りウィスプ",
+  "family": 19,
+  "rank": "C",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one 月灯りウィスプ, one small floating teal ghost wisp with a compact rounded body, two clear glowing eyes and a simple smiling face, a soft silver moon aura around its single form, C rank stage, well-developed form, luminous teal and silver, distinctive clear silhouette, cute readable fantasy character, clean cel shading, crisp outline, complete full body, single subject centered, front three-quarter view, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "ddf4b7a8",
+  "seed": 283175,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T11:08:27.846108+00:00"
+}

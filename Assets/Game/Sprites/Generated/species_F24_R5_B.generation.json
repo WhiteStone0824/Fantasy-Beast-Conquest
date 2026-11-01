@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F24_R5_B",
+  "name": "千年の怨霊",
+  "family": 24,
+  "rank": "A",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one 千年の怨霊, one ancient wrathful ghost with a single skull-like face, long tattered midnight-blue robes, two visible arms, bright cyan eyes and a strong centered silhouette, A rank stage, majestic advanced form, midnight blue and bright cyan, distinctive clear silhouette, cute readable fantasy character, clean cel shading, crisp outline, complete full body, single subject centered, front three-quarter view, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "87598609",
+  "seed": 283247,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T12:30:12.392826+00:00"
+}

@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-28",
+  "unityVersion": "6000.4.3f1",
+  "species": 420,
+  "storedDefaultSlots": 2100,
+  "editMode": {
+    "jobId": "d4c697f840f74800a97a7528a3560559",
+    "total": 96,
+    "passed": 96,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 3.0501677,
+    "resultState": "Passed"
+  },
+  "playMode": {
+    "jobId": "7861dec6cea14d1db9930ed4476385f3",
+    "total": 60,
+    "passed": 60,
+    "failed": 0,
+    "skipped": 0,
+    "durationSeconds": 46.3782703,
+    "resultState": "Passed"
+  },
+  "checks": [
+    "All persisted species defaults validate and compile",
+    "All defaults individually affordable at level 1 and minimum IV",
+    "Same-species genes identical across new wild individuals",
+    "Species masters immutable through instance mutation",
+    "Enemy offensive casting and MP consumption",
+    "Enemy healing targets its own team",
+    "S-rank enemy uses all five slots",
+    "Capture preserves spawned genes"
+  ],
+  "existingOwnedUnitsRewritten": false,
+  "buildPerformed": false
+}

@@ -1,0 +1,15 @@
+{
+  "name": "FusionAnyMonster.PlayModeTests",
+  "rootNamespace": "FusionAnyMonster.Tests",
+  "references": ["FusionAnyMonster.Runtime", "Unity.TextMeshPro", "Unity.Netcode.Runtime", "Unity.Collections", "Unity.Networking.Transport"],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "optionalUnityReferences": ["TestAssemblies"],
+  "noEngineReferences": false
+}

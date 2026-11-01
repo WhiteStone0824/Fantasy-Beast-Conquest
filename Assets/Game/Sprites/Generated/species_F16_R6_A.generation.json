@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F16_R6_A",
+  "name": "万象の大魔導書",
+  "family": 16,
+  "rank": "S",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one single 万象の大魔導書, magical construct, magical construct with a clear central body and contained arcane motifs, arcane symbols and a restrained magical core, S rank stage, legendary fully matured form, intricate elegant details, regal crown-like anatomy and restrained luminous accents, black and luminous cyan, distinctive name-inspired design, cute readable fantasy creature, cohesive anatomy, complete full body, single subject centered, isolated full-body character, front three-quarter view, balanced standing pose, calm confident expression, clear face and visible limbs, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "0cffee03",
+  "seed": 263139,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T10:08:40.469209+00:00"
+}

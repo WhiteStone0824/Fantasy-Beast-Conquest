@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F10_R2_B",
+  "name": "霧隠れの斥候",
+  "family": 10,
+  "rank": "D",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one single 霧隠れの斥候, demi-human fantasy character, expressive humanoid with clothing and accessories inspired by its species, D rank stage, young form with one distinctive feature, a clear crest or evolved feature, crimson and charcoal, distinctive name-inspired design, cute readable fantasy creature, cohesive anatomy, complete full body, single subject centered, isolated full-body character, front three-quarter view, balanced standing pose, calm confident expression, clear face and visible limbs, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "db51a16f",
+  "seed": 263049,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T08:53:02.038932+00:00"
+}

@@ -1,0 +1,22 @@
+{
+  "speciesId": "species_F04_R0_B",
+  "name": "おたま坊",
+  "family": 4,
+  "rank": "F",
+  "checkpoint": "ponyDiffusionV6XL_v6StartWithThisOne.safetensors",
+  "positivePrompt": "score_9, score_8_up, score_7_up, score_6_up, score_5_up, score_4_up, source_anime, rating_safe, solo, one single character only, おたま坊, amphibian monster, amphibian skin and broad expressive eyes, F rank stage, tiny simple young form, rose pink and white, distinctive name-inspired design, cute readable fantasy character, cohesive anatomy, complete full body, no lineup, no duplicate characters, single subject centered, front three-quarter view, balanced standing pose, calm confident expression, clear face and visible limbs, simple background, white background",
+  "negativePrompt": "score_4, score_5, score_6, source_pony, source_furry, 3d, realistic",
+  "clipSkip": 2,
+  "width": 1024,
+  "height": 1024,
+  "steps": 30,
+  "cfg": 5.0,
+  "sampler": "euler_ancestral",
+  "scheduler": "normal",
+  "workflow": "Assets/Game/Art/workflow_api.json",
+  "promptId": "8a43d1ea",
+  "seed": 262966,
+  "resolution": "1024x1024",
+  "layerDiffuse": "SDXL, Conv Injection",
+  "generatedUtc": "2026-10-29T08:00:56.238700+00:00"
+}
