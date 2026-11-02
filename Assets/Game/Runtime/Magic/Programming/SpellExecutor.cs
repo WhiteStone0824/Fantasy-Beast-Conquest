@@ -116,7 +116,7 @@ namespace FusionAnyMonster.Spells
                     if(Hostile(s,c.target))
                     {
                         bool alive=c.target.IsAlive;
-                        c.lastDamage=battle.DealDamage(s.caster,c.target,(s.spell.basePower+s.caster.MagicAttack)*p.multiplier*c.multiplier*s.caster.OutgoingDamageMultiplier,p.element,true);
+                        c.lastDamage=battle.DealDamage(s.caster,c.target,(s.spell.basePower+s.caster.MagicAttack*.5f)*p.multiplier*c.multiplier*s.caster.OutgoingDamageMultiplier,p.element,true);
                         if(alive && !c.target.IsAlive){Emit(s,e.node,SpellPort.OnKill,c);if(c.source>=0)Emit(s,c.source,SpellPort.OnKill,c);}
                     }
                     break;
@@ -132,7 +132,7 @@ namespace FusionAnyMonster.Spells
                         MagicImpactVisual.Play(c.position,BattleDemo.ElementColor(p.element),p.radius,.6f,transform);
                         var list=Targets(s,false);for(int i=0;i<list.Count;i++)if(Hostile(s,list[i]) && ((Vector2)list[i].transform.position-c.position).sqrMagnitude<=p.radius*p.radius)
                         {
-                            float dealt=battle.DealDamage(s.caster,list[i],(s.spell.basePower+s.caster.MagicAttack)*p.multiplier*c.multiplier*s.caster.OutgoingDamageMultiplier,p.element,true);
+                            float dealt=battle.DealDamage(s.caster,list[i],(s.spell.basePower+s.caster.MagicAttack*.5f)*p.multiplier*c.multiplier*s.caster.OutgoingDamageMultiplier,p.element,true);
                             if(!list[i].IsAlive){var killed=c;killed.target=list[i];killed.position=list[i].transform.position;killed.lastDamage=dealt;Emit(s,e.node,SpellPort.OnKill,killed);if(c.source>=0)Emit(s,c.source,SpellPort.OnKill,killed);}
                         }
                     }

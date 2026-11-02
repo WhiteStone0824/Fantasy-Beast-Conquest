@@ -22,7 +22,7 @@ namespace FusionAnyMonster.Tests
             for(int i=0;i<8;i++)Assert.AreEqual(.5f,SpeciesPassiveCalculator.DebuffReduction(species,(DebuffType)i),.0001f);
             var stats=new UnitStats();var baseline=stats.Copy();SpeciesPassiveCalculator.ApplyStats(species.passive,stats);
             for(int i=0;i<10;i++)Assert.AreEqual(baseline.Get(i)*1.2f,stats.Get(i),.0001f);
-            Assert.AreEqual(.05f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.OnHitInstantDeath),.0001f);
+            Assert.AreEqual(.01f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.OnHitInstantDeath),.0001f);
             Assert.AreEqual(0f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.DurationBonus),.0001f);
             Assert.AreEqual(1f,SpeciesPassiveCalculator.Sum(species.passive,PassiveEffectType.ReviveAlliesOnDeath),.0001f);
             StringAssert.Contains("復活",species.passive.Description);StringAssert.Contains("毒",species.passive.Description);

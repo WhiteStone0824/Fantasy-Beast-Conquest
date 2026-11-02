@@ -55,6 +55,22 @@ namespace FusionAnyMonster
             }
             foreach(var resistance in species.debuffResistances)
                 if((int)resistance.debuff==p.debuff)resistance.value.applicationResistance=Mathf.Clamp(resistance.value.applicationResistance+.35f,.45f,.65f);
+            ApplyRankResistanceBonus(species);
+        }
+        // Truth has explicitly authored 50% resistances and is not part of the normal catalogue.
+        public static void ApplyRankResistanceBonus(SpeciesDefinition species)
+        {
+            if(species==null || species.family==SpeciesFamily.Truth)return;
+            float bonus=Mathf.Clamp((int)species.rank,0,6)*.05f;
+            int weak=For(species.family).weak;
+            foreach(var entry in species.elementResistances)
+            {
+                if(entry==null || entry.value==null)continue;
+                if((int)entry.element!=weak)entry.value.damageReduction=Mathf.Min(.8f,entry.value.damageReduction+bonus);
+                entry.value.applicationResistance=Mathf.Min(.8f,entry.value.applicationResistance+bonus);
+            }
+            foreach(var entry in species.debuffResistances)
+                if(entry!=null && entry.value!=null)entry.value.applicationResistance=Mathf.Min(.8f,entry.value.applicationResistance+bonus);
         }
     }
 }

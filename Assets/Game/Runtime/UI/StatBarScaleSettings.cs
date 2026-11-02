@@ -6,10 +6,10 @@ namespace FusionAnyMonster.UI
     public sealed class StatBarScaleSettings : ScriptableObject
     {
         // Shared display axes, independent of species, rank, current selection and roster contents.
-        private static readonly float[] Defaults={700,400,200,250,200,200,120,100,120,100};
+        private static readonly float[] Defaults={1050,400,200,250,200,200,120,100,120,100};
         [Tooltip("全キャラ共通の棒グラフ表示上限。能力値そのものの上限ではありません。")]
         public UnitStats maximumValues=new UnitStats {
-            hp=700,mp=400,physicalAttack=200,magicAttack=250,physicalDefense=200,magicDefense=200,
+            hp=1050,mp=400,physicalAttack=200,magicAttack=250,physicalDefense=200,magicDefense=200,
             moveSpeed=120,attackSpeed=100,searchRange=120,mpRegen=100
         };
         public float GetMaximum(int statIndex)

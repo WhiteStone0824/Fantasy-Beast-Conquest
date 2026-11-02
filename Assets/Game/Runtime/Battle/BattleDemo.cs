@@ -801,6 +801,7 @@ namespace FusionAnyMonster.Battle
         private bool chargeAllowedFromDepletion;
         private bool magicExecutionBlocked;
         private bool revivePassiveUsed;
+        private float pvpControlImmuneUntil;
         private PersonalityDefinition personality;
         private UnitStats speciesBaseStats;
         private readonly List<BuiltMagic> magics = new List<BuiltMagic>();
@@ -887,8 +888,9 @@ namespace FusionAnyMonster.Battle
             }
         }
         private static readonly string[] StatusNames={"毒","火傷","凍結","麻痺","睡眠","鈍足","沈黙","呪い","攻撃↑","防御↑","加速"};
-        internal bool CanMoveInPreview { get { return IsAlive && freezeTime<=0f && paralysisTime<=0f && sleepTime<=0f; } }
-        internal float PreviewMovementScale { get { return slowMultiplier*buffs.SpeedMultiplier; } }
+        internal bool CanMoveInPreview { get { return IsAlive && freezeTime<=0f && sleepTime<=0f; } }
+        private float MovementDebuffMultiplier { get { return slowMultiplier*(paralysisTime>0f?.7f:1f); } }
+        internal float PreviewMovementScale { get { return MovementDebuffMultiplier*buffs.SpeedMultiplier; } }
         internal void PreparePreview()
         {
             previewMode=true;
@@ -896,7 +898,7 @@ namespace FusionAnyMonster.Battle
         }
         internal void SetPreviewHealthRatio(float ratio) { if(previewMode && !dead)hp=maxHp*Mathf.Clamp01(ratio); }
         internal float MagicAttack { get { return magicAttack; } }
-        internal float OutgoingDamageMultiplier { get { return buffs.AttackMultiplier*(curseTime > 0f ? .7f : 1f); } }
+        internal float OutgoingDamageMultiplier { get { return buffs.AttackMultiplier*(curseTime > 0f ? .5f : 1f); } }
         public EnemyArchetype Type { get; private set; }
         public UnitSaveData WildRecord {get;private set;}
         public bool CaptureAttempted {get;private set;}
@@ -948,7 +950,7 @@ namespace FusionAnyMonster.Battle
         internal Combatant Initialize(BattleDemo owner, string label, bool friendly, EnemyArchetype type)
         {
             battle = owner; IsFriendly = friendly; Type = type; name = label; body = GetComponent<Rigidbody2D>();
-            maxHp = friendly ? 100f : type == EnemyArchetype.Tank ? 115f : type == EnemyArchetype.Boss ? 1300f : type == EnemyArchetype.Swift ? 30f : 42f;
+            maxHp = (friendly ? 100f : type == EnemyArchetype.Tank ? 115f : type == EnemyArchetype.Boss ? 1300f : type == EnemyArchetype.Swift ? 30f : 42f)*UnitStatsCalculator.HealthMultiplier;
             speed = friendly ? 3.3f : type == EnemyArchetype.Swift ? 3f : type == EnemyArchetype.Tank ? .85f : type == EnemyArchetype.Boss ? 1.2f : type == EnemyArchetype.Ranged ? 1.05f : 1.45f;
             range = friendly ? 5.2f : type == EnemyArchetype.Ranged ? 4.5f : type == EnemyArchetype.Boss ? 1.4f : 1.05f;
             attackInterval = friendly ? 1f : type == EnemyArchetype.Boss ? .9f : 1.5f; damage = friendly ? 18f : type == EnemyArchetype.Boss ? 18f : type == EnemyArchetype.Tank ? 13f : 8f; hp = maxHp;
@@ -1069,12 +1071,12 @@ namespace FusionAnyMonster.Battle
         private void Update()
         {
             desiredMoveDirection=Vector2.zero;
-            if (dead || battle==null || battle.IsEnded || battle.IntroActive || Time.timeScale<=0) return; cooldown -= Time.deltaTime; Vector2 position = transform.position;
+            if (dead || battle==null || battle.IsEnded || battle.IntroActive || Time.timeScale<=0) return; float recovery=Time.deltaTime*(paralysisTime>0f?.5f:1f)*(slowTime>0f?.5f:1f);cooldown -= recovery; Vector2 position = transform.position;
             bool wasDepleted=mana<=0f;
-            mana=Mathf.Min(maxMana,mana+manaRegen*Time.deltaTime);
+            mana=Mathf.Min(maxMana,mana+manaRegen*Time.deltaTime*(slowTime>0f?.5f:1f));
             float manaAfterRegeneration=mana;
             chargeAllowedFromDepletion=false;
-            for (int i = 0; i < magicCooldowns.Count; i++) magicCooldowns[i] = Mathf.Max(0f, magicCooldowns[i] - Time.deltaTime);
+            for (int i = 0; i < magicCooldowns.Count; i++) magicCooldowns[i] = Mathf.Max(0f, magicCooldowns[i] - recovery);
             SpriteRenderer bodyRenderer = GetComponent<SpriteRenderer>();
             if (bodyRenderer != null) bodyRenderer.sortingOrder = Mathf.Clamp(100 - Mathf.RoundToInt(transform.position.y * 10f), -50, 250);
             float regeneration=SpeciesPassiveCalculator.Sum(speciesPassive,PassiveEffectType.HpRegeneration);
@@ -1106,7 +1108,7 @@ namespace FusionAnyMonster.Battle
                 }
                 return;
             }
-            if (dead || freezeTime > 0f || paralysisTime > 0f || sleepTime > 0f) return;
+            if (dead || freezeTime > 0f || sleepTime > 0f) return;
             bool castThisFrame=CastPrograms();
             // If the frame began empty, this frame's passive regeneration alone must not
             // erase the opportunity to charge. A spell that spent MP takes priority.
@@ -1259,12 +1261,12 @@ namespace FusionAnyMonster.Battle
         {
             if(battle!=null && battle.IntroActive)return;
             if(body!=null && battle!=null)ClampToView();
-            if(body==null || dead || battle==null || battle.IsEnded || freezeTime>0 || paralysisTime>0 || sleepTime>0)
+            if(body==null || dead || battle==null || battle.IsEnded || freezeTime>0 || sleepTime>0)
             { chargeTarget=null; chargeRemaining=0f; return; }
             if(Time.timeScale<=0)return;
             if(retreatRemaining>0f)
             {
-                float step=Mathf.Min(retreatRemaining,Mathf.Clamp(speed,.5f,6f)*slowMultiplier*buffs.SpeedMultiplier*Time.fixedDeltaTime);
+                float step=Mathf.Min(retreatRemaining,Mathf.Clamp(speed,.5f,6f)*MovementDebuffMultiplier*buffs.SpeedMultiplier*Time.fixedDeltaTime);
                 if(step>0)MoveBounded(body.position+retreatDirection*step);
                 retreatRemaining=Mathf.Max(0,retreatRemaining-step);retreatTime-=Time.fixedDeltaTime;
                 if(retreatTime<=0)retreatRemaining=0;
@@ -1278,9 +1280,10 @@ namespace FusionAnyMonster.Battle
                 float distance=delta.magnitude;
                 if(distance>.0001f)chargeDirection=delta/distance;
                 float contact=ChargeContactDistance+(target.Type==EnemyArchetype.Boss?.25f:0f);
-                float step=ChargeSpeed*Time.fixedDeltaTime;
+                float chargeFactor=MovementDebuffMultiplier;
+                float step=ChargeSpeed*Time.fixedDeltaTime*chargeFactor;
                 if(distance>contact && distance>.0001f)MoveBounded(body.position+delta/distance*Mathf.Min(step,distance-contact));
-                chargeRemaining-=Time.fixedDeltaTime;
+                chargeRemaining-=Time.fixedDeltaTime*chargeFactor;
                 if(distance<=contact+step)
                 {
                     battle.DealDamage(this,target,chargeDamage*OutgoingDamageMultiplier,AttributeElement.None,false);
@@ -1289,10 +1292,10 @@ namespace FusionAnyMonster.Battle
                 else if(chargeRemaining<=0f)BeginChargeRetreat(target);
                 return;
             }
-            if(desiredMoveDirection.sqrMagnitude>.001f)MoveBounded(body.position+desiredMoveDirection*speed*slowMultiplier*buffs.SpeedMultiplier*Time.fixedDeltaTime);
+            if(desiredMoveDirection.sqrMagnitude>.001f)MoveBounded(body.position+desiredMoveDirection*speed*MovementDebuffMultiplier*buffs.SpeedMultiplier*Time.fixedDeltaTime);
         }
         private void OnDisable(){desiredMoveDirection=Vector2.zero;chargeTarget=null;chargeRemaining=retreatRemaining=0f;}
-        internal void Heal(float amount) { if(dead)return;float before=hp;hp = Mathf.Min(maxHp, hp + Mathf.Max(0,amount)*(1+SpeciesPassiveCalculator.Sum(speciesPassive,PassiveEffectType.HealingReceived))); if(hp>before){previewFlashColor=Color.green;previewFlashTime=.5f;battle.Feedback(this,CombatFeedbackKind.Heal,hp-before);} }
+        internal void Heal(float amount) { if(dead)return;float before=hp;float healing=Mathf.Max(0,amount)*(1+SpeciesPassiveCalculator.Sum(speciesPassive,PassiveEffectType.HealingReceived));if(battle!=null && battle.IsPvp)healing=PvpRules.LimitHealing(healing,maxHp);hp = Mathf.Min(maxHp, hp + healing); if(hp>before){previewFlashColor=Color.green;previewFlashTime=.5f;battle.Feedback(this,CombatFeedbackKind.Heal,hp-before);} }
         internal void ApplyBuff(BuffType effect,float strength,float duration)
         {
             if(dead)return;
@@ -1341,10 +1344,12 @@ namespace FusionAnyMonster.Battle
             int index = Mathf.Clamp((int)element, 0, elementReduction.Length - 1);
             float defense = magical ? magicDefense : physicalDefense;
             float protection=HealthRatio<=.35f?Mathf.Clamp01(SpeciesPassiveCalculator.Sum(speciesPassive,PassiveEffectType.LowHpProtection)):0;
-            float afterDefense = ignoreMitigation ? amount : ResistanceCalculator.ApplyDefense(amount, defense)*buffs.DamageMultiplier*(1-protection);
-            float dealt = Mathf.Min(hp, Mathf.Max(0f, afterDefense * (ignoreMitigation ? 1f : 1f - Mathf.Clamp01(elementReduction[index]))));
+            bool melting=!ignoreMitigation && freezeTime>0f && element==AttributeElement.Fire;
+            float afterDefense = ignoreMitigation ? amount : ResistanceCalculator.ApplyDefense(amount*(melting?1.25f:1f), defense)*buffs.DamageMultiplier*(1-protection);
+            float damageAmount=Mathf.Max(0f, afterDefense * (ignoreMitigation ? 1f : 1f - Mathf.Clamp01(elementReduction[index])));
+            float dealt = Mathf.Min(hp,damageAmount);
             if(battle!=null && battle.CaptureFocus==this)dealt=Mathf.Min(dealt,Mathf.Max(0,hp-1));
-            if (dealt > 0f) {lastDamageDisplayTime=Time.unscaledTime;battle.Feedback(this,CombatFeedbackKind.Damage,dealt);}
+            if (dealt > 0f) {if(!ignoreMitigation){bool released=sleepTime>0f || melting;sleepTime=0f;if(melting)freezeTime=0f;if(released && battle!=null && battle.IsPvp)pvpControlImmuneUntil=Time.time+Mathf.Max(freezeTime,sleepTime)+PvpRules.ControlImmunitySeconds;}lastDamageDisplayTime=Time.unscaledTime;battle.Feedback(this,CombatFeedbackKind.Damage,dealt);}
             hp -= dealt;
             if (hp <= 0f) Die();
             return dealt;
@@ -1373,6 +1378,7 @@ namespace FusionAnyMonster.Battle
         {
             if(!dead || !gameObject.activeInHierarchy)return false;
             dead=false;hp=maxHp;mana=maxMana;desiredMoveDirection=Vector2.zero;chargeRemaining=retreatRemaining=0;chargeTarget=null;
+            pvpControlImmuneUntil=0f;
             slowTime=freezeTime=paralysisTime=sleepTime=silenceTime=curseTime=0;slowMultiplier=1f;
             Array.Clear(damageOverTime,0,damageOverTime.Length);Array.Clear(damageOverTimeTime,0,damageOverTimeTime.Length);Array.Clear(damageOverTimeSources,0,damageOverTimeSources.Length);
             buffs.Clear();cachedStatusFlags=-1;if(debuffVisual!=null)debuffVisual.Clear();
@@ -1384,11 +1390,14 @@ namespace FusionAnyMonster.Battle
         internal bool ApplyDebuffFrom(DebuffType type, float duration, float dps, float chance, AttributeElement element, Combatant source)
         {
             if (dead) return false;
+            bool pvpControl=battle!=null && battle.IsPvp && PvpRules.IsHardControl(type);
+            if(pvpControl && Time.time<pvpControlImmuneUntil)return false;
             int debuffIndex = Mathf.Clamp((int)type, 0, debuffResistance.Length - 1);
             int elementIndex = Mathf.Clamp((int)element, 0, elementAilmentResistance.Length - 1);
             float applicationChance = StatusApplication.Chance(chance, elementAilmentResistance[elementIndex], debuffResistance[debuffIndex]);
             if (!StatusApplication.Roll(applicationChance)) return false;
             float safeDuration = Mathf.Clamp(duration, .1f, 20f);
+            if(pvpControl){safeDuration=Mathf.Min(safeDuration,PvpRules.MaximumControlSeconds);pvpControlImmuneUntil=Time.time+safeDuration+PvpRules.ControlImmunitySeconds;}
             if (type == DebuffType.Poison || type == DebuffType.Burn)
             {
                 damageOverTime[debuffIndex] = maxHp * (type == DebuffType.Poison ? .02f : .05f);
@@ -1397,7 +1406,7 @@ namespace FusionAnyMonster.Battle
                 damageOverTimeTime[debuffIndex] = type == DebuffType.Poison ? 10f : 4f;
             }
             else if (type == DebuffType.Freeze) freezeTime = Mathf.Max(freezeTime, safeDuration);
-            else if (type == DebuffType.Slow) { slowTime = Mathf.Max(slowTime, safeDuration); slowMultiplier = Mathf.Min(slowMultiplier, .55f); }
+            else if (type == DebuffType.Slow) { slowTime = Mathf.Max(slowTime, safeDuration); slowMultiplier = Mathf.Min(slowMultiplier, .5f); }
             else if (type == DebuffType.Paralysis) paralysisTime = Mathf.Max(paralysisTime, safeDuration);
             else if (type == DebuffType.Sleep) sleepTime = Mathf.Max(sleepTime, safeDuration);
             else if (type == DebuffType.Silence) silenceTime = Mathf.Max(silenceTime, safeDuration);

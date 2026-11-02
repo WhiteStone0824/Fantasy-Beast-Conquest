@@ -22,8 +22,8 @@ namespace FusionAnyMonster.Tests
             var guestTeam = new PvpTeam { playerRank=123 };
             for (int i=0;i<5;i++)
             {
-                var hostUnit=WildUnitFactory.Create(db.GetById("demo_00"),10,12+i); hostUnit.deployed=true; hostSave.units.Add(hostUnit);
-                var guestUnit=WildUnitFactory.Create(db.GetById("demo_00"),10,31+i); guestUnit.deployed=true; guestTeam.units.Add(guestUnit);
+                var hostUnit=WildUnitFactory.Create(db.GetById("demo_0"+i),10,12+i); hostUnit.deployed=true; hostSave.units.Add(hostUnit);
+                var guestUnit=WildUnitFactory.Create(db.GetById("demo_0"+i),10,31+i); guestUnit.deployed=true; guestTeam.units.Add(guestUnit);
             }
             var host = PvpLanSession.Create();
             Assert.IsTrue(host.StartConnection(hostSave, db, true, "127.0.0.1", out var error), error);

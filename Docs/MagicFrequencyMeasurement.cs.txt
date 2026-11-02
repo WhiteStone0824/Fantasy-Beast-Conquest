@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using FusionAnyMonster;
+using FusionAnyMonster.Spells;
+using NUnit.Framework;
+using UnityEngine;
+namespace FusionAnyMonster.Tests {
+ public sealed class MagicFrequencyMeasurementTests {
+  [Test,Timeout(300000)] public void Measure() {
+   var db=Resources.Load<SpeciesDatabase>("SpeciesDatabase");
+   var rules=Resources.Load<BreedingRuleDatabase>("BreedingRuleDatabase");
+   var rank=Resources.Load<RankBreedingRule>("RankBreedingRule");
+   var personalities=Resources.Load<PersonalityDatabase>("PersonalityDatabase");
+   var breeding=new BreedingSystem(db,rules,rank);
+   for(int mode=0;mode<3;mode++) {
+    var pool=new List<SpeciesDefinition>();
+    foreach(var s in db.species) {
+     bool wild=s.family==SpeciesFamily.Slime || s.family==SpeciesFamily.Beast || s.family==SpeciesFamily.Bird || s.family==SpeciesFamily.Insect || s.family==SpeciesFamily.Plant || s.family==SpeciesFamily.Material;
+     if(mode==0 && (!wild || s.rank!=SpeciesRank.F) || mode==1 && !wild)continue;
+     pool.Add(s);
+    }
+    var rng=new System.Random(20261102);int active=0,homing=0,five=0,exactFive=0,both=0,splitHoming=0,unaffordable=0,childrenHoming=0,childrenFive=0;
+    for(int i=0;i<1000;i++) {
+     var sa=pool[rng.Next(pool.Count)];var sb=pool[rng.Next(pool.Count)];
+     var a=UnitInstance.Create(sa.speciesId,(PersonalityType)rng.Next(6),rng.Next());var b=UnitInstance.Create(sb.speciesId,(PersonalityType)rng.Next(6),rng.Next());
+     a.id="measure-a-"+i;b.id="measure-b-"+i;
+     for(int j=0;j<5;j++){a.magicGeneSlots.Add(SpeciesDefaultMagicCatalog.Copy(sa,j));b.magicGeneSlots.Add(SpeciesDefaultMagicCatalog.Copy(sb,j));}
+     var child=breeding.Breed(a,b,rng.Next());bool childHoming=false,childFive=false;
+     for(int j=0;j<RankRules.MagicSlots(child.species.rank);j++) {
+      active++;var genome=child.child.magicGeneSlots[j];var built=MagicFactory.Build(genome,child.species);
+      bool h=false,f=false,x=false,split=false;
+      foreach(var node in built.program.instructions) {
+       if(node.kind==SpellNodeKind.SpawnProjectile && node.input==SpellContext.Cast) {
+        if(node.parameters.trajectory==SpellTrajectory.Homing && node.parameters.homing>0 && node.parameters.speed>0)h=true;
+        if(node.parameters.count>=5)f=true;if(node.parameters.count==5)x=true;
+       }
+       if(node.kind==SpellNodeKind.SplitProjectile && node.parameters.trajectory==SpellTrajectory.Homing && node.parameters.homing>0 && node.parameters.speed>0)split=true;
+      }
+      if(h){homing++;childHoming=true;}if(f){five++;childFive=true;}if(x)exactFive++;if(h && f)both++;if(split)splitHoming++;
+      if(SpellViabilityEvaluator.Evaluate(genome,child.species,child.child,j,personalities).status==SpellViabilityStatus.Unaffordable)unaffordable++;
+     }
+     if(childHoming)childrenHoming++;if(childFive)childrenFive++;
+    }
+    Debug.Log("MAGIC_FREQ mode="+mode+" parentSpecies="+pool.Count+" children=1000 active="+active+" homing="+homing+" fivePlus="+five+" exactFive="+exactFive+" both="+both+" splitHoming="+splitHoming+" childrenHoming="+childrenHoming+" childrenFive="+childrenFive+" unaffordable="+unaffordable);
+   }
+  }
+ }
+}

@@ -55,7 +55,7 @@ namespace FusionAnyMonster
         public static SpeciesPassive Create(SpeciesDefinition species)
         {
             if(species.family==SpeciesFamily.Truth)
-                return new SpeciesPassive {id="passive_"+species.speciesId,displayName="真理の御魂",effects=new[]{E(PassiveEffectType.AllStatsBonus,.2f),D(PassiveEffectType.OnHitDebuff,1f,DebuffType.Poison),E(PassiveEffectType.ReviveAlliesOnDeath,1f),E(PassiveEffectType.ElementDamage,.3f,AttributeElement.None),E(PassiveEffectType.ElementMpReduction,.2f,AttributeElement.None),E(PassiveEffectType.CooldownReduction,.15f),E(PassiveEffectType.OnHitInstantDeath,.05f)}};
+                return new SpeciesPassive {id="passive_"+species.speciesId,displayName="真理の御魂",effects=new[]{E(PassiveEffectType.AllStatsBonus,.2f),D(PassiveEffectType.OnHitDebuff,1f,DebuffType.Poison),E(PassiveEffectType.ReviveAlliesOnDeath,1f),E(PassiveEffectType.ElementDamage,.3f,AttributeElement.None),E(PassiveEffectType.ElementMpReduction,.2f,AttributeElement.None),E(PassiveEffectType.CooldownReduction,.15f),E(PassiveEffectType.OnHitInstantDeath,.01f)}};
             int family=(int)species.family,index=(int)species.rank*2+(species.speciesId.EndsWith("_B",StringComparison.Ordinal)?1:0);
             // The passive follows the named species when its rank slot is reassigned.
             if(family==(int)SpeciesFamily.Giant) { if(index==5)index=8;else if(index==8)index=5; }

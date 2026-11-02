@@ -47,7 +47,7 @@ namespace FusionAnyMonster.Spells
                 case SpellNodeKind.Explosion:description="確率"+Number(p.probability*100)+"%で半径"+Number(p.radius)+"の爆発ダメージ";break;
                 case SpellNodeKind.ApplyStatus:
                     description=Statuses[(int)p.status]+"：基礎確率"+Number(p.probability*100)+"%、持続"+(p.status==DebuffType.Poison?"10":p.status==DebuffType.Burn?"4":Number(p.seconds))+"秒。";
-                    description+=p.status==DebuffType.Poison?"毎秒、最大HPの2%ダメージ":p.status==DebuffType.Burn?"毎秒、最大HPの5%ダメージ":p.status==DebuffType.Slow?"移動速度45%低下":p.status==DebuffType.Silence?"魔法を封じる":p.status==DebuffType.Curse?"与ダメージ30%低下":"移動と攻撃を停止";break;
+                    description+=p.status==DebuffType.Poison?"毎秒、最大HPの2%ダメージ":p.status==DebuffType.Burn?"毎秒、最大HPの5%ダメージ":p.status==DebuffType.Freeze?"行動停止。火の直接ダメージが25%増え、その攻撃で解除":p.status==DebuffType.Paralysis?"移動速度30%低下、攻撃と魔法の待機回復速度50%低下":p.status==DebuffType.Sleep?"行動停止。直接ダメージを受けると解除":p.status==DebuffType.Slow?"移動・MP回復・攻撃と魔法の待機回復速度が50%低下":p.status==DebuffType.Silence?"魔法を封じる":"与ダメージ50%低下";break;
                 case SpellNodeKind.Knockback:description="確率"+Number(p.probability*100)+"%で押し戻す";break;
                 case SpellNodeKind.LifeSteal:description="確率"+Number(p.probability*100)+"%で直前に与えた実ダメージの"+Number(p.multiplier*100)+"%をHP吸収";break;
                 case SpellNodeKind.ManaSteal:description="確率"+Number(p.probability*100)+"%で敵のMPを吸収";break;

@@ -33,6 +33,7 @@ namespace FusionAnyMonster.Battle
             if (species == null || units == null || units.Count < 1 || units.Count > MaxUnits)
             { error = "対戦には1〜5体の仲間が必要です。"; return false; }
             var ids = new HashSet<string>(StringComparer.Ordinal);
+            var speciesIds = new HashSet<string>(StringComparer.Ordinal);
             foreach (var unit in units)
             {
                 if (unit == null || string.IsNullOrWhiteSpace(unit.id) || !ids.Add(unit.id) ||
@@ -42,6 +43,8 @@ namespace FusionAnyMonster.Battle
                     unit.attributeAilmentResistance == null || unit.attributeAilmentResistance.Length != 7 ||
                     unit.debuffResistance == null || unit.debuffResistance.Length != 8 || unit.baseStats == null || unit.baseStats.Length != 10)
                 { error = "編成に無効な個体データがあります。"; return false; }
+                if(!speciesIds.Add(unit.speciesId))
+                { var duplicate=species.GetById(unit.speciesId);error="通信対戦では同じ種族は1体までです："+(duplicate==null?unit.speciesId:duplicate.displayName);return false; }
                 foreach (int iv in unit.individualValues) if (iv < 0 || iv > IndividualValues.MaxValue)
                 { error = "個体値が有効範囲外です。"; return false; }
                 if (!EquipmentCatalog.IsValid(unit.equipment)) { error = "装備データが不正です。"; return false; }

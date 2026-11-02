@@ -31,65 +31,65 @@ MonoBehaviour:
   elementResistances:
   - element: 0
     value:
-      damageReduction: 0.28
-      applicationResistance: 0.2
+      damageReduction: 0.43
+      applicationResistance: 0.35
   - element: 1
     value:
-      damageReduction: 0.35
-      applicationResistance: 0.23
+      damageReduction: 0.5
+      applicationResistance: 0.38
   - element: 2
     value:
-      damageReduction: 0.06
-      applicationResistance: 0.26
+      damageReduction: 0.21
+      applicationResistance: 0.41
   - element: 3
     value:
-      damageReduction: 0.13
-      applicationResistance: 0.29
+      damageReduction: 0.28
+      applicationResistance: 0.44
   - element: 4
     value:
       damageReduction: 0.08
-      applicationResistance: 0.38
+      applicationResistance: 0.53
   - element: 5
     value:
-      damageReduction: 0.62
-      applicationResistance: 0.35
+      damageReduction: 0.77
+      applicationResistance: 0.5
   - element: 6
     value:
-      damageReduction: 0.34
-      applicationResistance: 0.38
+      damageReduction: 0.49
+      applicationResistance: 0.53
   debuffResistances:
   - debuff: 0
     value:
       damageReduction: 0
-      applicationResistance: 0.59
+      applicationResistance: 0.74
   - debuff: 1
     value:
       damageReduction: 0
-      applicationResistance: 0.29
+      applicationResistance: 0.44
   - debuff: 2
     value:
       damageReduction: 0
-      applicationResistance: 0.34
+      applicationResistance: 0.49
   - debuff: 3
     value:
       damageReduction: 0
-      applicationResistance: 0.03
+      applicationResistance: 0.18
   - debuff: 4
     value:
       damageReduction: 0
-      applicationResistance: 0.08
+      applicationResistance: 0.23
   - debuff: 5
     value:
       damageReduction: 0
-      applicationResistance: 0.13
+      applicationResistance: 0.28
   - debuff: 6
     value:
       damageReduction: 0
-      applicationResistance: 0.18
+      applicationResistance: 0.33
   - debuff: 7
     value:
       damageReduction: 0
-      applicationResistance: 0.23
+      applicationResistance: 0.38
   sprite: {fileID: -1230049582994765871, guid: 6320c5f60bb00024ea3340c3b3387298, type: 3}
   defaultTendency: 1
   passive:

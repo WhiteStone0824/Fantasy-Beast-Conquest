@@ -5,6 +5,7 @@ namespace FusionAnyMonster
 {
     public static class UnitStatsCalculator
     {
+        public const float HealthMultiplier = 1.5f;
         public static UnitStats Calculate(SpeciesDefinition species, UnitInstance unit, UnitStats temporaryModifiers = null, PersonalityDatabase personalities = null)
         {
             if(species==null || unit==null) return new UnitStats();
@@ -26,6 +27,7 @@ namespace FusionAnyMonster
                 if(personality!=null) { if(personality.boostedStatIndex==i)value*=personality.boostMultiplier; if(personality.reducedStatIndex==i)value*=personality.reductionMultiplier; }
                 value*=1f+EquipmentCatalog.Bonus(unit.equipment,i)/100f;
                 if(temporaryModifiers!=null)value+=temporaryModifiers.Get(i);
+                if(i==0)value*=HealthMultiplier;
                 if(i==9)value*=.2f;
                 result.Set(i,Mathf.Max(i==7?.1f:0f,value));
             }
@@ -76,7 +78,7 @@ namespace FusionAnyMonster
         {
             float safeDamage = Mathf.Max(0f, rawDamage);
             float safeDefense = Mathf.Max(0f, defense);
-            return safeDamage * 100f / (100f + safeDefense);
+            return safeDamage * 100f / (100f + safeDefense * 2f);
         }
         public static float ApplyElementalDamage(SpeciesDefinition species,AttributeElement element,float rawDamage)
         { return Mathf.Max(0f,rawDamage*(1f-SpeciesPassiveCalculator.ElementReduction(species,element))); }

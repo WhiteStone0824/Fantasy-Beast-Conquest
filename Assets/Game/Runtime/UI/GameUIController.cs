@@ -542,8 +542,9 @@ namespace FusionAnyMonster.UI
             ClearContent();
             Label("卵の孵化",content,new Vector2(.02f,.88f),new Vector2(.70f,.98f),30,ink,TextAnchor.MiddleLeft);
             Button(content,"仲間一覧に戻る",new Vector2(.72f,.89f),new Vector2(.98f,.98f),ShowUnits,null,15);
-            Label("ボスを倒して得た卵を選び、孵化させましょう。",content,new Vector2(.02f,.80f),new Vector2(.98f,.88f),16,muted,TextAnchor.MiddleLeft);
+            Label("卵を選んで孵化できます。",content,new Vector2(.02f,.80f),new Vector2(.61f,.88f),16,muted,TextAnchor.MiddleLeft);
             int count=save.eggs==null?0:save.eggs.Count;
+            Button(content,"すべて孵化（"+count+"個）",new Vector2(.65f,.80f),new Vector2(.98f,.88f),HatchAllEggs,accent,15).interactable=count>0 && !save.readOnly;
             Sprite eggImage=EggSprite();
             int pages=Mathf.Max(1,Mathf.CeilToInt(count/9f));eggPage=Mathf.Clamp(eggPage,0,pages-1);
             var grid=Rect("Egg List",content,new Vector2(.02f,.13f),new Vector2(.58f,.78f),Vector2.zero,Vector2.zero);Image(grid,panel);
@@ -582,6 +583,14 @@ namespace FusionAnyMonster.UI
             GameSaveData committed;UnitSaveData unit;string error;
             if(!EggSystem.TryHatch(save,eggId,out committed,out unit,out error)){Toast("孵化できませんでした："+error);return;}
             save=committed;selectedEggId=null;selectedUnitId=unit.id;unitDetailPage=0;ShowUnits();Toast(unit.displayName+"が孵化して仲間になりました！");
+        }
+        private void HatchAllEggs()
+        {
+            if(!EggSystem.TryHatchAll(save,speciesDatabase,out var committed,out var units,out int skipped,out string error))
+            {Toast("一括孵化できませんでした："+error);return;}
+            save=committed;selectedEggId=null;selectedUnitId=units[0].id;unitDetailPage=0;
+            rosterPage=Mathf.Max(0,UnitSort.Apply(save.units,unitSortMode).FindIndex(u=>u.id==selectedUnitId)/9);
+            ShowUnits();Toast(units.Count+"個の卵が孵化しました"+(skipped>0?"（孵化できない卵 "+skipped+"個）":""));
         }
         private void ConfirmFarewell(FarewellKind kind,string id,string displayName,Action redraw)
         {
@@ -1130,7 +1139,7 @@ namespace FusionAnyMonster.UI
                 Label(unit.displayName,card,new Vector2(.02f,.03f),new Vector2(.98f,.27f),12,ink,TextAnchor.MiddleCenter);
             }
             if(index==0)Label("仲間を編成してから対戦しましょう",team,new Vector2(.06f,.40f),new Vector2(.94f,.70f),16,muted,TextAnchor.MiddleCenter);
-            Label("最大5体・制限時間5分\n勝敗：全滅 → 生存数 → 与ダメージ",team,new Vector2(.05f,.07f),new Vector2(.95f,.24f),13,muted,TextAnchor.MiddleCenter);
+            Label("最大5体・同じ種族は1体まで・制限時間5分\n勝敗：全滅 → 生存数 → 与ダメージ　回復は最大HPの30%まで\n凍結・睡眠は最大2秒、解除後1秒間は再付与されません",team,new Vector2(.03f,.04f),new Vector2(.97f,.26f),12,muted,TextAnchor.MiddleCenter);
             Label("VS",content,new Vector2(.465f,.42f),new Vector2(.535f,.56f),27,gold,TextAnchor.MiddleCenter);
 
             var connection=Rect("PvP Connection",content,new Vector2(.52f,.13f),new Vector2(.965f,.79f),Vector2.zero,Vector2.zero);Image(connection,new Color(.07f,.045f,.065f,.96f));Frame(connection,"Connection Frame",new Color(gold.r,gold.g,gold.b,.65f),.006f);

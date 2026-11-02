@@ -47,5 +47,29 @@ namespace FusionAnyMonster.Save
             committed = candidate; hatched = unit;
             return true;
         }
+
+        public static bool TryHatchAll(GameSaveData source, SpeciesDatabase database, out GameSaveData committed, out List<UnitSaveData> hatched, out int skipped, out string error, SaveWriter writer = null)
+        {
+            committed=null;hatched=null;skipped=0;error=null;
+            if(source==null || source.readOnly || source.schemaVersion>SaveSystem.CurrentSchemaVersion)
+            {error="セーブデータが書き込み禁止のため、孵化できません。";return false;}
+            if(database==null){error="種族データを読み込めません。";return false;}
+            if(source.eggs==null || source.eggs.Count==0){error="孵化できる卵がありません。";return false;}
+            var candidate=JsonUtility.FromJson<GameSaveData>(JsonUtility.ToJson(source));
+            if(candidate.units==null)candidate.units=new List<UnitSaveData>();
+            var created=new List<UnitSaveData>();var remaining=new List<EggSaveData>();
+            foreach(var egg in candidate.eggs)
+            {
+                if(egg==null || egg.offspring==null || string.IsNullOrWhiteSpace(egg.id) || string.IsNullOrWhiteSpace(egg.offspring.speciesId) || database.GetById(egg.offspring.speciesId)==null)
+                {remaining.Add(egg);skipped++;continue;}
+                var unit=egg.offspring;
+                unit.id=Guid.NewGuid().ToString("N");unit.deployed=false;unit.level=1;unit.experience=0;
+                candidate.units.Add(unit);created.Add(unit);
+            }
+            if(created.Count==0){error="孵化できる卵がありません。";return false;}
+            candidate.eggs=remaining;SaveSystem.RecordOwnedSpecies(candidate);
+            if(!(writer??SaveSystem.Save)(candidate,out error))return false;
+            committed=candidate;hatched=created;return true;
+        }
     }
 }

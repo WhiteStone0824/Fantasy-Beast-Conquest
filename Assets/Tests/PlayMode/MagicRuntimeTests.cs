@@ -53,6 +53,78 @@ namespace FusionAnyMonster.Tests
             return unit;
         }
         [UnityTest]
+        public IEnumerator SleepWakesOnDirectDamageButNotOnDamageOverTime()
+        {
+            var target=Unit(false,Vector2.zero);Configure(target);
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Sleep,5f,0f,1f,AttributeElement.None));
+            Call(target,"TakeDamageCore",1f,AttributeElement.None,true,true);
+            Assert.Greater(Get<float>(target,"sleepTime"),0f);
+            Call(target,"TakeDamage",1f,AttributeElement.None,true);
+            Assert.AreEqual(0f,Get<float>(target,"sleepTime"));yield return null;
+        }
+        [UnityTest]
+        public IEnumerator FireDealsExtraDamageAndThawsFrozenTarget()
+        {
+            var target=Unit(false,Vector2.zero);Configure(target);
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Freeze,5f,0f,1f,AttributeElement.None));
+            var dealt=(float)Call(target,"TakeDamage",20f,AttributeElement.Fire,true);
+            Assert.AreEqual(25f,dealt,.001f);Assert.AreEqual(0f,Get<float>(target,"freezeTime"));yield return null;
+        }
+        [UnityTest]
+        public IEnumerator ParalysisSlowsMovementAndCooldownWithoutStoppingMovement()
+        {
+            var target=Unit(true,Vector2.zero);Configure(target,DemoDataFactory.DemoGenome(3));
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Paralysis,5f,0f,1f,AttributeElement.None));
+            Set(target,"cooldown",10f);var cooldowns=Get<List<float>>(target,"magicCooldowns");cooldowns[0]=10f;
+            yield return null;
+            float delta=Time.deltaTime;Call(target,"Update");
+            Assert.AreEqual(10f-delta*.5f,Get<float>(target,"cooldown"),.001f);
+            Assert.AreEqual(10f-delta*.5f,cooldowns[0],.001f);
+            Assert.IsTrue((bool)typeof(Combatant).GetProperty("CanMoveInPreview",Flags).GetValue(target));
+            Assert.AreEqual(.7f,(float)typeof(Combatant).GetProperty("PreviewMovementScale",Flags).GetValue(target),.001f);
+        }
+        [UnityTest]
+        public IEnumerator SlowHalvesMovementManaRegenerationAndCooldownRecovery()
+        {
+            var target=Unit(true,Vector2.zero);Configure(target,DemoDataFactory.DemoGenome(3));
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Slow,5f,0f,1f,AttributeElement.None));
+            Set(target,"cooldown",10f);Set(target,"mana",1f);Set(target,"maxMana",100f);Set(target,"manaRegen",10f);
+            var cooldowns=Get<List<float>>(target,"magicCooldowns");cooldowns[0]=10f;
+            yield return null;
+            float delta=Time.deltaTime;Call(target,"Update");
+            Assert.AreEqual(10f-delta*.5f,Get<float>(target,"cooldown"),.001f);
+            Assert.AreEqual(10f-delta*.5f,cooldowns[0],.001f);
+            Assert.AreEqual(1f+10f*delta*.5f,Get<float>(target,"mana"),.001f);
+            Assert.AreEqual(.5f,(float)typeof(Combatant).GetProperty("PreviewMovementScale",Flags).GetValue(target),.001f);
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Paralysis,5f,0f,1f,AttributeElement.None));
+            Set(target,"cooldown",10f);cooldowns[0]=10f;Call(target,"Update");
+            Assert.AreEqual(10f-delta*.25f,Get<float>(target,"cooldown"),.001f);
+            Assert.AreEqual(.35f,(float)typeof(Combatant).GetProperty("PreviewMovementScale",Flags).GetValue(target),.001f);
+        }
+        [UnityTest]
+        public IEnumerator CurseHalvesOutgoingDirectDamage()
+        {
+            var target=Unit(true,Vector2.zero);Configure(target);
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Curse,5f,0f,1f,AttributeElement.None));
+            Assert.AreEqual(.5f,(float)typeof(Combatant).GetProperty("OutgoingDamageMultiplier",Flags).GetValue(target),.001f);
+            yield return null;
+        }
+        [UnityTest]
+        public IEnumerator PvpControlImmunityAppliesToFreezeAndSleepButNotParalysis()
+        {
+            Set(battle,"pvp",true);var target=Unit(false,Vector2.zero);Configure(target);
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Freeze,5f,0f,1f,AttributeElement.None));
+            Assert.AreEqual(2f,Get<float>(target,"freezeTime"),.001f);
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Paralysis,5f,0f,1f,AttributeElement.None));
+            Assert.IsFalse((bool)Call(target,"ApplyDebuff",DebuffType.Sleep,5f,0f,1f,AttributeElement.None));
+            Call(target,"TakeDamage",1f,AttributeElement.Fire,true);
+            Assert.AreEqual(0f,Get<float>(target,"freezeTime"));
+            Assert.IsFalse((bool)Call(target,"ApplyDebuff",DebuffType.Sleep,5f,0f,1f,AttributeElement.None));
+            Set(target,"pvpControlImmuneUntil",Time.time-1f);
+            Assert.IsTrue((bool)Call(target,"ApplyDebuff",DebuffType.Sleep,5f,0f,1f,AttributeElement.None));
+            yield return null;
+        }
+        [UnityTest]
         public IEnumerator ClientPoseInterpolatesBetweenSnapshots()
         {
             Set(battle,"previewMode",true);

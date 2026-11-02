@@ -12,6 +12,42 @@ namespace FusionAnyMonster.Tests
         private static bool Fail(GameSaveData data, out string error) { error = "write failed"; return false; }
 
         [Test]
+        public void HatchAllSavesOnceAndLeavesInvalidEggsIntact()
+        {
+            var db=Resources.Load<SpeciesDatabase>("SpeciesDatabase");var species=db.GetById("demo_00");
+            var first=WildUnitFactory.Create(species,20,11,"parent-a");var second=WildUnitFactory.Create(species,40,12,"parent-b");
+            var source=new GameSaveData();source.eggs.Add(new EggSaveData{id="same",offspring=first});source.eggs.Add(new EggSaveData{id="same",offspring=second});
+            source.eggs.Add(new EggSaveData{id="invalid",offspring=new UnitSaveData{speciesId="missing"}});
+            int writes=0;bool SaveOnce(GameSaveData data,out string failureReason){writes++;failureReason=null;return true;}
+            Assert.IsTrue(EggSystem.TryHatchAll(source,db,out var saved,out var units,out int skipped,out var error,SaveOnce),error);
+            Assert.AreEqual(1,writes);Assert.AreEqual(2,units.Count);Assert.AreEqual(1,skipped);
+            Assert.AreEqual(3,source.eggs.Count);Assert.AreEqual(0,source.units.Count);
+            Assert.AreEqual(1,saved.eggs.Count);Assert.AreEqual("invalid",saved.eggs[0].id);Assert.AreEqual(2,saved.units.Count);
+            Assert.AreNotEqual(units[0].id,units[1].id);
+            foreach(var unit in units){Assert.AreEqual(1,unit.level);Assert.AreEqual(0,unit.experience);Assert.IsFalse(unit.deployed);}
+            CollectionAssert.AreEqual(first.magicSlotGenomeJson,units[0].magicSlotGenomeJson);
+            CollectionAssert.Contains(saved.discoveredSpeciesIds,species.speciesId);
+        }
+        [Test]
+        public void HatchAllFailedSaveDoesNotConsumeAnyEgg()
+        {
+            var db=Resources.Load<SpeciesDatabase>("SpeciesDatabase");var source=new GameSaveData();
+            source.eggs.Add(new EggSaveData{id="one",offspring=WildUnitFactory.Create(db.GetById("demo_00"),5,4)});
+            Assert.IsFalse(EggSystem.TryHatchAll(source,db,out var saved,out var units,out _,out var error,Fail));
+            Assert.AreEqual("write failed",error);Assert.IsNull(saved);Assert.IsNull(units);
+            Assert.AreEqual(1,source.eggs.Count);Assert.AreEqual(0,source.units.Count);
+        }
+        [Test]
+        public void HatchAllWithNoValidEggDoesNotSave()
+        {
+            var db=Resources.Load<SpeciesDatabase>("SpeciesDatabase");var source=new GameSaveData();
+            source.eggs.Add(new EggSaveData{id="bad",offspring=new UnitSaveData{speciesId="missing"}});
+            int writes=0;bool CountWrites(GameSaveData data,out string reason){writes++;reason=null;return true;}
+            Assert.IsFalse(EggSystem.TryHatchAll(source,db,out var saved,out var units,out int skipped,out _,CountWrites));
+            Assert.IsNull(saved);Assert.IsNull(units);Assert.AreEqual(1,skipped);Assert.AreEqual(0,writes);Assert.AreEqual(1,source.eggs.Count);
+        }
+
+        [Test]
         public void AwardAndHatchPreserveBossGenesAndRecordDiscoveryOnlyAfterHatching()
         {
             var database=Resources.Load<SpeciesDatabase>("SpeciesDatabase");

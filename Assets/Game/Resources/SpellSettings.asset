@@ -20,7 +20,7 @@ MonoBehaviour:
   maxLifetime: 6
   crossoverChance: 0.7
   nodeParameterCrossoverChance: 0.7
-  speciesDefaultMutationChance: 0.01
-  parameterMutationChance: 0.15
-  nodeMutationChance: 0.06
-  structureMutationChance: 0.08
+  speciesDefaultMutationChance: 0.02
+  parameterMutationChance: 0.3
+  nodeMutationChance: 0.12
+  structureMutationChance: 0.16

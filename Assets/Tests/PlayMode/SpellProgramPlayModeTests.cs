@@ -38,12 +38,33 @@ namespace FusionAnyMonster.Tests
                 SpellExecutor.Cast(battle,caster,victim,spell);
                 yield return new WaitForSeconds(.5f);
                 float magicAttack=(float)typeof(Combatant).GetField("magicAttack",Flags).GetValue(caster);
-                Assert.AreEqual(spell.basePower+magicAttack,before-victim.CurrentHp,.01f);
+                Assert.AreEqual(spell.basePower+magicAttack*.5f,before-victim.CurrentHp,.01f);
                 var genome=SpellSlotStorage.Prepare(new MagicGenome{programGenes=child},0);MagicGenome loaded;
                 Assert.IsTrue(MagicGenome.TryParseJson(JsonUtility.ToJson(genome),out loaded));
                 Assert.AreEqual(spell.basePower,MagicFactory.Build(loaded).power,.001f);
             }
             finally{Object.Destroy(settings);}
+        }
+        [UnityTest]public IEnumerator PvpAndExpeditionUseTheSameDirectDamageFormula()
+        {
+            var target=Unit(false,Vector2.right);var other=Unit(false,Vector2.left);
+            typeof(Combatant).GetField("magicDefense",Flags).SetValue(target,100f);
+            typeof(Combatant).GetField("magicDefense",Flags).SetValue(other,100f);
+            var take=typeof(Combatant).GetMethod("TakeDamage",Flags);
+            float expedition=(float)take.Invoke(target,new object[]{100f,AttributeElement.None,true});
+            typeof(BattleDemo).GetField("pvp",Flags).SetValue(battle,true);
+            float pvp=(float)take.Invoke(other,new object[]{100f,AttributeElement.None,true});
+            Assert.AreEqual(100f/3f,expedition,.001f);Assert.AreEqual(expedition,pvp,.001f);
+            yield return null;
+        }
+        [UnityTest]public IEnumerator WildArchetypesStartWithOneAndAHalfTimesHealth()
+        {
+            var create=typeof(BattleDemo).GetMethod("CreateCombatant",Flags);
+            var normal=(Combatant)create.Invoke(battle,new object[]{"HP test normal",false,Vector2.zero,EnemyArchetype.Normal,Color.white});
+            var boss=(Combatant)create.Invoke(battle,new object[]{"HP test boss",false,Vector2.right,EnemyArchetype.Boss,Color.white});
+            normal.transform.SetParent(root.transform,true);boss.transform.SetParent(root.transform,true);
+            Assert.AreEqual(63f,normal.CurrentHp,.001f);Assert.AreEqual(1950f,boss.CurrentHp,.001f);
+            yield return null;
         }
         [UnityTest]public IEnumerator SelfHealingProjectileStillHitsItsCaster()
         {
@@ -395,7 +416,7 @@ namespace FusionAnyMonster.Tests
             foreach(var p in new[]{genes.chromosomeA,genes.chromosomeB}){p.nodes[1].parameters.count=1;p.nodes[1].parameters.angle=0;p.nodes[1].parameters.multiplier=2;p.nodes[2].edges.Clear();p.nodes.RemoveAt(3);}
             var caster=Unit(true,Vector2.zero);var target=Unit(false,new Vector2(1,0));float hp=target.CurrentHp;
             var compiled=SpellCompiler.Compile(genes);SpellExecutor.Cast(battle,caster,target,compiled);yield return new WaitForSeconds(.3f);
-            Assert.AreEqual((compiled.basePower+(float)typeof(Combatant).GetProperty("MagicAttack",Flags).GetValue(caster))*2,hp-target.CurrentHp,.01f);
+            Assert.AreEqual((compiled.basePower+(float)typeof(Combatant).GetProperty("MagicAttack",Flags).GetValue(caster)*.5f)*2,hp-target.CurrentHp,.01f);
             var area=new SpellProgram();area.regulation.splice=false;
             var trigger=SpellProgramBuilder.Add(area,SpellNodeKind.PeriodicTrigger,SpellContext.Cast);var spawn=SpellProgramBuilder.Add(area,SpellNodeKind.SpawnArea,SpellContext.Cast);spawn.parameters.seconds=.1f;spawn.parameters.radius=2;spawn.parameters.centerOnCaster=true;trigger.edges.Add(new SpellEdge(SpellPort.Next,spawn.id));
             var expire=SpellProgramBuilder.Add(area,SpellNodeKind.Explosion,SpellContext.Expire);expire.parameters.radius=2;spawn.edges.Add(new SpellEdge(SpellPort.OnExpire,expire.id));

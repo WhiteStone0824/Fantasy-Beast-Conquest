@@ -64,8 +64,31 @@ namespace FusionAnyMonster.Tests
                 Assert.LessOrEqual(master.GetResistance((AttributeElement)profile.weak).damageReduction,.08001f,master.speciesId);
                 Assert.GreaterOrEqual(master.GetResistance((DebuffType)profile.debuff).applicationResistance,.45f,master.speciesId);
                 for(int i=0;i<10;i++)Assert.AreEqual(generated.baseStats.Get(i),master.baseStats.Get(i),.001f,master.speciesId+" stat "+i);
-                for(int i=0;i<7;i++)Assert.AreEqual(generated.GetResistance((AttributeElement)i).damageReduction,master.GetResistance((AttributeElement)i).damageReduction,.0001f,master.speciesId);
+                for(int i=0;i<7;i++)
+                {
+                    Assert.AreEqual(generated.GetResistance((AttributeElement)i).damageReduction,master.GetResistance((AttributeElement)i).damageReduction,.0001f,master.speciesId);
+                    Assert.AreEqual(generated.GetResistance((AttributeElement)i).applicationResistance,master.GetResistance((AttributeElement)i).applicationResistance,.0001f,master.speciesId);
+                }
                 for(int i=0;i<8;i++)Assert.AreEqual(generated.GetResistance((DebuffType)i).applicationResistance,master.GetResistance((DebuffType)i).applicationResistance,.0001f,master.speciesId);
+            }
+        }
+
+        [Test]
+        public void HigherRanksHaveHigherAverageBaseResistances()
+        {
+            var db=Resources.Load<SpeciesDatabase>("SpeciesDatabase");
+            var count=new int[7];var damage=new double[7];var elementStatus=new double[7];var debuff=new double[7];
+            foreach(var s in db.species)
+            {
+                int rank=(int)s.rank;count[rank]++;
+                for(int i=0;i<7;i++){var r=s.GetResistance((AttributeElement)i);damage[rank]+=r.damageReduction/7d;elementStatus[rank]+=r.applicationResistance/7d;}
+                for(int i=0;i<8;i++)debuff[rank]+=s.GetResistance((DebuffType)i).applicationResistance/8d;
+            }
+            for(int rank=1;rank<7;rank++)
+            {
+                Assert.Greater(damage[rank]/count[rank],damage[rank-1]/count[rank-1],"属性ダメージ軽減 " +(SpeciesRank)rank);
+                Assert.Greater(elementStatus[rank]/count[rank],elementStatus[rank-1]/count[rank-1],"属性付与抵抗 " +(SpeciesRank)rank);
+                Assert.Greater(debuff[rank]/count[rank],debuff[rank-1]/count[rank-1],"状態異常抵抗 " +(SpeciesRank)rank);
             }
         }
 
@@ -168,6 +191,16 @@ namespace FusionAnyMonster.Tests
         }
 
         [Test]
+        public void CalculatedHealthIsOneAndAHalfTimesGrowthWithoutChangingOtherStats()
+        {
+            var baseStats=new UnitStats{hp=100,mp=100};var unit=new UnitInstance{level=50,iv=new IndividualValues()};
+            unit.iv.Set(0,40);unit.iv.Set(1,40);
+            var result=UnitStatsCalculator.Calculate(baseStats,unit,null,null);
+            Assert.AreEqual(180f,result.hp,.001f);Assert.AreEqual(120f,result.mp,.001f);
+            Assert.AreEqual(100f,baseStats.hp,.001f);
+        }
+
+        [Test]
         public void BreedingRankAverageRandomlyRoundsHalfUpOrDownForBothRulePaths()
         {
             rankRule.rankOffset=0;rankRule.promotionChance=0;rankRule.demotionChance=0;
@@ -239,7 +272,7 @@ namespace FusionAnyMonster.Tests
             for(int stat=0;stat<10;stat++) high.iv.Set(stat,100);
             UnitStats lowStats=UnitStatsCalculator.Calculate(new UnitStats(),low,null,null);
             UnitStats highStats=UnitStatsCalculator.Calculate(new UnitStats(),high,null,null);
-            for(int stat=0;stat<10;stat++) Assert.AreEqual(stat==9?10f:50f,highStats.Get(stat)-lowStats.Get(stat),.001f);
+            for(int stat=0;stat<10;stat++) Assert.AreEqual(stat==0?75f:stat==9?10f:50f,highStats.Get(stat)-lowStats.Get(stat),.001f);
             high.iv.hp=int.MaxValue;
             Assert.AreEqual(100,high.iv.Get(0),"Directly deserialized values must also be bounded when used for calculation.");
         }
@@ -274,7 +307,7 @@ namespace FusionAnyMonster.Tests
             Assert.AreEqual(60f, ResistanceCalculator.ApplyElementalDamage(definition, AttributeElement.Fire, 100f), .001f);
             Assert.AreEqual(.25f, ResistanceCalculator.ApplyDebuffChance(definition, DebuffType.Poison, 1f), .001f);
             Assert.AreEqual(100f, ResistanceCalculator.ApplyDefense(100f, 0f), .001f);
-            Assert.AreEqual(50f, ResistanceCalculator.ApplyDefense(100f, 100f), .001f);
+            Assert.AreEqual(100f/3f, ResistanceCalculator.ApplyDefense(100f, 100f), .001f);
             Assert.AreEqual(0f, ResistanceCalculator.ApplyDefense(-10f, 100f), .001f);
         }
 

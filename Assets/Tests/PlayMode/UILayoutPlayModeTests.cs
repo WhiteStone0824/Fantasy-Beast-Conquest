@@ -109,6 +109,28 @@ namespace FusionAnyMonster.Tests
             }
         }
         [UnityTest]
+        public IEnumerator HatchAllButtonHatchesEggsAndShowsRoster()
+        {
+            byte[] backup=System.IO.File.Exists(SaveSystem.SavePath)?System.IO.File.ReadAllBytes(SaveSystem.SavePath):null;
+            try
+            {
+                var db=Resources.Load<SpeciesDatabase>("SpeciesDatabase");var data=SaveSystem.CreateStarterData(db);
+                data.eggs.Add(new EggSaveData{id="egg-a",offspring=WildUnitFactory.Create(db.GetById("demo_00"),20,1)});
+                data.eggs.Add(new EggSaveData{id="egg-b",offspring=WildUnitFactory.Create(db.GetById("demo_01"),30,2)});
+                Assert.IsTrue(SaveSystem.Save(data,out string error),error);
+                yield return SceneManager.LoadSceneAsync("Assets/Game/Scenes/Title.unity");yield return null;
+                var ui=UnityEngine.Object.FindAnyObjectByType<GameUIController>();Call(ui,"ShowEggs");
+                var button=GameObject.Find("Button すべて孵化（2個）").GetComponent<Button>();Assert.IsTrue(button.interactable);
+                button.onClick.Invoke();yield return null;
+                var saved=SaveSystem.Load();Assert.AreEqual(0,saved.eggs.Count);Assert.AreEqual(data.units.Count+2,saved.units.Count);
+                Assert.AreEqual(1,saved.units[saved.units.Count-1].level);Assert.NotNull(GameObject.Find("Roster"));
+            }
+            finally
+            {
+                if(backup!=null)System.IO.File.WriteAllBytes(SaveSystem.SavePath,backup);else if(System.IO.File.Exists(SaveSystem.SavePath))System.IO.File.Delete(SaveSystem.SavePath);
+            }
+        }
+        [UnityTest]
         public IEnumerator LimitedBossStageConsumesDailyAttemptAndSpawnsThreeSBosses()
         {
             byte[] backup=System.IO.File.Exists(SaveSystem.SavePath)?System.IO.File.ReadAllBytes(SaveSystem.SavePath):null;

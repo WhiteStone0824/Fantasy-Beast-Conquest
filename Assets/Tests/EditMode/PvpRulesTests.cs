@@ -5,6 +5,17 @@ namespace FusionAnyMonster.Tests
 {
     public sealed class PvpRulesTests
     {
+        [TestCase(20f,100f,20f)]
+        [TestCase(300f,100f,30f)]
+        public void HealingIsCappedByTargetMaxHp(float healing,float hp,float expected)
+        { Assert.AreEqual(expected,PvpRules.LimitHealing(healing,hp),.0001f); }
+        [TestCase(DebuffType.Freeze,true)]
+        [TestCase(DebuffType.Paralysis,false)]
+        [TestCase(DebuffType.Sleep,true)]
+        [TestCase(DebuffType.Poison,false)]
+        [TestCase(DebuffType.Silence,false)]
+        public void OnlyActionDisablingStatusesUseControlImmunity(DebuffType type,bool expected)
+        { Assert.AreEqual(expected,PvpRules.IsHardControl(type)); }
         [TestCase(true,true,true)]
         [TestCase(true,false,false)]
         [TestCase(false,true,false)]
